@@ -32,7 +32,7 @@ and extremely more conservative filter.
 
 
 ```
-python3.7 createProfiles.py -l egypt/egypt-1.10/everything_graph.new -m callgraph.out -f output/nginx/libc.so.6 -n output/adminer/ld-musl-x86_64.so.1 -i images.list -o output/ -p default.seccomp.json -r results/ -g go.syscalls/ -c otherCfgs/ --finegrained --allbinaries -d
+python3.7 createProfiles.py -l libc-callgraphs/glibc.callgraph -m libc-callgraphs/musllibc.callgraph -i images.list -o output/ -p default.seccomp.json -r results/ -g go.syscalls/ -c otherCfgs/ 
 ```
 
 -i: The input file must have a special format as you can see in the example below:
