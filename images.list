@@ -1,0 +1,209 @@
+1;oracle-database-enterprise-edition;store/oracle/database-enterprise:12.2.0.1;['Databases'];0;Unofficial
+2;oracle-serverjre-8;store/oracle/serverjre:8;['Programming Languages'];0;Unofficial
+3;mysql-enterprise-server;store/oracle/mysql-enterprise-server:5.7;['Databases'];0;Unofficial;-e MYSQL_ROOT_PASSWORD=my-secret-pw
+4;oracle-weblogic-server-12c;store/oracle/weblogic:12.2.1.3-dev-190111;['Application Frameworks', 'Application Infrastructure'];0;Unofficial
+5;couchbase;couchbase;['Storage', 'Application Frameworks'];38989426;Official
+6;db2-developer-c-edition;store/ibmcorp/db2_developer_c:11.1.4.4-x86_64;['Analytics', 'Databases'];0;Unofficial;-e LICENSE=accept -e DB2INST1_PASSWORD=123456
+7;oracle-instant-client;store/oracle/database-instantclient:12.2.0.1;['Databases'];0;Unofficial
+8;redis;redis;['Databases'];1690741773;Official
+9;ibm-security-access-manager;store/ibmcorp/isam:9.0.6.0;['Security', 'Application Infrastructure'];0;Unofficial
+10;mongo;mongo;['Databases'];1831318554;Official
+11;ubuntu;ubuntu;['Base Images', 'Operating Systems'];1134315452;Official
+12;busybox;busybox;['Base Images'];2147483647;Official
+13;node;node;['Application Infrastructure'];928800368;Official
+14;postgres;postgres;['Databases'];1110065133;Official;-e POSTGRES_PASSWORD=password
+15;nginx;nginx;['Application Infrastructure'];1960017377;Official
+16;mysql;mysql;['Databases'];903550824;Official;-e MYSQL_ROOT_PASSWORD=my-secret-pw
+17;hello-world;hello-world;[];1454;Official
+18;registry;registry;['Featured Images', 'Storage', 'Application Services'];686700906;Official
+19;traefik;traefik;['Application Infrastructure'];778939787;Official
+20;alpine;alpine;['Featured Images', 'Base Images', 'Operating Systems'];1327964012;Official
+21;httpd;httpd;['Application Infrastructure'];1154196606;Official
+22;golang;golang;['Programming Languages'];540498773;Official
+23;consul;consul;['Application Infrastructure', 'DevOps Tools'];434570502;Official
+24;mariadb;mariadb;['Databases'];604169326;Official;-e MYSQL_ROOT_PASSWORD=my-secret-pw
+25;docker;docker;['Featured Images', 'Application Frameworks'];593830715;Official
+26;memcached;memcached;['Storage'];768466201;Official
+27;openjdk;openjdk;['Programming Languages'];372109204;Official
+28;centos;centos;['Base Images', 'Operating Systems'];463622658;Official
+29;elasticsearch;elasticsearch:7.1.0;['Application Services'];260044359;Official;-p 9200:9200 -p 9300:9300 -e "discovery.type=single-node"
+30;ruby;ruby;['Programming Languages'];255334972;Official
+31;influxdb;influxdb;['Databases'];244057690;Official
+32;rabbitmq;rabbitmq;['Messaging Services'];366996706;Official
+33;python;python;['Programming Languages'];410400797;Official
+34;debian;debian;['Base Images', 'Operating Systems'];223217544;Official
+35;tomcat;tomcat;['Application Infrastructure'];181905298;Official
+36;php;php;['Programming Languages'];369323123;Official
+37;haproxy;haproxy;['Application Infrastructure'];314948428;Official
+38;wordpress;wordpress;['Application Services'];303530959;Official
+39;crate;crate;['Databases'];11961392;Official
+40;maven;maven;['DevOps Tools'];138781920;Official
+41;nextcloud;nextcloud;['Application Frameworks', 'Application Infrastructure'];189123411;Official
+42;amazonlinux;amazonlinux;['Base Images', 'Featured Images', 'Operating Systems'];114673563;Official
+43;java;java;['Base Images', 'Programming Languages'];0;Official
+44;sonarqube;sonarqube;['DevOps Tools'];83706447;Official
+45;logstash;logstash:7.1.0;['Analytics'];124276222;Official
+46;cassandra;cassandra;['Databases'];65206237;Official
+47;telegraf;telegraf;['DevOps Tools', 'Analytics'];125520750;Official
+48;kibana;kibana:7.1.0;[];62498587;Official;-p 5601:5601
+49;ghost;ghost;['Application Services'];93990147;Official
+50;kong;kong;['Application Frameworks'];90754730;Official
+51;jenkins;jenkins;['DevOps Tools'];86847517;Official
+52;gradle;gradle;['Application Frameworks'];52682526;Official
+53;chronograf;chronograf;['DevOps Tools'];43534067;Official
+54;couchdb;couchdb;['Databases'];39369575;Official
+55;solr;solr;['Analytics', 'Application Services'];43884862;Official
+56;swarm;swarm;['Application Infrastructure', 'Application Frameworks'];68608057;Official
+57;bash;bash;['Programming Languages', 'Base Images'];35383055;Official
+58;eclipse-mosquitto;eclipse-mosquitto;['Application Services'];67988898;Official
+59;vault;vault;['Application Services'];67841457;Official
+60;drupal;drupal;['Application Frameworks'];65621560;Official
+61;joomla;joomla;['Application Services'];30637296;Official;--net=host -e JOOMLA_DB_HOST=127.0.0.1:3306 -e JOOMLA_DB_USER=root -e JOOMLA_DB_PASSWORD=my-secret-pw
+62;perl;perl;['Programming Languages'];55620666;Official
+63;neo4j;neo4j;['Databases'];55223573;Official
+64;percona;percona;['Application Infrastructure'];42267987;Official;-e MYSQL_ROOT_PASSWORD=my-secret-pw
+65;buildpack-deps;buildpack-deps;['Base Images'];53422181;Official
+66;rocket-chat;rocket-chat;[];41079085;Official
+67;owncloud;owncloud;['Storage', 'Application Frameworks'];40973258;Official
+68;nats;nats;['Application Services', 'Messaging Services'];40137739;Official
+69;flink;flink;[];30193379;Official
+70;groovy;groovy;['Programming Languages'];37274600;Official
+71;nats-streaming;nats-streaming;[];36490880;Official
+72;jruby;jruby;['Programming Languages'];36018083;Official
+73;rethinkdb;rethinkdb;['Databases'];44183816;Official
+74;adminer;adminer;['Databases'];44818209;Official
+75;fedora;fedora;['Base Images', 'Operating Systems'];44624428;Official
+76;zookeeper;zookeeper;['Application Frameworks', 'Application Infrastructure'];41933621;Official
+77;pypy;pypy;['Programming Languages'];19452616;Official
+78;kapacitor;kapacitor;['DevOps Tools', 'Application Frameworks', 'Application Infrastructure', 'Monitoring'];16466766;Unofficial
+79;jetty;jetty;['Application Infrastructure'];20686724;Unofficial
+80;websphere-liberty;websphere-liberty;[];14026951;Unofficial
+81;erlang;erlang;['Programming Languages'];24589625;Official
+82;ibm-websphere-liberty;store/ibmcorp/websphere-liberty:microProfile2;['Application Frameworks', 'Application Infrastructure'];0;Unofficial
+83;redmine;redmine;['Application Services'];22600211;Official
+84;matomo;matomo;[];12110556;Official
+85;mongo-express;mongo-express;['DevOps Tools', 'Application Frameworks'];21051070;Official
+86;teamspeak;teamspeak;[];16940164;Official
+87;iojs;iojs;[];15837914;Official
+88;swift;swift;['Base Images', 'Programming Languages'];10692313;Official
+89;elixir;elixir;['Programming Languages'];15384879;Official
+90;composer;composer;['Application Frameworks'];11925144;Official
+91;mono;mono;['Application Frameworks'];18839212;Official
+92;tomee;tomee;['Application Frameworks'];11025797;Official
+93;django;django;[];16232876;Official
+94;piwik;piwik;['Analytics'];15401425;Official
+95;haxe;haxe;['Programming Languages'];11979244;Official
+96;rust;rust;[];11220176;Official
+97;xwiki;xwiki;[''];13492788;Official
+98;odoo;odoo;['Application Services'];7364925;Official
+99;arangodb;arangodb;['Databases'];13390068;Official
+100;znc;znc;['Application Services'];8393720;Official
+101;mediawiki;mediawiki;[];8263536;Official
+102;oraclelinux;oraclelinux;['Base Images', 'Operating Systems'];9864217;Official
+103;ubuntu-debootstrap;ubuntu-debootstrap;[];8648461;Official
+104;clojure;clojure;['Programming Languages'];8633572;Official
+105;rails;rails;[];7743111;Official
+106;ibmjava;ibmjava;['Base Images'];9501174;Official
+107;opensuse;;['Operating Systems'];8978349;Official
+108;orientdb;orientdb;['Databases'];8908571;Official
+109;gcc;gcc;['DevOps Tools', 'Application Frameworks'];9036560;Official
+110;ros;ros;['Operating Systems'];8328299;Official
+111;neurodebian;neurodebian;['Application Services'];6762237;Official
+112;notary;;['Featured Images', 'Application Services'];3933925;Official
+113;julia;julia;['Programming Languages'];4714151;Official
+114;irssi;irssi;['Application Services'];5684380;Official
+115;kaazing-gateway;kaazing-gateway;['Application Services'];1101784;Official
+116;backdrop;backdrop;['Application Services'];4554490;Official
+117;oracle-fmw-infrastructure;store/oracle/fmw-infrastructure:12.2.1.3;['Application Frameworks', 'Application Infrastructure'];0;Unofficial
+118;plone;plone;['Application Frameworks'];2837633;Official
+119;php-zendserver;php-zendserver;[];2744972;Official
+120;cirros;cirros;['Operating Systems'];2482275;Official
+121;convertigo;convertigo;['Application Frameworks'];2116260;Official
+122;geonetwork;geonetwork;['Application Services'];2230296;Official
+123;haskell;haskell;['Programming Languages'];2150580;Official
+124;fsharp;fsharp;['Programming Languages'];1877041;Official
+125;hylang;hylang;['Programming Languages'];2129856;Official
+126;eggdrop;eggdrop;['Application Services'];1864255;Official
+127;rapidoid;rapidoid;['Application Frameworks'];1840289;Official
+128;spiped;spiped;['Application Infrastructure'];1762466;Official
+129;hello-seattle;hello-seattle;[];1393529;Official
+130;bonita;bonita;['Application Services'];2549309;Official
+131;celery;celery;['Messaging Services'];2474813;Official
+132;glassfish;glassfish;[];987256;Official
+133;lightstreamer;lightstreamer;['Messaging Services'];2035672;Official
+134;thrift;thrift;['Application Frameworks'];1325357;Official
+135;swipl;swipl;[];1730822;Official
+136;rakudo-star;rakudo-star;['Application Frameworks'];1633330;Official
+137;hola-mundo;hola-mundo;[];855680;Official
+138;filebeat;store/elastic/filebeat:7.1.0;['Analytics', 'Monitoring'];0;Unofficial
+139;ubuntu-upstart;ubuntu-upstart;[];1362795;Official
+140;silverpeas;silverpeas;['Application Services'];525660;Official
+141;amazoncorretto;amazoncorretto;[];1045258;Official
+142;mageia;mageia;['Operating Systems'];929808;Official
+143;crux;crux;[];524409;Official
+144;fluentd;fluentd;[];425527;Official
+145;sourcemage;sourcemage;['Operating Systems'];417942;Official
+146;sematext-agent-monitoring-and-logging;store/sematext/agent:0.2.0;['Featured Images', 'DevOps Tools', 'DevOps Tools', 'Analytics', 'Analytics', 'Monitoring'];0;Unofficial
+147;sl;sl;[];282112;Official
+148;clearlinux;clearlinux;['Base Images', 'Operating Systems'];360804;Official
+149;hipache;hipache;[];347809;Official
+150;express-gateway;express-gateway;[];209434;Official
+151;clefos;clefos;['Base Images', 'Operating Systems'];277401;Official
+152;scratch;scratch;['Base Images'];265861;Official
+153;euleros;euleros;[];249944;Official
+154;postfixadmin;postfixadmin;[];249722;Official
+155;metricbeat;store/elastic/metricbeat:7.1.0;['Monitoring', 'Analytics'];0;Unofficial
+156;alt;alt;[];128248;Official
+157;appdynamics;appdynamics;['Monitoring', 'Application Infrastructure', 'DevOps Tools', 'Analytics', 'Application Frameworks', 'Application Services', 'Base Images'];0;Unofficial
+158;datadog-agent;store/datadog/agent:6.4.1;['Monitoring', 'DevOps Tools'];0;Unofficial
+159;adoptopenjdk;;[];45259;Official
+160;neuvector;neuvector;['Security', 'DevOps Tools', 'Monitoring'];0;Unofficial
+161;aporeto-enforcer;store/amirsharif/enforcerd:2.0;['Security', 'DevOps Tools', 'Analytics'];0;Unofficial
+162;weave-cloud-agent;weave-cloud-agent;['Monitoring', 'Analytics', 'DevOps Tools'];0;Unofficial
+163;apm-server;store/elastic/apm-server:7.1.0;['Analytics', 'Application Infrastructure', 'Monitoring'];0;Unofficial
+164;skopos;store/opsani/skopos:0.14.18;['Application Services', 'DevOps Tools'];0;Unofficial
+165;coscale-agent;coscale-agent;['DevOps Tools', 'Analytics', 'Monitoring'];0;Unofficial
+166;traefikee;store/containous/traefikee:v1.0.2;['Application Infrastructure', 'Application Services', 'DevOps Tools', 'Security'];0;Unofficial
+167;veritas-netbackup-client;store/veritasnetbackup/client:8.1.2;['Storage', 'Databases', 'Application Infrastructure'];0;Unofficial
+168;heartbeat;store/elastic/heartbeat:7.1.0;['Monitoring'];0;Unofficial
+169;intersystems-iris-data-platform;store/intersystems/iris:2019.1.0.511.0-community;['Databases', 'Base Images', 'Analytics'];0;Unofficial
+170;dynatrace;store/dynatrace/oneagent:1.27.1000;['DevOps Tools', 'Application Infrastructure', 'Monitoring'];0;Unofficial
+171;portworx-px-developer;store/portworx/px-dev;['Storage', 'DevOps Tools', 'Application Infrastructure', 'Databases'];0;Unofficial
+172;auditbeat;store/elastic/auditbeat:7.1.0;['Security', 'Analytics', 'Monitoring'];0;Unofficial
+173;packetbeat;store/elastic/packetbeat:7.1.0;['Analytics', 'Monitoring', 'Security'];0;Unofficial
+174;cheers;cheers;[];1997;Official
+175;sitescope;store/hpsoftware/sitescope_store:sitescope.11.33;['Monitoring', 'DevOps Tools', 'Application Services'];0;Unofficial
+176;instana-dynamic-apm;store/instana/agent:1.0.0;['Analytics', 'DevOps Tools', 'Monitoring'];0;Unofficial
+177;oracle-webtier-12c;store/oracle/webtier;['Application Infrastructure'];0;Unofficial
+178;logagent;store/sematext/logagent:2.0.130;['Monitoring', 'DevOps Tools', 'Analytics'];0;Unofficial
+179;bleemeo;;['Monitoring', 'DevOps Tools', 'Application Services'];0;Unofficial
+180;px-enterprise;store/portworx/oci-monitor:1.6.0;['Storage', 'Application Infrastructure', 'DevOps Tools', 'Databases'];0;Unofficial
+181;site24x7-linux-docker-agent;store/site24x7/docker-agent:release;['Monitoring', 'DevOps Tools', 'Operating Systems', 'Application Services'];0;Unofficial
+182;esystemstech;esystemstech;['Application Frameworks', 'Application Services', 'Messaging Services', 'Base Images'];0;Unofficial
+183;sysdig-cloud-monitoring-agent-commercial;sysdig-cloud-monitoring-agent-commercial;['Featured Images', 'DevOps Tools', 'Analytics', 'Monitoring'];0;Unofficial
+184;skaffolder-enterprise;store/skaffolder/skaffolder-enterprise:2.0;['Programming Languages', 'Application Frameworks', 'Application Services', 'DevOps Tools'];0;Unofficial
+185;fluid-bpm;fluid-bpm;['Application Services', 'Application Frameworks', 'Analytics'];0;Unofficial
+186;foopipes;foopipes;['Application Services', 'Application Infrastructure'];0;Unofficial
+187;ibm-cloud-automation-manager;ibm-cloud-automation-manager;['Application Infrastructure', 'DevOps Tools', 'Application Services'];0;Unofficial
+188;gitlab-community-edition;store/gitlab/gitlab-ce:11.10.4-ce.0;['DevOps Tools'];0;Unofficial
+189;rocketchat;rocketchat;['Application Services', 'Messaging Services', 'DevOps Tools'];0;Unofficial
+190;ibm-db2-warehouse-ee;store/ibmcorp/db2wh_ee:v3.6.0-db2wh-linux;['Analytics', 'Databases'];0;Unofficial
+191;ibm-db2-warehouse-dev;store/ibmcorp/db2wh_ce:v3.6.0-db2wh_devc-linux;['Analytics', 'Databases'];0;Unofficial
+192;datastax;;['Databases'];0;Unofficial
+193;softwareag-webmethods-microservicesruntime;store/softwareag/webmethods-microservicesruntime:10.4.0.0;['Application Frameworks', 'Application Infrastructure', 'Application Services', 'Programming Languages'];0;Unofficial
+194;softwareag-commandcentral;store/softwareag/commandcentral-server:10.4;['DevOps Tools', 'Monitoring'];0;Unofficial
+195;softwareag-apigateway;store/softwareag/apigateway-trial:10.4;['Application Services', 'Monitoring', 'Security'];0;Unofficial
+196;anaconda;store/continuumio/anaconda:4.0.0;['Application Services'];0;Unofficial
+197;softwareag-apiportal;softwareag-apiportal;['Application Services'];0;Unofficial
+198;ibm-mq-advanced;store/ibmcorp/mqadvanced-server-dev:9.1.0.0;['Messaging Services'];0;Unofficial
+199;ibm-db2-warehouse-client-container;store/ibmcorp/db2wh_ce:v3.6.0-db2wh_client-linux;['Analytics', 'Databases'];0;Unofficial
+200;softwareag-terracottadb;store/softwareag/terracotta-server:10.3;['Databases'];0;Unofficial
+201;r-base;r-base;['Application Services'];3057081;Official
+202;nuxeo;nuxeo;['Application Services'];2882674;Official
+203;gazebo;gazebo;['Application Services'];2811214;Official
+204;storm;storm;['Application Frameworks'];2701946;Official
+205;yourls;yourls;[];2652514;Official
+206;photon;photon;['Operating Systems'];2484014;Official
+207;docker-dev;;[];2391069;Official
+208;open-liberty;open-liberty;[];1988944;Official
+209;known;known;['Application Services'];530752;Official

@@ -1,0 +1,17 @@
+com_err->com_err_va
+com_err->llvm.va_start
+com_err->llvm.va_end
+_com_err_strlcpy->strlen
+initialize_error_table_r->malloc
+init_error_table->initialize_error_table_r
+free_error_table->free
+default_proc->error_message
+default_proc->fprintf
+default_proc->vfprintf
+reset_com_err_hook->set_com_err_hook
+error_message->com_right
+error_message->snprintf
+error_message->strerror
+error_message->_com_err_strlcpy
+com_right_r->_com_err_strlcpy
+com_err_va->default_proc
