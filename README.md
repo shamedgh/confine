@@ -5,6 +5,27 @@ and each module has been described separately below. The general goal is to
 remove functionalities not required by containers by performing static 
 analysis.
 
+## Prerequisites
+
+This project has only been tested on Ubuntu 16.04. Due to usage of specific
+debian-based tools (such as dpkg and apt-file) use on other operating systems
+at your own risk.
+All the scripts have been written in coordinance with python version 3.7.
+```
+sudo apt install python3.7
+sudo apt install docker.io
+sudo systemctl start docker
+sudo systemctl enable docker
+sudo apt install sysdig
+```
+
+## Installation
+The current version does not require any installation. You only need to pull all 
+the submodules through the following git command:
+```
+git submodule update --init --recursive
+```
+
 ## Call Function Graph Extraction
 We have used an LLVM pass to create a call function graph for musl-libc 
 which maps all the exported functions to system calls. We also used the 
@@ -97,20 +118,6 @@ This script can be used to extract all the imported functions of ELF files.
 The folder of the ELF files can be passed as the first argument. The output 
 file can be specified by the second argument.
 
-
-## Prerequisites
-
-This project has only been tested on Ubuntu 16.04. Due to usage of specific
-debian-based tools (such as dpkg and apt-file) use on other operating systems
-at your own risk.
-All the scripts have been written in coordinance with python version 3.7.
-```
-sudo apt install python3.7
-sudo apt install docker.io
-sudo systemctl start docker
-sudo systemctl enable docker
-sudo apt install sysdig
-```
 
 ## Authors
 
