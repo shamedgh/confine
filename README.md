@@ -20,10 +20,10 @@ sudo apt install sysdig
 ```
 
 ## Installation
-The current version does not require any installation. You only need to pull all 
-the submodules through the following git command:
+You must run the following commands before running the main application.
 ```
 git submodule update --init --recursive
+./initialize.sh
 ```
 
 ## Call Function Graph Extraction
