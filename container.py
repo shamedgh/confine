@@ -89,6 +89,18 @@ class Container():
         self.containerId = out.strip()
         return True
 
+    def runWithRuntime(self, runtime):
+        self.logger.info("Running container %s with runtime: %s", self.imageName, runtime)
+        #TODO extract log in both scenarios, mariadb logs is the same with unconfined percona the other
+        cmd = "sudo docker {} run -l {} --runtime={} --name {} {} -td {} {}"
+        cmd = cmd.format(self.remote, C.TOOLNAME, runtime, self.containerName, self.options, self.imageName, self.args)
+        returncode, out, err = util.runCommand(cmd)
+        if ( returncode != 0 ):
+            self.logger.error("Error running docker: %s", err)
+            return False
+        self.containerId = out.strip()
+        return True
+
     def runInAttachedMode(self):
         self.logger.info("Running container in attached mode %s", self.imageName)
         cmd = "sudo docker {} run -l {} --name {} {} -it {} {}"
