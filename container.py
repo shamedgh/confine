@@ -52,6 +52,16 @@ class Container():
         else:
             self.logger.warning("Trying to get remote IP on non-remote container object")
 
+    def setContainerName(self, containerName):
+        if ( ":" in containerName ):
+            self.logger.warning("Cannot assign name to container which includes :, replacing with dash")
+            containerName = containerName.replace(":", "-")
+        if ( "/" in containerName ):
+            self.logger.warning("Cannot assign name to container which includes /, replacing with dash")
+            containerName = containerName.replace("/", "-")
+
+        self.containerName = containerName
+
     def setContainerId(self, containerId):
         self.containerId = containerId
 
