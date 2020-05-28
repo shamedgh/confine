@@ -122,4 +122,5 @@ file can be specified by the second argument.
 ## Authors
 
 * **SeyedHamed Ghavamnia**
+* **Tapti Palit**
 
