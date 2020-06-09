@@ -12,6 +12,7 @@ debian-based tools (such as dpkg and apt-file) use on other operating systems
 at your own risk.
 All the scripts have been written in coordinance with python version 3.7.
 ```
+sudo apt update
 sudo apt install python3.7
 sudo apt install docker.io
 sudo systemctl start docker
