@@ -62,6 +62,9 @@ class Container():
 
         self.containerName = containerName
 
+    def getContainerName(self):
+        return self.containerName
+
     def setContainerId(self, containerId):
         self.containerId = containerId
 
