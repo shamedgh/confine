@@ -298,93 +298,110 @@ class ContainerProfiler():
         else:
             self.logger.debug("Successfully created directory: %s", tempOutputFolder)
 
-        ttr = 30
-        logSleepTime = 30
+        ttr = 10
+        logSleepTime = 60
+        sysdigTotalRunCount = 3
+        if ( binaryReady ):
+            sysdigTotalRunCount = 1
+        sysdigRunCount = 0
+
         if ( self.name == "softwareag-apigateway" ):
-            ttr = 60
+            logSleepTime = 60
 
         if ( self.name == "cirros" ):
             logSleepTime = 120
         
+
+        psListAll = set()
         #myForkStat = forkstat.ForkStat(self.logger)
         mySysdig = sysdig.Sysdig(self.logger)
         #forkStatResult = myForkStat.runForkStatWithDuration("exec", ttr)
-        sysdigResult = mySysdig.runSysdigWithDuration("execve", ttr)
-        if ( not sysdigResult ):
-            self.logger.error("Running sysdig with execve failed, not continuing for container: %s", self.name)
-            self.errorMessage = "Running sysdig with execve failed"
 
-        nowTime = datetime.now()
-        if ( sysdigResult and myContainer.runWithoutSeccomp() ):#myContainer.run() ):
-            self.status = True
-            time.sleep(logSleepTime)
-            originalLogs = myContainer.checkLogs()
-            self.logger.debug("originalLog: %s", originalLogs)
-            time.sleep(10)
-            if ( not myContainer.checkStatus() ):
-                self.logger.warning("Container exited after running, trying to run in attached mode!")
-                self.logger.debug(str(myContainer.delete()))
-                if ( not myContainer.runInAttachedMode() ):
-                    self.errorMessage = "Container didn't run in attached mode either, forfeiting!"
-                    self.logger.error("Container didn't run in attached mode either, forfeiting!")
+        while ( sysdigRunCount < sysdigTotalRunCount ):
+            self.logger.info("Running sysdig run count: %d from total: %d", sysdigRunCount, sysdigTotalRunCount)
+            self.logger.debug("Trying to kill and delete container which might not be running in loop... Not a problem")
+            self.logger.debug(str(myContainer.kill()))
+            self.logger.debug(str(myContainer.delete()))
+            sysdigRunCount += 1
+            sysdigResult = mySysdig.runSysdigWithDurationWithContainer("execve", logSleepTime, myContainer.getContainerName())
+            if ( not sysdigResult ):
+                self.logger.error("Running sysdig with execve failed, not continuing for container: %s", self.name)
+                self.errorMessage = "Running sysdig with execve failed"
+
+            nowTime = datetime.now()
+            if ( sysdigResult and myContainer.runWithoutSeccomp() ):#myContainer.run() ):
+                self.status = True
+                self.logger.info("Ran container sleeping for %d seconds to generate logs and run sysdig", logSleepTime)
+                time.sleep(logSleepTime)
+                originalLogs = myContainer.checkLogs()
+                self.logger.debug("originalLog: %s", originalLogs)
+                time.sleep(10)
+                if ( not myContainer.checkStatus() ):
+                    self.logger.warning("Container exited after running, trying to run in attached mode!")
                     self.logger.debug(str(myContainer.delete()))
-                    return C.NOATTACH
-                else:
-                    time.sleep(10)
-                    if ( not myContainer.checkStatus() ):
-                        self.errorMessage = "Container got killed after running in attached mode as well!"
-                        self.logger.error("Container got killed after running in attached mode as well, forfeiting!")
+                    if ( not myContainer.runInAttachedMode() ):
+                        self.errorMessage = "Container didn't run in attached mode either, forfeiting!"
+                        self.logger.error("Container didn't run in attached mode either, forfeiting!")
+                        self.logger.debug(str(myContainer.delete()))
+                        return C.NOATTACH
+                    else:
+                        time.sleep(10)
+                        if ( not myContainer.checkStatus() ):
+                            self.errorMessage = "Container got killed after running in attached mode as well!"
+                            self.logger.error("Container got killed after running in attached mode as well, forfeiting!")
+                            self.logger.debug(str(myContainer.kill()))
+                            self.logger.debug(str(myContainer.delete()))
+                            return C.CONSTOP
+                self.runnable = True
+                self.logger.info("Ran container %s successfully, sleeping for %d seconds", self.name, ttr)
+                time.sleep(ttr)
+                self.logger.info("Finished sleeping, extracting psNames for %s", self.name)
+
+                if ( not binaryReady ):
+                    psList = mySysdig.extractPsNames()
+
+                    if ( not psList ):
+                        self.logger.error("PS List is None from extractPsNames(). Retrying this container: %s", self.name)
                         self.logger.debug(str(myContainer.kill()))
                         self.logger.debug(str(myContainer.delete()))
-                        return C.CONSTOP
-            self.runnable = True
-            self.logger.info("Ran container %s successfully, sleeping for 30 seconds", self.name)
-            time.sleep(ttr+3)
-            self.logger.info("Finished sleeping, extracting psNames for %s", self.name)
+                        self.errorMessage = "PS List is None from extractPsNames(), error in sysdig, retrying this container"
+                        return C.SYSDIGERR
+                    if ( len(psList) == 0 ):
+                        self.logger.error("PS List is None from extractPsNames(). Retrying this container: %s", self.name)
+                        self.logger.debug(str(myContainer.kill()))
+                        self.logger.debug(str(myContainer.delete()))
+                        self.errorMessage = "PS List is None from extractPsNames(), error in sysdig, retrying this container"
+                        return C.NOPROCESS
+                    self.logger.info("len(psList) from sysdig: %d", len(psList))
+                    psList = psList.union(myContainer.extractLibsFromProc())
+                    self.logger.info("len(psList) after extracting proc list: %d", len(psList))
+                    self.logger.debug("Container: %s PS List: %s", self.name, str(psList))
+                    self.logger.info("Container: %s extracted psList with %d elements", self.name, len(psList))
+                    self.logger.debug("Entering not binaryReady")
+                    if ( not util.deleteAllFilesInFolder(tempOutputFolder, self.logger) ):
+                        self.logger.error("Failed to delete files in temporary output folder, exiting...")
+                        self.errorMessage = "Failed to delete files in temporary output folder"
+                        sys.exit(-1)
 
+                    psListAll.update(psList)
+
+        if ( self.status ):
             if ( not binaryReady ):
-                psList = mySysdig.extractPsNames()
-
-                if ( not psList ):
-                    self.logger.error("PS List is None from extractPsNames(). Retrying this container: %s", self.name)
-                    self.logger.debug(str(myContainer.kill()))
-                    self.logger.debug(str(myContainer.delete()))
-                    self.errorMessage = "PS List is None from extractPsNames(), error in sysdig, retrying this container"
-                    return C.SYSDIGERR
-                if ( len(psList) == 0 ):
-                    self.logger.error("PS List is None from extractPsNames(). Retrying this container: %s", self.name)
-                    self.logger.debug(str(myContainer.kill()))
-                    self.logger.debug(str(myContainer.delete()))
-                    self.errorMessage = "PS List is None from extractPsNames(), error in sysdig, retrying this container"
-                    return C.NOPROCESS
-                self.logger.info("len(psList) from sysdig: %d", len(psList))
-                psList = psList.union(myContainer.extractLibsFromProc())
-                self.logger.info("len(psList) after extracting proc list: %d", len(psList))
-                self.logger.debug("Container: %s PS List: %s", self.name, str(psList))
-                self.logger.info("Container: %s extracted psList with %d elements", self.name, len(psList))
-                self.logger.debug("Entering not binaryReady")
-                if ( not util.deleteAllFilesInFolder(tempOutputFolder, self.logger) ):
-                    self.logger.error("Failed to delete files in temporary output folder, exiting...")
-                    self.errorMessage = "Failed to delete files in temporary output folder"
-                    sys.exit(-1)
-
                 if ( self.extractAllBinaries ):
-                    psList = psList.union(myContainer.extractAllBinaries())
+                    psListAll.update(myContainer.extractAllBinaries())
 
-                for binaryPath in psList:
+                for binaryPath in psListAll:
                     if ( binaryPath.strip() != "" ):
                         if ( not myContainer.copyFromContainerWithLibs(binaryPath, tempOutputFolder) ):
                             self.logger.error("Problem copying files from container!")
-                self.logger.debug(str(myContainer.kill()))
-                self.logger.debug(str(myContainer.delete()))
                 binaryReady = True
                 myFile = open(tempOutputFolder + "/" + C.CACHE, 'w')
                 myFile.write("complete")
                 myFile.flush()
                 myFile.close()
-            else:
-                self.logger.debug(str(myContainer.kill()))
-                self.logger.debug(str(myContainer.delete()))
+
+            self.logger.debug(str(myContainer.kill()))
+            self.logger.debug(str(myContainer.delete()))
 
             if ( binaryReady ):
                 directSyscallSet = self.extractDirectSyscalls(tempOutputFolder)
@@ -609,7 +626,7 @@ class ContainerProfiler():
                             self.logger.warning("Container for image: %s was debloated with problems. Dies after running!", self.name)
                             self.errorMessage= "Container was debloated with problems. Dies after running!"
                     else:
-                        self.logger.warning("Container for image: %s was debloated with problems: %s, len(original): %d len(seccomp): %d", self.name, debloatedLogs, len(originalLogs), len(debloatedLogs))
+                        self.logger.warning("Container for image: %s was debloated with problems: len(original): %d len(seccomp): %d original: %s seccomp: %s", self.name, len(originalLogs), len(debloatedLogs), originalLogs, debloatedLogs)
                         self.errorMessage = "Unknown problem in debloating container!"
                     if ( not myContainer.kill() and self.debloatStatus ):
                         self.logger.warning("Container can't be killed even though successfully debloated! Debloat has been unsuccessfull!")
