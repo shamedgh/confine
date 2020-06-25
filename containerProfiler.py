@@ -323,7 +323,8 @@ class ContainerProfiler():
             self.logger.debug(str(myContainer.kill()))
             self.logger.debug(str(myContainer.delete()))
             sysdigRunCount += 1
-            sysdigResult = mySysdig.runSysdigWithDurationWithContainer("execve", logSleepTime, myContainer.getContainerName())
+            #sysdigResult = mySysdig.runSysdigWithDurationWithContainer("execve", logSleepTime, myContainer.getContainerName())
+            sysdigResult = mySysdig.runSysdigWithDuration("execve", logSleepTime)
             if ( not sysdigResult ):
                 self.logger.error("Running sysdig with execve failed, not continuing for container: %s", self.name)
                 self.errorMessage = "Running sysdig with execve failed"
