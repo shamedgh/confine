@@ -149,8 +149,17 @@ if __name__ == '__main__':
         reportFileDetailed = open(reportFilePath + ".details.csv", 'a+')
         reportFileCategorized = open(options.reportfolder + "/syscall.categorized.csv", 'w+')
         reportFileLanguageBased = open(options.reportfolder + "/container.language.stats.csv", 'w+')
-        inputFile = open(options.input, 'r')
-        inputLine = inputFile.readline()
+
+        try:
+            inputFile = open(options.input, 'r')
+            imageToPropertyStr = inputFile.read()
+            imageToPropertyMap = json.loads(imageToPropertyStr)
+        except Exception as e:
+            rootLogger.warning("Trying to load image list map json from: %s, but doesn't exist: %s", options.input, str(e))
+            rootLogger.debug("Finished loading json")
+            sys.exit(-1)
+
+        #inputLine = inputFile.readline()
 
         statsTotalImage = 0
         statsLaunchableImage = 0
@@ -161,102 +170,118 @@ if __name__ == '__main__':
 
         retry = False
 
-        while ( inputLine ):
-            inputLine = inputLine.strip()
-            imageName = inputLine
-            imageOptions = ""
-            if ( ";" in inputLine ):
-                splittedInput = inputLine.split(";")
-                imageRank = splittedInput[0]
-                imageName = splittedInput[1]
-                imageNameFullPath = splittedInput[2]
+        #while ( inputLine ):
+        #    inputLine = inputLine.strip()
+        #    imageName = inputLine
+        #    imageOptions = ""
+        #    if ( ";" in inputLine ):
+        #        splittedInput = inputLine.split(";")
+        #        imageRank = splittedInput[0]
+        #        imageName = splittedInput[1]
+        #        imageNameFullPath = splittedInput[2]
+        #        if ( imageNameFullPath == "" ):
+        #            imageNameFullPath = imageName
+        #        #imageName = imageNameFullPath
+        #        #if ( "/" in imageName ):
+        #        #    imageName = imageName.replace("/", "-")
+        #        #if ( ":" in imageName ):
+        #        #    imageName = imageName[:imageName.find(":")]
+        #        imageCategory = splittedInput[3].strip()
+        #        imageCategory = imageCategory.replace("'", "")
+        #        imageCategory = imageCategory[1:-1]
+        #        if ( imageCategory != "" ):
+        #            imageCategoryList = imageCategory.split(",")
+        #        else:
+        #            imageCategoryList = ["Other"]
+        #        if ( len(splittedInput) > 6 ):
+        #            for splitPart in splittedInput[6:]:
+        #                imageOptions += splitPart + ";"
+        #            imageOptions = imageOptions[:-1]
+
+        for imageKey, imageVals in imageToPropertyMap.items():
+            #retry = True
+            retryCount = 0
+            imageName = imageVals.get("image-name", imageKey)
+            if ( imageVals.get("enable", "false") == "true" and imageName not in skipList ):
+                imageRank = imageVals.get("id", -1)
+                imageNameFullPath = imageVals.get("image-url", None)
                 if ( imageNameFullPath == "" ):
                     imageNameFullPath = imageName
-                #imageName = imageNameFullPath
-                #if ( "/" in imageName ):
-                #    imageName = imageName.replace("/", "-")
-                #if ( ":" in imageName ):
-                #    imageName = imageName[:imageName.find(":")]
-                imageCategory = splittedInput[3].strip()
-                imageCategory = imageCategory.replace("'", "")
-                imageCategory = imageCategory[1:-1]
-                if ( imageCategory != "" ):
-                    imageCategoryList = imageCategory.split(",")
-                else:
-                    imageCategoryList = ["Other"]
-                if ( len(splittedInput) > 6 ):
-                    for splitPart in splittedInput[6:]:
-                        imageOptions += splitPart + ";"
-                    imageOptions = imageOptions[:-1]
+                imageCategoryList = imageVals.get("category", ["Other"])
+                imageOptions = imageVals.get("options", "")
+                imageArgs = imageVals.get("args", "")
+                imagePullCount = imageVals.get("pull-count", 0)
+                imageOfficial = imageVals.get("official", False)
+                while ( retryCount < 2 ):
+                    start = time.time()
+                    newProfile = containerProfiler.ContainerProfiler(imageName, imageNameFullPath, imageOptions, options.libccfginput, options.muslcfginput, glibcFuncList, muslFuncList, options.strictmode, options.gofolderpath, options.cfgfolderpath, options.finegrain, options.allbinaries, rootLogger)
+                    returncode = newProfile.createSeccompProfile(options.outputfolder + "/" + imageName + "/", options.reportfolder)
+                    end = time.time()
+                    if ( returncode != C.SYSDIGERR ):
+                    #    if ( retryCount != 0 ):
+                    #        retryCount += 1
+                    #else:
+                        retryCount += 1
+                        if ( newProfile.getBlacklistedSyscalls() ):
+                            currentSet = set(newProfile.getBlacklistedSyscalls())
+                        else:
+                            currentSet = set()
 
-            if ( not imageRank.startswith("#") and imageName not in skipList ):
-                start = time.time()
-                newProfile = containerProfiler.ContainerProfiler(imageName, imageNameFullPath, imageOptions, options.libccfginput, options.muslcfginput, glibcFuncList, muslFuncList, options.strictmode, options.gofolderpath, options.cfgfolderpath, options.finegrain, options.allbinaries, rootLogger)
-                returncode = newProfile.createSeccompProfile(options.outputfolder + "/" + imageName + "/", options.reportfolder)
-                end = time.time()
-                if ( returncode == C.SYSDIGERR and not retry ):
-                    retry = True
-                else:
-                    retry = False
-                    if ( newProfile.getBlacklistedSyscalls() ):
-                        currentSet = set(newProfile.getBlacklistedSyscalls())
-                    else:
-                        currentSet = set()
+                        if ( newProfile.getBlacklistedSyscallsOriginal() ):
+                            originalSet = set(newProfile.getBlacklistedSyscallsOriginal())
+                        else:
+                            originalSet = set()
 
-                    if ( newProfile.getBlacklistedSyscallsOriginal() ):
-                        originalSet = set(newProfile.getBlacklistedSyscallsOriginal())
-                    else:
-                        originalSet = set()
+                        if ( newProfile.getBlacklistedSyscallsFineGrain() ):
+                            finegrainSet = set(newProfile.getBlacklistedSyscallsFineGrain())
+                        else:
+                            finegrainSet = set()
 
-                    if ( newProfile.getBlacklistedSyscallsFineGrain() ):
-                        finegrainSet = set(newProfile.getBlacklistedSyscallsFineGrain())
-                    else:
-                        finegrainSet = set()
+                        unionSet = currentSet.copy()
+                        unionSet.update(defaultSyscallSet)
+                        remainingSetSize = len(unionSet.difference(currentSet))-1   #-1 for clone system call
+                        reportFile.write(imageRank + ";" + imageName + ";" + str(newProfile.getStatus()) + ";" + str(newProfile.getRunnableStatus()) + ";" + str(newProfile.getInstallStatus()) + ";" + str(len(originalSet)) + ";" + str(len(finegrainSet)) + ";" + str(len(unionSet)-len(defaultSyscallSet)) + ";" + str(len(unionSet)) + ";" + str(newProfile.getDebloatStatus()) + ";" + newProfile.getErrorMessage() + ";" + str(newProfile.getDirectSyscallCount()) + ";" + str(newProfile.getLibcSyscallCount()) + ";" + str(end-start) + ";" + str(newProfile.getLanguageSet()) + ";" + str(remainingSetSize) + "\n")
 
-                    unionSet = currentSet.copy()
-                    unionSet.update(defaultSyscallSet)
-                    remainingSetSize = len(unionSet.difference(currentSet))-1   #-1 for clone system call
-                    reportFile.write(imageRank + ";" + imageName + ";" + str(newProfile.getStatus()) + ";" + str(newProfile.getRunnableStatus()) + ";" + str(newProfile.getInstallStatus()) + ";" + str(len(originalSet)) + ";" + str(len(finegrainSet)) + ";" + str(len(unionSet)-len(defaultSyscallSet)) + ";" + str(len(unionSet)) + ";" + str(newProfile.getDebloatStatus()) + ";" + newProfile.getErrorMessage() + ";" + str(newProfile.getDirectSyscallCount()) + ";" + str(newProfile.getLibcSyscallCount()) + ";" + str(end-start) + ";" + str(newProfile.getLanguageSet()) + ";" + str(remainingSetSize) + "\n")
-
-                    statsTotalImage += 1
-                    if ( newProfile.getStatus() ):
-                        statsLaunchableImage += 1
-                    if ( newProfile.getRunnableStatus() ):
-                        statsStaysRunningImage += 1
-                    if ( newProfile.getDebloatStatus() ):
-                        statsDebloatableImage += 1
-
-                    reportFile.flush()
-                    rootLogger.debug("Default syscalls not in extracted ones: %s", str(unionSet.difference(currentSet)))
-                    if ( newProfile.getDebloatStatus() ):
-                        reportFileDetailed.write(imageRank + ";" + imageName + ";" + str(len(currentSet)) + ";" + str(len(unionSet)-len(defaultSyscallSet)) + ";" + str(len(unionSet)) + ";" + str(newProfile.getDirectSyscallCount()) + ";" + str(newProfile.getLibcSyscallCount()) + ";" + str(currentSet) + "\n")
-                        reportFileDetailed.flush()
-                        for category in imageCategoryList:
-                            reportFileCategorized.write(category + "," + str(len(currentSet)) + "\n")
-                            reportFileCategorized.flush()
-                    if ( newProfile.getStatus() and newProfile.getRunnableStatus() ):
-                        successStatus = 0
+                        statsTotalImage += 1
+                        if ( newProfile.getStatus() ):
+                            statsLaunchableImage += 1
+                        if ( newProfile.getRunnableStatus() ):
+                            statsStaysRunningImage += 1
                         if ( newProfile.getDebloatStatus() ):
-                            successStatus = 1
-                        #langCount[lang][success] += 1
-                        profileLangSet = newProfile.getLanguageSet()
-                        if ( len(profileLangSet) == 0 ):
-                            rootLogger.warning("Container with successfull debloat but empty language set!")
-                        if ( len(profileLangSet) > 1 ):
-                            profileLangSet.discard(util.BinaryLang.CCPP.value)
-                        for lang in profileLangSet:
-                            print ("lang: " + lang)
-                            langDict = langCount.get(lang, dict())
-                            count = langDict.get(successStatus, 0)
-                            count += 1
-                            langDict[successStatus] = count
-                            langCount[lang] = langDict
-                    rootLogger.info("Finished extracting system calls for %s, sleeping for 5 seconds", imageName)
-                    time.sleep(5)
+                            statsDebloatableImage += 1
+
+                        reportFile.flush()
+                        rootLogger.debug("Default syscalls not in extracted ones: %s", str(unionSet.difference(currentSet)))
+                        if ( newProfile.getDebloatStatus() ):
+                            reportFileDetailed.write(imageRank + ";" + imageName + ";" + str(len(currentSet)) + ";" + str(len(unionSet)-len(defaultSyscallSet)) + ";" + str(len(unionSet)) + ";" + str(newProfile.getDirectSyscallCount()) + ";" + str(newProfile.getLibcSyscallCount()) + ";" + str(currentSet) + "\n")
+                            reportFileDetailed.flush()
+                            for category in imageCategoryList:
+                                reportFileCategorized.write(category + "," + str(len(currentSet)) + "\n")
+                                reportFileCategorized.flush()
+                        if ( newProfile.getStatus() and newProfile.getRunnableStatus() ):
+                            successStatus = 0
+                            if ( newProfile.getDebloatStatus() ):
+                                successStatus = 1
+                            #langCount[lang][success] += 1
+                            profileLangSet = newProfile.getLanguageSet()
+                            if ( len(profileLangSet) == 0 ):
+                                rootLogger.warning("Container with successfull debloat but empty language set!")
+                            if ( len(profileLangSet) > 1 ):
+                                profileLangSet.discard(util.BinaryLang.CCPP.value)
+                            for lang in profileLangSet:
+                                print ("lang: " + lang)
+                                langDict = langCount.get(lang, dict())
+                                count = langDict.get(successStatus, 0)
+                                count += 1
+                                langDict[successStatus] = count
+                                langCount[lang] = langDict
+                        rootLogger.info("Finished extracting system calls for %s, sleeping for 5 seconds", imageName)
+                        time.sleep(5)
+                    retryCount += 1
             else:
                 rootLogger.info("Skipping %s", imageName)
-            if ( not retry ):
-                inputLine = inputFile.readline()
+            #if ( not retry ):
+            #    inputLine = inputFile.readline()
         reportFile.close()
         reportFileDetailed.close()
         reportFileCategorized.close()
