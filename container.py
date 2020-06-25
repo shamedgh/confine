@@ -68,6 +68,15 @@ class Container():
     def setContainerId(self, containerId):
         self.containerId = containerId
 
+    def killToolContainers(self):
+        cmd = "sudo docker kill $(docker ps --filter label={})"
+        cmd = cmd.format(C.TOOLNAME)
+        returncode, out, err = util.runCommand(cmd)
+        if ( returncode != 0 ):
+            self.logger.error("Error running prune on docker with label: %s", err)
+            return False
+        return True
+
     def pruneVolumes(self):
         cmd = "sudo docker volume prune -f --filter \"label=={}\""
         cmd = cmd.format(C.TOOLNAME)
