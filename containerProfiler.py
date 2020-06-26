@@ -383,7 +383,7 @@ class ContainerProfiler():
                     self.logger.info("len(psList) from sysdig: %d", len(psList))
                     psList = psList.union(myContainer.extractLibsFromProc())
                     self.logger.info("len(psList) after extracting proc list: %d", len(psList))
-                    self.logger.debug("Container: %s PS List: %s", self.name, str(psList))
+                    self.logger.info("Container: %s PS List: %s", self.name, str(psList))
                     self.logger.info("Container: %s extracted psList with %d elements", self.name, len(psList))
                     self.logger.debug("Entering not binaryReady")
                     if ( not util.deleteAllFilesInFolder(tempOutputFolder, self.logger) ):

@@ -201,7 +201,7 @@
         "id": "14"
     },
     "nginx": {
-        "enable": "false",
+        "enable": "true",
         "image-name": "nginx",
         "image-url": "nginx",
         "category": [
@@ -215,7 +215,7 @@
         "id": "15"
     },
     "mysql": {
-        "enable": "true",
+        "enable": "false",
         "image-name": "mysql",
         "image-url": "mysql",
         "category": [
@@ -332,7 +332,7 @@
         "id": "23"
     },
     "mariadb": {
-        "enable": "true",
+        "enable": "false",
         "image-name": "mariadb",
         "image-url": "mariadb",
         "category": [
@@ -531,7 +531,7 @@
         "id": "37"
     },
     "wordpress": {
-        "enable": "true",
+        "enable": "false",
         "image-name": "wordpress",
         "image-url": "wordpress",
         "category": [
