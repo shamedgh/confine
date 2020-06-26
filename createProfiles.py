@@ -2,6 +2,7 @@ import os, sys, subprocess, signal
 import logging
 import optparse
 import containerProfiler
+import container
 import time
 import json
 
@@ -201,17 +202,49 @@ if __name__ == '__main__':
         for imageKey, imageVals in imageToPropertyMap.items():
             #retry = True
             retryCount = 0
+            depLinkSet = set()
             imageName = imageVals.get("image-name", imageKey)
             if ( imageVals.get("enable", "false") == "true" and imageName not in skipList ):
+                killAllContainers = container.killToolContainers(rootLogger)
+                rootLogger.info("Killing all containers related to toolset returned: %s", killAllContainers)
+                deleteAllContainers = container.deleteStoppedContainers(rootLogger)
+                rootLogger.info("Deleting all containers related to toolset returned: %s", deleteAllContainers)
+
+                imageDependencies = imageVals.get("dependencies", None)
+                for depKey, depVals in imageDependencies.items():
+                    depImageName = depVals.get("image-name", depKey)
+                    depImageNameFullPath = depVals.get("image-url", depImageName)
+                    depOptions = depVals.get("options", "")
+                    depLink = True if depVals.get("link", False) else False
+                    rootLogger.info("depLink: %s", depLink)
+
+                    retryCount = 0
+                    while ( retryCount < 2 ):
+                        newProfile = containerProfiler.ContainerProfiler(depImageName, depImageNameFullPath, depOptions, options.libccfginput, options.muslcfginput, glibcFuncList, muslFuncList, options.strictmode, options.gofolderpath, options.cfgfolderpath, options.finegrain, options.allbinaries, rootLogger, True)
+                        returncode = newProfile.createSeccompProfile(options.outputfolder + "/" + depImageName + "/", options.reportfolder)
+                        if ( returncode != C.SYSDIGERR ):
+                            rootLogger.info("Hardened dependent image: %s for main image: %s", depImageName, imageName)
+                            retryCount += 1
+                        retryCount += 1
+                        if ( depLink and newProfile.getContainerName()):
+                            rootLogger.info("depLink is TRUE")
+                            depLinkSet.add(newProfile.getContainerName())
+
+
                 imageRank = imageVals.get("id", -1)
                 imageNameFullPath = imageVals.get("image-url", None)
                 if ( imageNameFullPath == "" ):
                     imageNameFullPath = imageName
                 imageCategoryList = imageVals.get("category", ["Other"])
                 imageOptions = imageVals.get("options", "")
+                for linkedDep in depLinkSet:
+                    imageOptions += " --link " + linkedDep
+
                 imageArgs = imageVals.get("args", "")
                 imagePullCount = imageVals.get("pull-count", 0)
                 imageOfficial = imageVals.get("official", False)
+
+                retryCount = 0
                 while ( retryCount < 2 ):
                     start = time.time()
                     newProfile = containerProfiler.ContainerProfiler(imageName, imageNameFullPath, imageOptions, options.libccfginput, options.muslcfginput, glibcFuncList, muslFuncList, options.strictmode, options.gofolderpath, options.cfgfolderpath, options.finegrain, options.allbinaries, rootLogger)

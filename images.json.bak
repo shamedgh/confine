@@ -36,8 +36,8 @@
         ],
         "pull-count": 0,
         "official": false,
-        "options": "-e MYSQL_ROOT_PASSWORD=my-secret-pw",
-        "args": "",
+        "options": "",
+        "args": "-e MYSQL_ROOT_PASSWORD=my-secret-pw",
         "dependencies": {},
         "id": "3"
     },
@@ -81,8 +81,8 @@
         ],
         "pull-count": 0,
         "official": false,
-        "options": "-e LICENSE=accept -e DB2INST1_PASSWORD=123456",
-        "args": "",
+        "options": "",
+        "args": "-e LICENSE=accept -e DB2INST1_PASSWORD=123456",
         "dependencies": {},
         "id": "6"
     },
@@ -195,8 +195,8 @@
         ],
         "pull-count": 1110065133,
         "official": true,
-        "options": "-e POSTGRES_PASSWORD=password",
-        "args": "",
+        "options": "",
+        "args": "-e POSTGRES_PASSWORD=password",
         "dependencies": {},
         "id": "14"
     },
@@ -215,7 +215,7 @@
         "id": "15"
     },
     "mysql": {
-        "enable": "true",
+        "enable": "false",
         "image-name": "mysql",
         "image-url": "mysql",
         "category": [
@@ -223,8 +223,8 @@
         ],
         "pull-count": 903550824,
         "official": true,
-        "options": "-e MYSQL_ROOT_PASSWORD=my-secret-pw",
-        "args": "",
+        "options": "",
+        "args": "-e MYSQL_ROOT_PASSWORD=my-secret-pw",
         "dependencies": {},
         "id": "16"
     },
@@ -332,7 +332,7 @@
         "id": "23"
     },
     "mariadb": {
-        "enable": "true",
+        "enable": "false",
         "image-name": "mariadb",
         "image-url": "mariadb",
         "category": [
@@ -340,8 +340,8 @@
         ],
         "pull-count": 604169326,
         "official": true,
-        "options": "-e MYSQL_ROOT_PASSWORD=my-secret-pw",
-        "args": "",
+        "options": "",
+        "args": "-e MYSQL_ROOT_PASSWORD=my-secret-pw",
         "dependencies": {},
         "id": "24"
     },
@@ -412,8 +412,8 @@
         ],
         "pull-count": 260044359,
         "official": true,
-        "options": "-p 9200:9200 -p 9300:9300 -e \"discovery.type=single-node\"",
-        "args": "",
+        "options": "",
+        "args": "-p 9200:9200 -p 9300:9300 -e \"discovery.type=single-node\"",
         "dependencies": {},
         "id": "29"
     },
@@ -541,15 +541,16 @@
         "official": true,
         "options": "-e WORDPRESS_DB_PASSWORD=wpuser@ -p 80:80 -v /tmp/html:/var/www/html",
         "args": "",
-        "dependencies":
+        "args": "",
+        "dependencies": 
         {
             "mariadb": {
-                "image-name": "mysql",
-                "image-url": "mysql",
-                "options": "-e MYSQL_ROOT_PASSWORD=aqwe123 -e MYSQL_USER=wpuser -e MYSQL_PASSWORD=wpuser@ -e MYSQL_DATABASE=wordpress_db",
+                "image-name": "mariadb",
+                "image-url": "mariadb",
+                "options": "-e MYSQL_ROOT_PASSWORD=aqwe123 -e MYSQL_USER=wpuser -e MYSQL_PASSWORD=wpuser@ -e MYSQL_DATABASE=wordpress_db -v /tmp/database:/var/lib/mysql",
                 "link": true
             }
-        },
+        },     
         "id": "38"
     },
     "crate": {
@@ -692,8 +693,8 @@
         ],
         "pull-count": 62498587,
         "official": true,
-        "options": "-p 5601:5601",
-        "args": "",
+        "options": "",
+        "args": "-p 5601:5601",
         "dependencies": {},
         "id": "48"
     },
@@ -877,8 +878,8 @@
         ],
         "pull-count": 30637296,
         "official": true,
-        "options": "--net=host -e JOOMLA_DB_HOST=127.0.0.1:3306 -e JOOMLA_DB_USER=root -e JOOMLA_DB_PASSWORD=my-secret-pw",
-        "args": "",
+        "options": "",
+        "args": "--net=host -e JOOMLA_DB_HOST=127.0.0.1:3306 -e JOOMLA_DB_USER=root -e JOOMLA_DB_PASSWORD=my-secret-pw",
         "dependencies": {},
         "id": "61"
     },
@@ -919,8 +920,8 @@
         ],
         "pull-count": 42267987,
         "official": true,
-        "options": "-e MYSQL_ROOT_PASSWORD=my-secret-pw",
-        "args": "",
+        "options": "",
+        "args": "-e MYSQL_ROOT_PASSWORD=my-secret-pw",
         "dependencies": {},
         "id": "64"
     },

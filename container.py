@@ -6,6 +6,24 @@ sys.path.insert(0, './python-utils/')
 import util
 import constants as C
 
+def killToolContainers(logger):
+    cmd = "sudo docker kill $(sudo docker ps -aq --filter label={})"
+    cmd = cmd.format(C.TOOLNAME)
+    returncode, out, err = util.runCommand(cmd)
+    if ( returncode != 0 ):
+        logger.error("Error running prune on docker with label: %s", err)
+        return False
+    return True
+
+def deleteStoppedContainers(logger):
+    cmd = "sudo docker container rm $(sudo docker container ls -aq --filter label={})"
+    cmd = cmd.format(C.TOOLNAME)
+    returncode, out, err = util.runCommand(cmd)
+    if ( returncode != 0 ):
+        logger.error("Error running prune on docker with label: %s", err)
+        return False
+    return True
+
 class Container():
     """
     This class can be used to extract information regarding a container created from a docker image
@@ -67,15 +85,6 @@ class Container():
 
     def setContainerId(self, containerId):
         self.containerId = containerId
-
-    def killToolContainers(self):
-        cmd = "sudo docker kill $(docker ps --filter label={})"
-        cmd = cmd.format(C.TOOLNAME)
-        returncode, out, err = util.runCommand(cmd)
-        if ( returncode != 0 ):
-            self.logger.error("Error running prune on docker with label: %s", err)
-            return False
-        return True
 
     def pruneVolumes(self):
         cmd = "sudo docker volume prune -f --filter \"label=={}\""

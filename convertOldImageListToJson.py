@@ -6,7 +6,7 @@ sys.path.insert(0, './python-utils/')
 import util
 
 def jsonTemplate():
-    return json.loads('{"enable": "false","image-name": "", "image-url": "", "category": [], "pull-count":0, "official": "true", "options": "", "args": "", "dependencies": []}')
+    return json.loads('{"enable": "false","image-name": "", "image-url": "", "category": [], "pull-count":0, "official": "true", "options": "", "args": "", "dependencies": {}}')
 
 
 inputFilePath = sys.argv[1]
@@ -27,9 +27,9 @@ while ( inputLine ):
         imageUrl = splittedInput[2]
         imageCategory = splittedInput[3]
         imagePullCount = int(splittedInput[4])
-        imageArgs = ""
+        imageOptions = ""
         if ( len(splittedInput) > 6 ):
-            imageArgs = splittedInput[6]
+            imageOptions = splittedInput[6]
 
         newImage = jsonTemplate()
         newImage["image-name"] = imageName
@@ -48,8 +48,8 @@ while ( inputLine ):
 
         newImage["pull-count"] = imagePullCount
         newImage["official"] = True if splittedInput[5] == "Official" else False
-        newImage["options"] = ""
-        newImage["args"] = imageArgs
+        newImage["options"] = imageOptions
+        newImage["args"] = ""
 
         imageDict[imageName] = newImage
 

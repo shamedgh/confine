@@ -21,7 +21,7 @@ class ContainerProfiler():
     """
     This class can be used to create a seccomp profile for a container through static anlyasis of the useful binaries
     """
-    def __init__(self, name, imagePath, options, glibccfgpath, muslcfgpath, glibcfunclist, muslfunclist, strictmode, gofolderpath, cfgfolderpath, fineGrain, extractAllBinaries, logger):
+    def __init__(self, name, imagePath, options, glibccfgpath, muslcfgpath, glibcfunclist, muslfunclist, strictmode, gofolderpath, cfgfolderpath, fineGrain, extractAllBinaries, logger, isDependent=False):
         self.logger = logger
         self.name = name
         self.imagePath = imagePath
@@ -52,6 +52,8 @@ class ContainerProfiler():
         self.languageSet = set()
         self.fineGrain = fineGrain
         self.extractAllBinaries = extractAllBinaries
+        self.isDependent = isDependent
+        self.containerName = None
 
     #TODO List
     '''
@@ -208,6 +210,9 @@ class ContainerProfiler():
     def getLanguageSet(self):
         return self.languageSet
 
+    def getContainerName(self):
+        return self.containerName
+
     def createSeccompProfile(self, tempOutputFolder, resultsFolder):
         if os.geteuid() != 0:
             self.logger.error("This script must be run as ROOT only!")
@@ -290,6 +295,8 @@ class ContainerProfiler():
 
 
         myContainer = container.Container(self.imagePath, self.options, self.logger)
+        self.containerName = myContainer.getContainerName()
+
         if ( not myContainer.pruneVolumes() ):
             self.logger.warning("Pruning volumes failed, storage may run out of space\n")
         returncode, out, err = util.runCommand("mkdir -p " + tempOutputFolder)
@@ -629,10 +636,13 @@ class ContainerProfiler():
                     else:
                         self.logger.warning("Container for image: %s was debloated with problems: len(original): %d len(seccomp): %d original: %s seccomp: %s", self.name, len(originalLogs), len(debloatedLogs), originalLogs, debloatedLogs)
                         self.errorMessage = "Unknown problem in debloating container!"
-                    if ( not myContainer.kill() and self.debloatStatus ):
-                        self.logger.warning("Container can't be killed even though successfully debloated! Debloat has been unsuccessfull!")
-                        self.errorMessage = "Container can't be killed even though successfully debloated! Debloat has been unsuccessfull!"
-                        self.debloatStatus = False
+                    if ( self.isDependent ):
+                        self.logger.info("Not killing container: %s because it is a dependent for hardening another container", self.name)
+                    else:
+                        if ( not myContainer.kill() and self.debloatStatus ):
+                            self.logger.warning("Container can't be killed even though successfully debloated! Debloat has been unsuccessfull!")
+                            self.errorMessage = "Container can't be killed even though successfully debloated! Debloat has been unsuccessfull!"
+                            self.debloatStatus = False
                 else:
                     self.errorMessage = "Unknown problem in debloating container!"
                 self.logger.debug(str(myContainer.delete()))
