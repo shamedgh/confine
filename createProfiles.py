@@ -150,7 +150,7 @@ if __name__ == '__main__':
                     reportLine = reportFile.readline()
                 reportFile.close()
             except IOError as e:
-                rootLogger.info("Report file doesn't exist, no previous reports exist")
+                rootLogger.info("Report file doesn't exist, no previous reports exist, creating...")
 
 
         reportFile = open(reportFilePath + ".csv", 'a+')
@@ -195,7 +195,7 @@ if __name__ == '__main__':
                     depImageNameFullPath = depVals.get("image-url", depImageName)
                     depOptions = depVals.get("options", "")
                     depLink = True if depVals.get("link", False) else False
-                    rootLogger.info("depLink: %s", depLink)
+                    #rootLogger.info("depLink: %s", depLink)
 
                     retryCount = 0
                     while ( retryCount < 2 ):
@@ -206,7 +206,7 @@ if __name__ == '__main__':
                             retryCount += 1
                         retryCount += 1
                         if ( depLink and newProfile.getContainerName()):
-                            rootLogger.info("depLink is TRUE")
+                            #rootLogger.info("depLink is TRUE")
                             depLinkSet.add(newProfile.getContainerName())
 
 
@@ -276,12 +276,12 @@ if __name__ == '__main__':
                                 successStatus = 1
                             #langCount[lang][success] += 1
                             profileLangSet = newProfile.getLanguageSet()
-                            if ( len(profileLangSet) == 0 ):
-                                rootLogger.warning("Container with successfull debloat but empty language set!")
+                            #if ( len(profileLangSet) == 0 ):
+                            #    rootLogger.warning("Container with successfull debloat but empty language set!")
                             if ( len(profileLangSet) > 1 ):
                                 profileLangSet.discard(util.BinaryLang.CCPP.value)
                             for lang in profileLangSet:
-                                print ("lang: " + lang)
+                                #print ("lang: " + lang)
                                 langDict = langCount.get(lang, dict())
                                 count = langDict.get(successStatus, 0)
                                 count += 1
@@ -291,7 +291,7 @@ if __name__ == '__main__':
                         time.sleep(5)
                     retryCount += 1
             else:
-                rootLogger.info("Skipping %s", imageName)
+                rootLogger.info("Skipping %s because is disabled in the JSON file", imageName)
             #if ( not retry ):
             #    inputLine = inputFile.readline()
         reportFile.close()
