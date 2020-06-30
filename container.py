@@ -11,7 +11,7 @@ def killToolContainers(logger):
     cmd = cmd.format(C.TOOLNAME)
     returncode, out, err = util.runCommand(cmd)
     if ( returncode != 0 ):
-        logger.error("Error running prune on docker with label: %s", err)
+        #logger.error("Error running prune on docker with label: %s", err)
         return False
     return True
 
@@ -20,7 +20,7 @@ def deleteStoppedContainers(logger):
     cmd = cmd.format(C.TOOLNAME)
     returncode, out, err = util.runCommand(cmd)
     if ( returncode != 0 ):
-        logger.error("Error running prune on docker with label: %s", err)
+        #logger.error("Error running prune on docker with label: %s", err)
         return False
     return True
 
