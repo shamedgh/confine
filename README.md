@@ -156,6 +156,20 @@ The folder of the ELF files can be passed as the first argument. The output
 file can be specified by the second argument.
 
 
+## Paper for reference:
+Please consider citing our paper if you found our tool set useful.
+```
+@inproceedings{confineraid20,
+year={2020},
+booktitle={Proceedings of the International Conference on Research in Attacks,
+Intrusions, and Defenses (RAID)},
+title={Confine: Automated System Call Policy Generation for Container Attack
+Surface Reduction},
+author={Ghavamnia, Seyedhamed and Palit, Tapti and Benameur, Azzedine and
+Polychronakis, Michalis}
+}
+```
+
 ## Authors
 
 * **SeyedHamed Ghavamnia**
