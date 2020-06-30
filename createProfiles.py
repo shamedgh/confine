@@ -140,8 +140,8 @@ if __name__ == '__main__':
 
         #Check for previous report file and skip profiling previous containers
         skipList = []
+        reportFilePath = options.reportfolder + "/profile.report"
         if ( options.skippreviousruns ):
-            reportFilePath = options.reportfolder + "/profile.report"
             try:
                 reportFile = open(reportFilePath + ".csv", 'r')
                 reportLine = reportFile.readline()
@@ -176,14 +176,13 @@ if __name__ == '__main__':
         langCount = dict()
 
         retry = False
-
         for imageKey, imageVals in imageToPropertyMap.items():
             #retry = True
             retryCount = 0
             depLinkSet = set()
             imageName = imageVals.get("image-name", imageKey)
             if ( imageVals.get("enable", "false") == "true" and imageName not in skipList ):
-                rootLogger.info("Starting analysis for image: %s", imageName)
+                rootLogger.info("--->Starting analysis for image: %s", imageName)
                 killAllContainers = container.killToolContainers(rootLogger)
                 #rootLogger.info("Killing all containers related to toolset returned: %s", killAllContainers)
                 deleteAllContainers = container.deleteStoppedContainers(rootLogger)
@@ -201,9 +200,12 @@ if __name__ == '__main__':
                     while ( retryCount < 2 ):
                         newProfile = containerProfiler.ContainerProfiler(depImageName, depImageNameFullPath, depOptions, options.libccfginput, options.muslcfginput, glibcFuncList, muslFuncList, options.strictmode, options.gofolderpath, options.cfgfolderpath, options.finegrain, options.allbinaries, rootLogger, True)
                         returncode = newProfile.createSeccompProfile(options.outputfolder + "/" + depImageName + "/", options.reportfolder)
-                        if ( returncode != C.SYSDIGERR ):
+                        #if ( returncode != C.SYSDIGERR ):
+                        if ( returncode == 0 ):
                             rootLogger.info("Hardened dependent image: %s for main image: %s", depImageName, imageName)
                             retryCount += 1
+                        else:
+                            rootLogger.error("Tried hardening container: %s returned: %d:%s", depImageName, returncode, C.ERRTOMSG[returncode])
                         retryCount += 1
                         if ( depLink and newProfile.getContainerName()):
                             #rootLogger.info("depLink is TRUE")
@@ -229,7 +231,8 @@ if __name__ == '__main__':
                     newProfile = containerProfiler.ContainerProfiler(imageName, imageNameFullPath, imageOptions, options.libccfginput, options.muslcfginput, glibcFuncList, muslFuncList, options.strictmode, options.gofolderpath, options.cfgfolderpath, options.finegrain, options.allbinaries, rootLogger)
                     returncode = newProfile.createSeccompProfile(options.outputfolder + "/" + imageName + "/", options.reportfolder)
                     end = time.time()
-                    if ( returncode != C.SYSDIGERR ):
+                    #if ( returncode != C.SYSDIGERR ):
+                    if ( returncode == 0 ):
                     #    if ( retryCount != 0 ):
                     #        retryCount += 1
                     #else:
@@ -287,8 +290,10 @@ if __name__ == '__main__':
                                 count += 1
                                 langDict[successStatus] = count
                                 langCount[lang] = langDict
-                        rootLogger.info("Finished extracting system calls for %s, sleeping for 5 seconds", imageName)
+                        rootLogger.info("<---Finished extracting system calls for %s, sleeping for 5 seconds", imageName)
                         time.sleep(5)
+                    else:
+                        rootLogger.error("Tried hardening container: %s returned: %d:%s", imageName, returncode, C.ERRTOMSG[returncode])
                     retryCount += 1
             else:
                 rootLogger.info("Skipping %s because is disabled in the JSON file", imageName)

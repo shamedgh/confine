@@ -108,7 +108,7 @@ class ContainerProfiler():
                 #            break
         finalSet = set(fileList)# - set(removeList)
         for filePath in finalSet:
-            self.logger.debug("extraction direct syscall for %s", filePath)
+            self.logger.info("extraction direct syscall for %s", filePath)
             #temp = util.extractDirectSyscalls(filePath, self.logger)
             #self.directSyscallCount += temp
             #self.logger.debug("directSyscall for %s is %d", filePath, temp)
@@ -117,8 +117,8 @@ class ContainerProfiler():
             #self.logger.debug("libcSyscall for %s is %d", filePath, temp)
             binAnalysis = binaryAnalysis.BinaryAnalysis(filePath, self.logger)
             syscallSet, successCount, failCount = binAnalysis.extractDirectSyscalls()
-            self.logger.info("Successfull direct syscalls: %d list: %s", successCount, str(syscallSet))
-            self.logger.warning("Failed syscalls: %d", failCount)
+            self.logger.info("Successfull direct syscalls: %d list: %s, Failed direct syscalls: %d", successCount, str(syscallSet), failCount)
+            #self.logger.warning("Failed syscalls: %d", failCount)
             finalSyscallSet.update(syscallSet)
         return finalSyscallSet
 
@@ -128,7 +128,7 @@ class ContainerProfiler():
         for fileName in os.listdir(folder):
             functionList = util.extractImportedFunctions(folder + "/" + fileName, self.logger)
             if ( not functionList ):
-                self.logger.warning("Function extraction for file: %s failed!", fileName)
+                self.logger.warning("Function extraction for file: %s failed (probably not an ELF file).", fileName)
             else:
                 for function in functionList:
                     outputFile.write(function + "\n")
@@ -214,6 +214,7 @@ class ContainerProfiler():
         return self.containerName
 
     def createSeccompProfile(self, tempOutputFolder, resultsFolder):
+        returnCode = 0
         if os.geteuid() != 0:
             self.logger.error("This script must be run as ROOT only!")
             exit("This script must be run as ROOT only. Exiting.")
@@ -289,7 +290,7 @@ class ContainerProfiler():
         #    myFile = open(tempOutputFolder + "/" + C.LANGFILENAME, 'r')
         #    languageReady = True
         except OSError as e:
-            print ("File doesn't exist")
+            self.logger.info("Cache doesn't exist, must extract binaries and libraries")
 
         self.logger.debug("binaryReady: %s libFileReady: %s", str(binaryReady), str(libFileReady))
 
@@ -325,15 +326,16 @@ class ContainerProfiler():
         #forkStatResult = myForkStat.runForkStatWithDuration("exec", ttr)
 
         while ( sysdigRunCount < sysdigTotalRunCount ):
-            self.logger.info("Running sysdig run count: %d from total: %d", sysdigRunCount, sysdigTotalRunCount)
-            self.logger.debug("Trying to kill and delete container which might not be running in loop... Not a problem")
-            self.logger.debug(str(myContainer.kill()))
-            self.logger.debug(str(myContainer.delete()))
+            self.logger.info("Running sysdig multiple times. Run count: %d from total: %d", sysdigRunCount, sysdigTotalRunCount)
+            self.logger.info("Trying to kill and delete container which might not be running in loop... Not a problem if returns error")
+            str(myContainer.kill())
+            str(myContainer.delete())
             sysdigRunCount += 1
             #sysdigResult = mySysdig.runSysdigWithDurationWithContainer("execve", logSleepTime, myContainer.getContainerName())
             sysdigResult = mySysdig.runSysdigWithDuration("execve", logSleepTime)
             if ( not sysdigResult ):
                 self.logger.error("Running sysdig with execve failed, not continuing for container: %s", self.name)
+                self.logger.error("Please make sure sysdig is installed and you are running the script with root privileges. If problem consists please contact our support team.")
                 self.errorMessage = "Running sysdig with execve failed"
 
             nowTime = datetime.now()
@@ -350,6 +352,7 @@ class ContainerProfiler():
                     if ( not myContainer.runInAttachedMode() ):
                         self.errorMessage = "Container didn't run in attached mode either, forfeiting!"
                         self.logger.error("Container didn't run in attached mode either, forfeiting!")
+                        self.logger.error("There is a problem launching a container for %s. Please validate you can run the container without Confine. If so, contact our support team.", self.name)
                         self.logger.debug(str(myContainer.delete()))
                         return C.NOATTACH
                     else:
@@ -357,6 +360,7 @@ class ContainerProfiler():
                         if ( not myContainer.checkStatus() ):
                             self.errorMessage = "Container got killed after running in attached mode as well!"
                             self.logger.error("Container got killed after running in attached mode as well, forfeiting!")
+                            self.logger.error("There is a problem launching a container for %s. Please validate you can run the container without Confine. If so, contact our support team.", self.name)
                             self.logger.debug(str(myContainer.kill()))
                             self.logger.debug(str(myContainer.delete()))
                             return C.CONSTOP
@@ -364,6 +368,7 @@ class ContainerProfiler():
                 self.logger.info("Ran container %s successfully, sleeping for %d seconds", self.name, ttr)
                 time.sleep(ttr)
                 self.logger.info("Finished sleeping, extracting psNames for %s", self.name)
+                self.logger.info("Starting to identify running processes and required binaries and libraries through dynamic analysis.")
 
                 if ( not binaryReady ):
                     psList = mySysdig.extractPsNames()
@@ -395,18 +400,21 @@ class ContainerProfiler():
 
         if ( self.status ):
             if ( not binaryReady ):
+                self.logger.info("Starting to copy identified binaries and libraries. Will try to copy from different paths. Some might not exist. Errors are normal.")
                 if ( self.extractAllBinaries ):
                     psListAll.update(myContainer.extractAllBinaries())
 
                 for binaryPath in psListAll:
                     if ( binaryPath.strip() != "" ):
-                        if ( not myContainer.copyFromContainerWithLibs(binaryPath, tempOutputFolder) ):
-                            self.logger.error("Problem copying files from container!")
+                        myContainer.copyFromContainerWithLibs(binaryPath, tempOutputFolder)
+                        #if ( not myContainer.copyFromContainerWithLibs(binaryPath, tempOutputFolder) ):
+                        #    self.logger.error("Problem copying files from container!")
                 binaryReady = True
                 myFile = open(tempOutputFolder + "/" + C.CACHE, 'w')
                 myFile.write("complete")
                 myFile.flush()
                 myFile.close()
+                self.logger.info("Finished copying identified binaries and libraries.")
 
             self.logger.debug(str(myContainer.kill()))
             self.logger.debug(str(myContainer.delete()))
@@ -422,8 +430,8 @@ class ContainerProfiler():
                 funcFile = open(funcFilePath, 'r')
                 funcLine = funcFile.readline()
                 if ( not funcLine and not os.path.isfile(os.path.join(self.goFolderPath, self.name + ".syscalls")) and len(directSyscallSet) == 0 ):
-                    self.logger.info("%s container can't be debloated because no functions can be extracted from binaries and no direct syscalls found", self.name)
-                    self.errorMessage = "container can't be debloated because no functions can be extracted from binaries and no direct syscalls found"
+                    self.logger.info("%s container can't be hardened because no functions can be extracted from binaries and no direct syscalls found", self.name)
+                    self.errorMessage = "container can't be hardened because no functions can be extracted from binaries and no direct syscalls found"
                     return C.NOFUNCS
 
 
@@ -519,8 +527,8 @@ class ContainerProfiler():
                 if ( self.fineGrain ):
                     tmpSet = set()
                     for function in functionStartsFineGrain:
-                        if ( function == "fork" ):
-                            self.logger.debug("/////////////////////////////////////////FORK has been found///////////////////////////////////")
+                        #if ( function == "fork" ):
+                        #    self.logger.debug("/////////////////////////////////////////FORK has been found///////////////////////////////////")
                         if ( isMusl ):
                             leaves = muslGraph.getLeavesFromStartNode(function, muslSyscallList, list())
                         else:
@@ -534,37 +542,6 @@ class ContainerProfiler():
                         allSyscallsFineGrain.add(syscallNum)
 
 
-                #////////////////////////Start Old Stuff////////////////////////////////
-
-                #while ( funcLine ):
-                #    funcLine = funcLine.strip()
-                #    if ( isMusl ):
-                #        leaves = muslGraph.getLeavesFromStartNode(funcLine, muslSyscallList, list())
-                #    else:
-                #        leaves = glibcGraph.getLeavesFromStartNode(funcLine, glibcSyscallList, list())
-#               #     self.logger.debug("funcLine: %s leaves: %s", funcLine, leaves)
-                #    allSyscalls = allSyscalls.union(leaves)
-                #    funcLine = funcFile.readline()
-                #syscallList = list()
-                #for syscallStr in allSyscalls:
-                #    syscallStr = syscallStr.replace("syscall( ", "syscall(")
-                #    syscallStr = syscallStr.replace("syscall ( ", "syscall(")
-                #    syscallStr = syscallStr.replace(" )", ")")
-#               #     if ( isMusl ):
-                #    syscallNum = int(syscallStr[8:-1])
-#               #     else:
-#               #         syscallStr = syscallStr[9:-1].strip()
-#               #         if ( syscallStr.startswith("(") ):
-#               #             syscallStr = syscallStr[1:]
-#               #         syscallNum = int(syscallStr)
-                #    bisect.insort(syscallList, syscallNum)
-                #self.logger.debug(str(len(syscallList)))
-                #syscallMapper = syscall.Syscall(self.logger)
-                #syscallMap = syscallMapper.createMap()
-                ##syscallMap = syscallMapper.createMapWithAuditd()
-
-                #//////////////////////End Unrequired Old Stuff////////////////////////
-
                 #Check if we have go syscalls
                 staticSyscallList = []
                 try:
@@ -574,7 +551,7 @@ class ContainerProfiler():
                         staticSyscallList.append(int(syscallLine.strip()))
                         syscallLine = staticSyscallListFile.readline()
                 except Exception as e:
-                    self.logger.warning("Can't extract syscalls from: %s", os.path.join(self.goFolderPath, self.name + ".syscalls"))
+                    self.logger.warning("Can't extract syscalls from: %s", os.path.join(self.goFolderPath, self.name + ".syscalls (probably not a golang developed application)"))
                 self.logger.debug("After reading file: %s len(staticSyscallList): %d", os.path.join(self.goFolderPath, self.name + ".syscalls"), len(staticSyscallList))
 
                 syscallMapper = syscall.Syscall(self.logger)
@@ -599,13 +576,13 @@ class ContainerProfiler():
                                     blackListFineGrain.append(syscallMap[i])
                         i += 1
 
-                self.logger.debug("Container Name: %s Num of black listed syscalls (original): %s", self.name, str(len(blackListOriginal)))
+                self.logger.info("Container Name: %s Num of black listed syscalls (original): %s", self.name, str(len(blackListOriginal)))
 
                 self.blSyscallsOriginal = blackListOriginal
                 self.blSyscallOriginalCount = len(blackListOriginal)
 
                 if ( self.fineGrain ):
-                    self.logger.debug("Container Name: %s Num of black listed syscalls (fine grained): %s", self.name, str(len(blackListFineGrain)))
+                    self.logger.info("Container Name: %s Num of black listed syscalls (fine grained): %s", self.name, str(len(blackListFineGrain)))
                     self.blSyscallsFineGrain = blackListFineGrain
                     self.blSyscallFineGrainCount = len(blackListFineGrain)
 
@@ -628,26 +605,31 @@ class ContainerProfiler():
                     if ( len(originalLogs) == len(debloatedLogs) ):
                         time.sleep(3)
                         if ( myContainer.checkStatus() ):
-                            self.logger.info("Container for image: %s was debloated successfully!", self.name)
+                            self.logger.info("Container for image: %s was hardened successfully!", self.name)
                             self.debloatStatus = True
+                            returnCode = 0
                         else:
-                            self.logger.warning("Container for image: %s was debloated with problems. Dies after running!", self.name)
-                            self.errorMessage= "Container was debloated with problems. Dies after running!"
+                            self.logger.warning("Container for image: %s was hardened with problems. Dies after running!", self.name)
+                            self.errorMessage= "Container was hardened with problems. Dies after running!"
+                            returnCode = C.HSTOPS
                     else:
-                        self.logger.warning("Container for image: %s was debloated with problems: len(original): %d len(seccomp): %d original: %s seccomp: %s", self.name, len(originalLogs), len(debloatedLogs), originalLogs, debloatedLogs)
-                        self.errorMessage = "Unknown problem in debloating container!"
+                        self.logger.warning("Container for image: %s was hardened with problems: len(original): %d len(seccomp): %d original: %s seccomp: %s", self.name, len(originalLogs), len(debloatedLogs), originalLogs, debloatedLogs)
+                        self.errorMessage = "Unknown problem in hardening container!"
+                        returnCode = C.HLOGLEN
                     if ( self.isDependent ):
                         self.logger.info("Not killing container: %s because it is a dependent for hardening another container", self.name)
                     else:
                         if ( not myContainer.kill() and self.debloatStatus ):
-                            self.logger.warning("Container can't be killed even though successfully debloated! Debloat has been unsuccessfull!")
-                            self.errorMessage = "Container can't be killed even though successfully debloated! Debloat has been unsuccessfull!"
+                            self.logger.warning("Container can't be killed even though successfully hardened! Hardening has been unsuccessfull!")
+                            self.errorMessage = "Container can't be killed even though successfully hardened! Hardening has been unsuccessfull!"
                             self.debloatStatus = False
+                            returnCode = C.HNOKILL
                 else:
-                    self.errorMessage = "Unknown problem in debloating container!"
-                self.logger.debug(str(myContainer.delete()))
-
-        return 0
+                    self.errorMessage = "Unknown problem in hardening container!"
+                    returnCode = C.HNORUN
+                if ( not self.isDependent ):
+                    self.logger.debug(str(myContainer.delete()))
+        return returnCode
 
 
     def createFineGrainedSeccompProfile(self, tempOutputFolder, resultsFolder):
