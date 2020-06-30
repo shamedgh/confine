@@ -1,0 +1,3053 @@
+{
+    "oracle-database-enterprise-edition": {
+        "enable": "false",
+        "image-name": "oracle-database-enterprise-edition",
+        "image-url": "store/oracle/database-enterprise:12.2.0.1",
+        "category": [
+            "Databases"
+        ],
+        "pull-count": 0,
+        "official": false,
+        "options": "",
+        "args": "",
+        "dependencies": {},
+        "id": "1"
+    },
+    "oracle-serverjre-8": {
+        "enable": "false",
+        "image-name": "oracle-serverjre-8",
+        "image-url": "store/oracle/serverjre:8",
+        "category": [
+            "ProgrammingLanguages"
+        ],
+        "pull-count": 0,
+        "official": false,
+        "options": "",
+        "args": "",
+        "dependencies": {},
+        "id": "2"
+    },
+    "mysql-enterprise-server": {
+        "enable": "false",
+        "image-name": "mysql-enterprise-server",
+        "image-url": "store/oracle/mysql-enterprise-server:5.7",
+        "category": [
+            "Databases"
+        ],
+        "pull-count": 0,
+        "official": false,
+        "options": "-e MYSQL_ROOT_PASSWORD=my-secret-pw",
+        "args": "",
+        "dependencies": {},
+        "id": "3"
+    },
+    "oracle-weblogic-server-12c": {
+        "enable": "false",
+        "image-name": "oracle-weblogic-server-12c",
+        "image-url": "store/oracle/weblogic:12.2.1.3-dev-190111",
+        "category": [
+            "ApplicationFrameworks",
+            "ApplicationInfrastructure"
+        ],
+        "pull-count": 0,
+        "official": false,
+        "options": "",
+        "args": "",
+        "dependencies": {},
+        "id": "4"
+    },
+    "couchbase": {
+        "enable": "false",
+        "image-name": "couchbase",
+        "image-url": "couchbase",
+        "category": [
+            "Storage",
+            "ApplicationFrameworks"
+        ],
+        "pull-count": 38989426,
+        "official": true,
+        "options": "",
+        "args": "",
+        "dependencies": {},
+        "id": "5"
+    },
+    "db2-developer-c-edition": {
+        "enable": "false",
+        "image-name": "db2-developer-c-edition",
+        "image-url": "store/ibmcorp/db2_developer_c:11.1.4.4-x86_64",
+        "category": [
+            "Analytics",
+            "Databases"
+        ],
+        "pull-count": 0,
+        "official": false,
+        "options": "-e LICENSE=accept -e DB2INST1_PASSWORD=123456",
+        "args": "",
+        "dependencies": {},
+        "id": "6"
+    },
+    "oracle-instant-client": {
+        "enable": "false",
+        "image-name": "oracle-instant-client",
+        "image-url": "store/oracle/database-instantclient:12.2.0.1",
+        "category": [
+            "Databases"
+        ],
+        "pull-count": 0,
+        "official": false,
+        "options": "",
+        "args": "",
+        "dependencies": {},
+        "id": "7"
+    },
+    "redis": {
+        "enable": "false",
+        "image-name": "redis",
+        "image-url": "redis",
+        "category": [
+            "Databases"
+        ],
+        "pull-count": 1690741773,
+        "official": true,
+        "options": "",
+        "args": "",
+        "dependencies": {},
+        "id": "8"
+    },
+    "ibm-security-access-manager": {
+        "enable": "false",
+        "image-name": "ibm-security-access-manager",
+        "image-url": "store/ibmcorp/isam:9.0.6.0",
+        "category": [
+            "Security",
+            "ApplicationInfrastructure"
+        ],
+        "pull-count": 0,
+        "official": false,
+        "options": "",
+        "args": "",
+        "dependencies": {},
+        "id": "9"
+    },
+    "mongo": {
+        "enable": "false",
+        "image-name": "mongo",
+        "image-url": "mongo",
+        "category": [
+            "Databases"
+        ],
+        "pull-count": 1831318554,
+        "official": true,
+        "options": "",
+        "args": "",
+        "dependencies": {},
+        "id": "10"
+    },
+    "ubuntu": {
+        "enable": "false",
+        "image-name": "ubuntu",
+        "image-url": "ubuntu",
+        "category": [
+            "BaseImages",
+            "OperatingSystems"
+        ],
+        "pull-count": 1134315452,
+        "official": true,
+        "options": "",
+        "args": "",
+        "dependencies": {},
+        "id": "11"
+    },
+    "busybox": {
+        "enable": "false",
+        "image-name": "busybox",
+        "image-url": "busybox",
+        "category": [
+            "BaseImages"
+        ],
+        "pull-count": 2147483647,
+        "official": true,
+        "options": "",
+        "args": "",
+        "dependencies": {},
+        "id": "12"
+    },
+    "node": {
+        "enable": "false",
+        "image-name": "node",
+        "image-url": "node",
+        "category": [
+            "ApplicationInfrastructure"
+        ],
+        "pull-count": 928800368,
+        "official": true,
+        "options": "",
+        "args": "",
+        "dependencies": {},
+        "id": "13"
+    },
+    "postgres": {
+        "enable": "false",
+        "image-name": "postgres",
+        "image-url": "postgres",
+        "category": [
+            "Databases"
+        ],
+        "pull-count": 1110065133,
+        "official": true,
+        "options": "-e POSTGRES_PASSWORD=password",
+        "args": "",
+        "dependencies": {},
+        "id": "14"
+    },
+    "nginx": {
+        "enable": "true",
+        "image-name": "nginx",
+        "image-url": "nginx",
+        "category": [
+            "ApplicationInfrastructure"
+        ],
+        "pull-count": 1960017377,
+        "official": true,
+        "options": "",
+        "args": "",
+        "dependencies": {},
+        "id": "15"
+    },
+    "mysql": {
+        "enable": "false",
+        "image-name": "mysql",
+        "image-url": "mysql",
+        "category": [
+            "Databases"
+        ],
+        "pull-count": 903550824,
+        "official": true,
+        "options": "-e MYSQL_ROOT_PASSWORD=my-secret-pw",
+        "args": "",
+        "dependencies": {},
+        "id": "16"
+    },
+    "hello-world": {
+        "enable": "false",
+        "image-name": "hello-world",
+        "image-url": "hello-world",
+        "category": [
+            ""
+        ],
+        "pull-count": 1454,
+        "official": true,
+        "options": "",
+        "args": "",
+        "dependencies": {},
+        "id": "17"
+    },
+    "registry": {
+        "enable": "false",
+        "image-name": "registry",
+        "image-url": "registry",
+        "category": [
+            "FeaturedImages",
+            "Storage",
+            "ApplicationServices"
+        ],
+        "pull-count": 686700906,
+        "official": true,
+        "options": "",
+        "args": "",
+        "dependencies": {},
+        "id": "18"
+    },
+    "traefik": {
+        "enable": "false",
+        "image-name": "traefik",
+        "image-url": "traefik",
+        "category": [
+            "ApplicationInfrastructure"
+        ],
+        "pull-count": 778939787,
+        "official": true,
+        "options": "",
+        "args": "",
+        "dependencies": {},
+        "id": "19"
+    },
+    "alpine": {
+        "enable": "false",
+        "image-name": "alpine",
+        "image-url": "alpine",
+        "category": [
+            "FeaturedImages",
+            "BaseImages",
+            "OperatingSystems"
+        ],
+        "pull-count": 1327964012,
+        "official": true,
+        "options": "",
+        "args": "",
+        "dependencies": {},
+        "id": "20"
+    },
+    "httpd": {
+        "enable": "false",
+        "image-name": "httpd",
+        "image-url": "httpd",
+        "category": [
+            "ApplicationInfrastructure"
+        ],
+        "pull-count": 1154196606,
+        "official": true,
+        "options": "",
+        "args": "",
+        "dependencies": {},
+        "id": "21"
+    },
+    "golang": {
+        "enable": "false",
+        "image-name": "golang",
+        "image-url": "golang",
+        "category": [
+            "ProgrammingLanguages"
+        ],
+        "pull-count": 540498773,
+        "official": true,
+        "options": "",
+        "args": "",
+        "dependencies": {},
+        "id": "22"
+    },
+    "consul": {
+        "enable": "false",
+        "image-name": "consul",
+        "image-url": "consul",
+        "category": [
+            "ApplicationInfrastructure",
+            "DevOpsTools"
+        ],
+        "pull-count": 434570502,
+        "official": true,
+        "options": "",
+        "args": "",
+        "dependencies": {},
+        "id": "23"
+    },
+    "mariadb": {
+        "enable": "false",
+        "image-name": "mariadb",
+        "image-url": "mariadb",
+        "category": [
+            "Databases"
+        ],
+        "pull-count": 604169326,
+        "official": true,
+        "options": "-e MYSQL_ROOT_PASSWORD=my-secret-pw",
+        "args": "",
+        "dependencies": {},
+        "id": "24"
+    },
+    "docker": {
+        "enable": "false",
+        "image-name": "docker",
+        "image-url": "docker",
+        "category": [
+            "FeaturedImages",
+            "ApplicationFrameworks"
+        ],
+        "pull-count": 593830715,
+        "official": true,
+        "options": "",
+        "args": "",
+        "dependencies": {},
+        "id": "25"
+    },
+    "memcached": {
+        "enable": "false",
+        "image-name": "memcached",
+        "image-url": "memcached",
+        "category": [
+            "Storage"
+        ],
+        "pull-count": 768466201,
+        "official": true,
+        "options": "",
+        "args": "",
+        "dependencies": {},
+        "id": "26"
+    },
+    "openjdk": {
+        "enable": "false",
+        "image-name": "openjdk",
+        "image-url": "openjdk",
+        "category": [
+            "ProgrammingLanguages"
+        ],
+        "pull-count": 372109204,
+        "official": true,
+        "options": "",
+        "args": "",
+        "dependencies": {},
+        "id": "27"
+    },
+    "centos": {
+        "enable": "false",
+        "image-name": "centos",
+        "image-url": "centos",
+        "category": [
+            "BaseImages",
+            "OperatingSystems"
+        ],
+        "pull-count": 463622658,
+        "official": true,
+        "options": "",
+        "args": "",
+        "dependencies": {},
+        "id": "28"
+    },
+    "elasticsearch": {
+        "enable": "false",
+        "image-name": "elasticsearch",
+        "image-url": "elasticsearch:7.1.0",
+        "category": [
+            "ApplicationServices"
+        ],
+        "pull-count": 260044359,
+        "official": true,
+        "options": "-p 9200:9200 -p 9300:9300 -e \"discovery.type=single-node\"",
+        "args": "",
+        "dependencies": {},
+        "id": "29"
+    },
+    "ruby": {
+        "enable": "false",
+        "image-name": "ruby",
+        "image-url": "ruby",
+        "category": [
+            "ProgrammingLanguages"
+        ],
+        "pull-count": 255334972,
+        "official": true,
+        "options": "",
+        "args": "",
+        "dependencies": {},
+        "id": "30"
+    },
+    "influxdb": {
+        "enable": "false",
+        "image-name": "influxdb",
+        "image-url": "influxdb",
+        "category": [
+            "Databases"
+        ],
+        "pull-count": 244057690,
+        "official": true,
+        "options": "",
+        "args": "",
+        "dependencies": {},
+        "id": "31"
+    },
+    "rabbitmq": {
+        "enable": "false",
+        "image-name": "rabbitmq",
+        "image-url": "rabbitmq",
+        "category": [
+            "MessagingServices"
+        ],
+        "pull-count": 366996706,
+        "official": true,
+        "options": "",
+        "args": "",
+        "dependencies": {},
+        "id": "32"
+    },
+    "python": {
+        "enable": "false",
+        "image-name": "python",
+        "image-url": "python",
+        "category": [
+            "ProgrammingLanguages"
+        ],
+        "pull-count": 410400797,
+        "official": true,
+        "options": "",
+        "args": "",
+        "dependencies": {},
+        "id": "33"
+    },
+    "debian": {
+        "enable": "false",
+        "image-name": "debian",
+        "image-url": "debian",
+        "category": [
+            "BaseImages",
+            "OperatingSystems"
+        ],
+        "pull-count": 223217544,
+        "official": true,
+        "options": "",
+        "args": "",
+        "dependencies": {},
+        "id": "34"
+    },
+    "tomcat": {
+        "enable": "false",
+        "image-name": "tomcat",
+        "image-url": "tomcat",
+        "category": [
+            "ApplicationInfrastructure"
+        ],
+        "pull-count": 181905298,
+        "official": true,
+        "options": "",
+        "args": "",
+        "dependencies": {},
+        "id": "35"
+    },
+    "php": {
+        "enable": "false",
+        "image-name": "php",
+        "image-url": "php",
+        "category": [
+            "ProgrammingLanguages"
+        ],
+        "pull-count": 369323123,
+        "official": true,
+        "options": "",
+        "args": "",
+        "dependencies": {},
+        "id": "36"
+    },
+    "haproxy": {
+        "enable": "false",
+        "image-name": "haproxy",
+        "image-url": "haproxy",
+        "category": [
+            "ApplicationInfrastructure"
+        ],
+        "pull-count": 314948428,
+        "official": true,
+        "options": "",
+        "args": "",
+        "dependencies": {},
+        "id": "37"
+    },
+    "wordpress": {
+        "enable": "false",
+        "image-name": "wordpress",
+        "image-url": "wordpress",
+        "category": [
+            "ApplicationServices"
+        ],
+        "pull-count": 303530959,
+        "official": true,
+        "options": "-e WORDPRESS_DB_PASSWORD=wpuser@ -p 80:80 -v /tmp/html:/var/www/html",
+        "args": "",
+        "dependencies":
+        {
+            "mariadb": {
+                "image-name": "mysql",
+                "image-url": "mysql",
+                "options": "-e MYSQL_ROOT_PASSWORD=aqwe123 -e MYSQL_USER=wpuser -e MYSQL_PASSWORD=wpuser@ -e MYSQL_DATABASE=wordpress_db",
+                "link": true
+            }
+        },
+        "id": "38"
+    },
+    "crate": {
+        "enable": "false",
+        "image-name": "crate",
+        "image-url": "crate",
+        "category": [
+            "Databases"
+        ],
+        "pull-count": 11961392,
+        "official": true,
+        "options": "",
+        "args": "",
+        "dependencies": {},
+        "id": "39"
+    },
+    "maven": {
+        "enable": "false",
+        "image-name": "maven",
+        "image-url": "maven",
+        "category": [
+            "DevOpsTools"
+        ],
+        "pull-count": 138781920,
+        "official": true,
+        "options": "",
+        "args": "",
+        "dependencies": {},
+        "id": "40"
+    },
+    "nextcloud": {
+        "enable": "false",
+        "image-name": "nextcloud",
+        "image-url": "nextcloud",
+        "category": [
+            "ApplicationFrameworks",
+            "ApplicationInfrastructure"
+        ],
+        "pull-count": 189123411,
+        "official": true,
+        "options": "",
+        "args": "",
+        "dependencies": {},
+        "id": "41"
+    },
+    "amazonlinux": {
+        "enable": "false",
+        "image-name": "amazonlinux",
+        "image-url": "amazonlinux",
+        "category": [
+            "BaseImages",
+            "FeaturedImages",
+            "OperatingSystems"
+        ],
+        "pull-count": 114673563,
+        "official": true,
+        "options": "",
+        "args": "",
+        "dependencies": {},
+        "id": "42"
+    },
+    "java": {
+        "enable": "false",
+        "image-name": "java",
+        "image-url": "java",
+        "category": [
+            "BaseImages",
+            "ProgrammingLanguages"
+        ],
+        "pull-count": 0,
+        "official": true,
+        "options": "",
+        "args": "",
+        "dependencies": {},
+        "id": "43"
+    },
+    "sonarqube": {
+        "enable": "false",
+        "image-name": "sonarqube",
+        "image-url": "sonarqube",
+        "category": [
+            "DevOpsTools"
+        ],
+        "pull-count": 83706447,
+        "official": true,
+        "options": "",
+        "args": "",
+        "dependencies": {},
+        "id": "44"
+    },
+    "logstash": {
+        "enable": "false",
+        "image-name": "logstash",
+        "image-url": "logstash:7.1.0",
+        "category": [
+            "Analytics"
+        ],
+        "pull-count": 124276222,
+        "official": true,
+        "options": "",
+        "args": "",
+        "dependencies": {},
+        "id": "45"
+    },
+    "cassandra": {
+        "enable": "false",
+        "image-name": "cassandra",
+        "image-url": "cassandra",
+        "category": [
+            "Databases"
+        ],
+        "pull-count": 65206237,
+        "official": true,
+        "options": "",
+        "args": "",
+        "dependencies": {},
+        "id": "46"
+    },
+    "telegraf": {
+        "enable": "false",
+        "image-name": "telegraf",
+        "image-url": "telegraf",
+        "category": [
+            "DevOpsTools",
+            "Analytics"
+        ],
+        "pull-count": 125520750,
+        "official": true,
+        "options": "",
+        "args": "",
+        "dependencies": {},
+        "id": "47"
+    },
+    "kibana": {
+        "enable": "false",
+        "image-name": "kibana",
+        "image-url": "kibana:7.1.0",
+        "category": [
+            ""
+        ],
+        "pull-count": 62498587,
+        "official": true,
+        "options": "-p 5601:5601",
+        "args": "",
+        "dependencies": {},
+        "id": "48"
+    },
+    "ghost": {
+        "enable": "false",
+        "image-name": "ghost",
+        "image-url": "ghost",
+        "category": [
+            "ApplicationServices"
+        ],
+        "pull-count": 93990147,
+        "official": true,
+        "options": "",
+        "args": "",
+        "dependencies": {},
+        "id": "49"
+    },
+    "kong": {
+        "enable": "false",
+        "image-name": "kong",
+        "image-url": "kong",
+        "category": [
+            "ApplicationFrameworks"
+        ],
+        "pull-count": 90754730,
+        "official": true,
+        "options": "",
+        "args": "",
+        "dependencies": {},
+        "id": "50"
+    },
+    "jenkins": {
+        "enable": "false",
+        "image-name": "jenkins",
+        "image-url": "jenkins",
+        "category": [
+            "DevOpsTools"
+        ],
+        "pull-count": 86847517,
+        "official": true,
+        "options": "",
+        "args": "",
+        "dependencies": {},
+        "id": "51"
+    },
+    "gradle": {
+        "enable": "false",
+        "image-name": "gradle",
+        "image-url": "gradle",
+        "category": [
+            "ApplicationFrameworks"
+        ],
+        "pull-count": 52682526,
+        "official": true,
+        "options": "",
+        "args": "",
+        "dependencies": {},
+        "id": "52"
+    },
+    "chronograf": {
+        "enable": "false",
+        "image-name": "chronograf",
+        "image-url": "chronograf",
+        "category": [
+            "DevOpsTools"
+        ],
+        "pull-count": 43534067,
+        "official": true,
+        "options": "",
+        "args": "",
+        "dependencies": {},
+        "id": "53"
+    },
+    "couchdb": {
+        "enable": "false",
+        "image-name": "couchdb",
+        "image-url": "couchdb",
+        "category": [
+            "Databases"
+        ],
+        "pull-count": 39369575,
+        "official": true,
+        "options": "",
+        "args": "",
+        "dependencies": {},
+        "id": "54"
+    },
+    "solr": {
+        "enable": "false",
+        "image-name": "solr",
+        "image-url": "solr",
+        "category": [
+            "Analytics",
+            "ApplicationServices"
+        ],
+        "pull-count": 43884862,
+        "official": true,
+        "options": "",
+        "args": "",
+        "dependencies": {},
+        "id": "55"
+    },
+    "swarm": {
+        "enable": "false",
+        "image-name": "swarm",
+        "image-url": "swarm",
+        "category": [
+            "ApplicationInfrastructure",
+            "ApplicationFrameworks"
+        ],
+        "pull-count": 68608057,
+        "official": true,
+        "options": "",
+        "args": "",
+        "dependencies": {},
+        "id": "56"
+    },
+    "bash": {
+        "enable": "false",
+        "image-name": "bash",
+        "image-url": "bash",
+        "category": [
+            "ProgrammingLanguages",
+            "BaseImages"
+        ],
+        "pull-count": 35383055,
+        "official": true,
+        "options": "",
+        "args": "",
+        "dependencies": {},
+        "id": "57"
+    },
+    "eclipse-mosquitto": {
+        "enable": "false",
+        "image-name": "eclipse-mosquitto",
+        "image-url": "eclipse-mosquitto",
+        "category": [
+            "ApplicationServices"
+        ],
+        "pull-count": 67988898,
+        "official": true,
+        "options": "",
+        "args": "",
+        "dependencies": {},
+        "id": "58"
+    },
+    "vault": {
+        "enable": "false",
+        "image-name": "vault",
+        "image-url": "vault",
+        "category": [
+            "ApplicationServices"
+        ],
+        "pull-count": 67841457,
+        "official": true,
+        "options": "",
+        "args": "",
+        "dependencies": {},
+        "id": "59"
+    },
+    "drupal": {
+        "enable": "false",
+        "image-name": "drupal",
+        "image-url": "drupal",
+        "category": [
+            "ApplicationFrameworks"
+        ],
+        "pull-count": 65621560,
+        "official": true,
+        "options": "",
+        "args": "",
+        "dependencies": {},
+        "id": "60"
+    },
+    "joomla": {
+        "enable": "false",
+        "image-name": "joomla",
+        "image-url": "joomla",
+        "category": [
+            "ApplicationServices"
+        ],
+        "pull-count": 30637296,
+        "official": true,
+        "options": "--net=host -e JOOMLA_DB_HOST=127.0.0.1:3306 -e JOOMLA_DB_USER=root -e JOOMLA_DB_PASSWORD=my-secret-pw",
+        "args": "",
+        "dependencies": {},
+        "id": "61"
+    },
+    "perl": {
+        "enable": "false",
+        "image-name": "perl",
+        "image-url": "perl",
+        "category": [
+            "ProgrammingLanguages"
+        ],
+        "pull-count": 55620666,
+        "official": true,
+        "options": "",
+        "args": "",
+        "dependencies": {},
+        "id": "62"
+    },
+    "neo4j": {
+        "enable": "false",
+        "image-name": "neo4j",
+        "image-url": "neo4j",
+        "category": [
+            "Databases"
+        ],
+        "pull-count": 55223573,
+        "official": true,
+        "options": "",
+        "args": "",
+        "dependencies": {},
+        "id": "63"
+    },
+    "percona": {
+        "enable": "false",
+        "image-name": "percona",
+        "image-url": "percona",
+        "category": [
+            "ApplicationInfrastructure"
+        ],
+        "pull-count": 42267987,
+        "official": true,
+        "options": "-e MYSQL_ROOT_PASSWORD=my-secret-pw",
+        "args": "",
+        "dependencies": {},
+        "id": "64"
+    },
+    "buildpack-deps": {
+        "enable": "false",
+        "image-name": "buildpack-deps",
+        "image-url": "buildpack-deps",
+        "category": [
+            "BaseImages"
+        ],
+        "pull-count": 53422181,
+        "official": true,
+        "options": "",
+        "args": "",
+        "dependencies": {},
+        "id": "65"
+    },
+    "rocket-chat": {
+        "enable": "false",
+        "image-name": "rocket-chat",
+        "image-url": "rocket-chat",
+        "category": [
+            ""
+        ],
+        "pull-count": 41079085,
+        "official": true,
+        "options": "",
+        "args": "",
+        "dependencies": {},
+        "id": "66"
+    },
+    "owncloud": {
+        "enable": "false",
+        "image-name": "owncloud",
+        "image-url": "owncloud",
+        "category": [
+            "Storage",
+            "ApplicationFrameworks"
+        ],
+        "pull-count": 40973258,
+        "official": true,
+        "options": "",
+        "args": "",
+        "dependencies": {},
+        "id": "67"
+    },
+    "nats": {
+        "enable": "false",
+        "image-name": "nats",
+        "image-url": "nats",
+        "category": [
+            "ApplicationServices",
+            "MessagingServices"
+        ],
+        "pull-count": 40137739,
+        "official": true,
+        "options": "",
+        "args": "",
+        "dependencies": {},
+        "id": "68"
+    },
+    "flink": {
+        "enable": "false",
+        "image-name": "flink",
+        "image-url": "flink",
+        "category": [
+            ""
+        ],
+        "pull-count": 30193379,
+        "official": true,
+        "options": "",
+        "args": "",
+        "dependencies": {},
+        "id": "69"
+    },
+    "groovy": {
+        "enable": "false",
+        "image-name": "groovy",
+        "image-url": "groovy",
+        "category": [
+            "ProgrammingLanguages"
+        ],
+        "pull-count": 37274600,
+        "official": true,
+        "options": "",
+        "args": "",
+        "dependencies": {},
+        "id": "70"
+    },
+    "nats-streaming": {
+        "enable": "false",
+        "image-name": "nats-streaming",
+        "image-url": "nats-streaming",
+        "category": [
+            ""
+        ],
+        "pull-count": 36490880,
+        "official": true,
+        "options": "",
+        "args": "",
+        "dependencies": {},
+        "id": "71"
+    },
+    "jruby": {
+        "enable": "false",
+        "image-name": "jruby",
+        "image-url": "jruby",
+        "category": [
+            "ProgrammingLanguages"
+        ],
+        "pull-count": 36018083,
+        "official": true,
+        "options": "",
+        "args": "",
+        "dependencies": {},
+        "id": "72"
+    },
+    "rethinkdb": {
+        "enable": "false",
+        "image-name": "rethinkdb",
+        "image-url": "rethinkdb",
+        "category": [
+            "Databases"
+        ],
+        "pull-count": 44183816,
+        "official": true,
+        "options": "",
+        "args": "",
+        "dependencies": {},
+        "id": "73"
+    },
+    "adminer": {
+        "enable": "false",
+        "image-name": "adminer",
+        "image-url": "adminer",
+        "category": [
+            "Databases"
+        ],
+        "pull-count": 44818209,
+        "official": true,
+        "options": "",
+        "args": "",
+        "dependencies": {},
+        "id": "74"
+    },
+    "fedora": {
+        "enable": "false",
+        "image-name": "fedora",
+        "image-url": "fedora",
+        "category": [
+            "BaseImages",
+            "OperatingSystems"
+        ],
+        "pull-count": 44624428,
+        "official": true,
+        "options": "",
+        "args": "",
+        "dependencies": {},
+        "id": "75"
+    },
+    "zookeeper": {
+        "enable": "false",
+        "image-name": "zookeeper",
+        "image-url": "zookeeper",
+        "category": [
+            "ApplicationFrameworks",
+            "ApplicationInfrastructure"
+        ],
+        "pull-count": 41933621,
+        "official": true,
+        "options": "",
+        "args": "",
+        "dependencies": {},
+        "id": "76"
+    },
+    "pypy": {
+        "enable": "false",
+        "image-name": "pypy",
+        "image-url": "pypy",
+        "category": [
+            "ProgrammingLanguages"
+        ],
+        "pull-count": 19452616,
+        "official": true,
+        "options": "",
+        "args": "",
+        "dependencies": {},
+        "id": "77"
+    },
+    "kapacitor": {
+        "enable": "false",
+        "image-name": "kapacitor",
+        "image-url": "kapacitor",
+        "category": [
+            "DevOpsTools",
+            "ApplicationFrameworks",
+            "ApplicationInfrastructure",
+            "Monitoring"
+        ],
+        "pull-count": 16466766,
+        "official": false,
+        "options": "",
+        "args": "",
+        "dependencies": {},
+        "id": "78"
+    },
+    "jetty": {
+        "enable": "false",
+        "image-name": "jetty",
+        "image-url": "jetty",
+        "category": [
+            "ApplicationInfrastructure"
+        ],
+        "pull-count": 20686724,
+        "official": false,
+        "options": "",
+        "args": "",
+        "dependencies": {},
+        "id": "79"
+    },
+    "websphere-liberty": {
+        "enable": "false",
+        "image-name": "websphere-liberty",
+        "image-url": "websphere-liberty",
+        "category": [
+            ""
+        ],
+        "pull-count": 14026951,
+        "official": false,
+        "options": "",
+        "args": "",
+        "dependencies": {},
+        "id": "80"
+    },
+    "erlang": {
+        "enable": "false",
+        "image-name": "erlang",
+        "image-url": "erlang",
+        "category": [
+            "ProgrammingLanguages"
+        ],
+        "pull-count": 24589625,
+        "official": true,
+        "options": "",
+        "args": "",
+        "dependencies": {},
+        "id": "81"
+    },
+    "ibm-websphere-liberty": {
+        "enable": "false",
+        "image-name": "ibm-websphere-liberty",
+        "image-url": "store/ibmcorp/websphere-liberty:microProfile2",
+        "category": [
+            "ApplicationFrameworks",
+            "ApplicationInfrastructure"
+        ],
+        "pull-count": 0,
+        "official": false,
+        "options": "",
+        "args": "",
+        "dependencies": {},
+        "id": "82"
+    },
+    "redmine": {
+        "enable": "false",
+        "image-name": "redmine",
+        "image-url": "redmine",
+        "category": [
+            "ApplicationServices"
+        ],
+        "pull-count": 22600211,
+        "official": true,
+        "options": "",
+        "args": "",
+        "dependencies": {},
+        "id": "83"
+    },
+    "matomo": {
+        "enable": "false",
+        "image-name": "matomo",
+        "image-url": "matomo",
+        "category": [
+            ""
+        ],
+        "pull-count": 12110556,
+        "official": true,
+        "options": "",
+        "args": "",
+        "dependencies": {},
+        "id": "84"
+    },
+    "mongo-express": {
+        "enable": "false",
+        "image-name": "mongo-express",
+        "image-url": "mongo-express",
+        "category": [
+            "DevOpsTools",
+            "ApplicationFrameworks"
+        ],
+        "pull-count": 21051070,
+        "official": true,
+        "options": "",
+        "args": "",
+        "dependencies": {},
+        "id": "85"
+    },
+    "teamspeak": {
+        "enable": "false",
+        "image-name": "teamspeak",
+        "image-url": "teamspeak",
+        "category": [
+            ""
+        ],
+        "pull-count": 16940164,
+        "official": true,
+        "options": "",
+        "args": "",
+        "dependencies": {},
+        "id": "86"
+    },
+    "iojs": {
+        "enable": "false",
+        "image-name": "iojs",
+        "image-url": "iojs",
+        "category": [
+            ""
+        ],
+        "pull-count": 15837914,
+        "official": true,
+        "options": "",
+        "args": "",
+        "dependencies": {},
+        "id": "87"
+    },
+    "swift": {
+        "enable": "false",
+        "image-name": "swift",
+        "image-url": "swift",
+        "category": [
+            "BaseImages",
+            "ProgrammingLanguages"
+        ],
+        "pull-count": 10692313,
+        "official": true,
+        "options": "",
+        "args": "",
+        "dependencies": {},
+        "id": "88"
+    },
+    "elixir": {
+        "enable": "false",
+        "image-name": "elixir",
+        "image-url": "elixir",
+        "category": [
+            "ProgrammingLanguages"
+        ],
+        "pull-count": 15384879,
+        "official": true,
+        "options": "",
+        "args": "",
+        "dependencies": {},
+        "id": "89"
+    },
+    "composer": {
+        "enable": "false",
+        "image-name": "composer",
+        "image-url": "composer",
+        "category": [
+            "ApplicationFrameworks"
+        ],
+        "pull-count": 11925144,
+        "official": true,
+        "options": "",
+        "args": "",
+        "dependencies": {},
+        "id": "90"
+    },
+    "mono": {
+        "enable": "false",
+        "image-name": "mono",
+        "image-url": "mono",
+        "category": [
+            "ApplicationFrameworks"
+        ],
+        "pull-count": 18839212,
+        "official": true,
+        "options": "",
+        "args": "",
+        "dependencies": {},
+        "id": "91"
+    },
+    "tomee": {
+        "enable": "false",
+        "image-name": "tomee",
+        "image-url": "tomee",
+        "category": [
+            "ApplicationFrameworks"
+        ],
+        "pull-count": 11025797,
+        "official": true,
+        "options": "",
+        "args": "",
+        "dependencies": {},
+        "id": "92"
+    },
+    "django": {
+        "enable": "false",
+        "image-name": "django",
+        "image-url": "django",
+        "category": [
+            ""
+        ],
+        "pull-count": 16232876,
+        "official": true,
+        "options": "",
+        "args": "",
+        "dependencies": {},
+        "id": "93"
+    },
+    "piwik": {
+        "enable": "false",
+        "image-name": "piwik",
+        "image-url": "piwik",
+        "category": [
+            "Analytics"
+        ],
+        "pull-count": 15401425,
+        "official": true,
+        "options": "",
+        "args": "",
+        "dependencies": {},
+        "id": "94"
+    },
+    "haxe": {
+        "enable": "false",
+        "image-name": "haxe",
+        "image-url": "haxe",
+        "category": [
+            "ProgrammingLanguages"
+        ],
+        "pull-count": 11979244,
+        "official": true,
+        "options": "",
+        "args": "",
+        "dependencies": {},
+        "id": "95"
+    },
+    "rust": {
+        "enable": "false",
+        "image-name": "rust",
+        "image-url": "rust",
+        "category": [
+            ""
+        ],
+        "pull-count": 11220176,
+        "official": true,
+        "options": "",
+        "args": "",
+        "dependencies": {},
+        "id": "96"
+    },
+    "xwiki": {
+        "enable": "false",
+        "image-name": "xwiki",
+        "image-url": "xwiki",
+        "category": [
+            ""
+        ],
+        "pull-count": 13492788,
+        "official": true,
+        "options": "",
+        "args": "",
+        "dependencies": {},
+        "id": "97"
+    },
+    "odoo": {
+        "enable": "false",
+        "image-name": "odoo",
+        "image-url": "odoo",
+        "category": [
+            "ApplicationServices"
+        ],
+        "pull-count": 7364925,
+        "official": true,
+        "options": "",
+        "args": "",
+        "dependencies": {},
+        "id": "98"
+    },
+    "arangodb": {
+        "enable": "false",
+        "image-name": "arangodb",
+        "image-url": "arangodb",
+        "category": [
+            "Databases"
+        ],
+        "pull-count": 13390068,
+        "official": true,
+        "options": "",
+        "args": "",
+        "dependencies": {},
+        "id": "99"
+    },
+    "znc": {
+        "enable": "false",
+        "image-name": "znc",
+        "image-url": "znc",
+        "category": [
+            "ApplicationServices"
+        ],
+        "pull-count": 8393720,
+        "official": true,
+        "options": "",
+        "args": "",
+        "dependencies": {},
+        "id": "100"
+    },
+    "mediawiki": {
+        "enable": "false",
+        "image-name": "mediawiki",
+        "image-url": "mediawiki",
+        "category": [
+            ""
+        ],
+        "pull-count": 8263536,
+        "official": true,
+        "options": "",
+        "args": "",
+        "dependencies": {},
+        "id": "101"
+    },
+    "oraclelinux": {
+        "enable": "false",
+        "image-name": "oraclelinux",
+        "image-url": "oraclelinux",
+        "category": [
+            "BaseImages",
+            "OperatingSystems"
+        ],
+        "pull-count": 9864217,
+        "official": true,
+        "options": "",
+        "args": "",
+        "dependencies": {},
+        "id": "102"
+    },
+    "ubuntu-debootstrap": {
+        "enable": "false",
+        "image-name": "ubuntu-debootstrap",
+        "image-url": "ubuntu-debootstrap",
+        "category": [
+            ""
+        ],
+        "pull-count": 8648461,
+        "official": true,
+        "options": "",
+        "args": "",
+        "dependencies": {},
+        "id": "103"
+    },
+    "clojure": {
+        "enable": "false",
+        "image-name": "clojure",
+        "image-url": "clojure",
+        "category": [
+            "ProgrammingLanguages"
+        ],
+        "pull-count": 8633572,
+        "official": true,
+        "options": "",
+        "args": "",
+        "dependencies": {},
+        "id": "104"
+    },
+    "rails": {
+        "enable": "false",
+        "image-name": "rails",
+        "image-url": "rails",
+        "category": [
+            ""
+        ],
+        "pull-count": 7743111,
+        "official": true,
+        "options": "",
+        "args": "",
+        "dependencies": {},
+        "id": "105"
+    },
+    "ibmjava": {
+        "enable": "false",
+        "image-name": "ibmjava",
+        "image-url": "ibmjava",
+        "category": [
+            "BaseImages"
+        ],
+        "pull-count": 9501174,
+        "official": true,
+        "options": "",
+        "args": "",
+        "dependencies": {},
+        "id": "106"
+    },
+    "opensuse": {
+        "enable": "false",
+        "image-name": "opensuse",
+        "image-url": "opensuse",
+        "category": [
+            "OperatingSystems"
+        ],
+        "pull-count": 8978349,
+        "official": true,
+        "options": "",
+        "args": "",
+        "dependencies": {},
+        "id": "107"
+    },
+    "orientdb": {
+        "enable": "false",
+        "image-name": "orientdb",
+        "image-url": "orientdb",
+        "category": [
+            "Databases"
+        ],
+        "pull-count": 8908571,
+        "official": true,
+        "options": "",
+        "args": "",
+        "dependencies": {},
+        "id": "108"
+    },
+    "gcc": {
+        "enable": "false",
+        "image-name": "gcc",
+        "image-url": "gcc",
+        "category": [
+            "DevOpsTools",
+            "ApplicationFrameworks"
+        ],
+        "pull-count": 9036560,
+        "official": true,
+        "options": "",
+        "args": "",
+        "dependencies": {},
+        "id": "109"
+    },
+    "ros": {
+        "enable": "false",
+        "image-name": "ros",
+        "image-url": "ros",
+        "category": [
+            "OperatingSystems"
+        ],
+        "pull-count": 8328299,
+        "official": true,
+        "options": "",
+        "args": "",
+        "dependencies": {},
+        "id": "110"
+    },
+    "neurodebian": {
+        "enable": "false",
+        "image-name": "neurodebian",
+        "image-url": "neurodebian",
+        "category": [
+            "ApplicationServices"
+        ],
+        "pull-count": 6762237,
+        "official": true,
+        "options": "",
+        "args": "",
+        "dependencies": {},
+        "id": "111"
+    },
+    "notary": {
+        "enable": "false",
+        "image-name": "notary",
+        "image-url": "notary",
+        "category": [
+            "FeaturedImages",
+            "ApplicationServices"
+        ],
+        "pull-count": 3933925,
+        "official": true,
+        "options": "",
+        "args": "",
+        "dependencies": {},
+        "id": "112"
+    },
+    "julia": {
+        "enable": "false",
+        "image-name": "julia",
+        "image-url": "julia",
+        "category": [
+            "ProgrammingLanguages"
+        ],
+        "pull-count": 4714151,
+        "official": true,
+        "options": "",
+        "args": "",
+        "dependencies": {},
+        "id": "113"
+    },
+    "irssi": {
+        "enable": "false",
+        "image-name": "irssi",
+        "image-url": "irssi",
+        "category": [
+            "ApplicationServices"
+        ],
+        "pull-count": 5684380,
+        "official": true,
+        "options": "",
+        "args": "",
+        "dependencies": {},
+        "id": "114"
+    },
+    "kaazing-gateway": {
+        "enable": "false",
+        "image-name": "kaazing-gateway",
+        "image-url": "kaazing-gateway",
+        "category": [
+            "ApplicationServices"
+        ],
+        "pull-count": 1101784,
+        "official": true,
+        "options": "",
+        "args": "",
+        "dependencies": {},
+        "id": "115"
+    },
+    "backdrop": {
+        "enable": "false",
+        "image-name": "backdrop",
+        "image-url": "backdrop",
+        "category": [
+            "ApplicationServices"
+        ],
+        "pull-count": 4554490,
+        "official": true,
+        "options": "",
+        "args": "",
+        "dependencies": {},
+        "id": "116"
+    },
+    "oracle-fmw-infrastructure": {
+        "enable": "false",
+        "image-name": "oracle-fmw-infrastructure",
+        "image-url": "store/oracle/fmw-infrastructure:12.2.1.3",
+        "category": [
+            "ApplicationFrameworks",
+            "ApplicationInfrastructure"
+        ],
+        "pull-count": 0,
+        "official": false,
+        "options": "",
+        "args": "",
+        "dependencies": {},
+        "id": "117"
+    },
+    "plone": {
+        "enable": "false",
+        "image-name": "plone",
+        "image-url": "plone",
+        "category": [
+            "ApplicationFrameworks"
+        ],
+        "pull-count": 2837633,
+        "official": true,
+        "options": "",
+        "args": "",
+        "dependencies": {},
+        "id": "118"
+    },
+    "php-zendserver": {
+        "enable": "false",
+        "image-name": "php-zendserver",
+        "image-url": "php-zendserver",
+        "category": [
+            ""
+        ],
+        "pull-count": 2744972,
+        "official": true,
+        "options": "",
+        "args": "",
+        "dependencies": {},
+        "id": "119"
+    },
+    "cirros": {
+        "enable": "false",
+        "image-name": "cirros",
+        "image-url": "cirros",
+        "category": [
+            "OperatingSystems"
+        ],
+        "pull-count": 2482275,
+        "official": true,
+        "options": "",
+        "args": "",
+        "dependencies": {},
+        "id": "120"
+    },
+    "convertigo": {
+        "enable": "false",
+        "image-name": "convertigo",
+        "image-url": "convertigo",
+        "category": [
+            "ApplicationFrameworks"
+        ],
+        "pull-count": 2116260,
+        "official": true,
+        "options": "",
+        "args": "",
+        "dependencies": {},
+        "id": "121"
+    },
+    "geonetwork": {
+        "enable": "false",
+        "image-name": "geonetwork",
+        "image-url": "geonetwork",
+        "category": [
+            "ApplicationServices"
+        ],
+        "pull-count": 2230296,
+        "official": true,
+        "options": "",
+        "args": "",
+        "dependencies": {},
+        "id": "122"
+    },
+    "haskell": {
+        "enable": "false",
+        "image-name": "haskell",
+        "image-url": "haskell",
+        "category": [
+            "ProgrammingLanguages"
+        ],
+        "pull-count": 2150580,
+        "official": true,
+        "options": "",
+        "args": "",
+        "dependencies": {},
+        "id": "123"
+    },
+    "fsharp": {
+        "enable": "false",
+        "image-name": "fsharp",
+        "image-url": "fsharp",
+        "category": [
+            "ProgrammingLanguages"
+        ],
+        "pull-count": 1877041,
+        "official": true,
+        "options": "",
+        "args": "",
+        "dependencies": {},
+        "id": "124"
+    },
+    "hylang": {
+        "enable": "false",
+        "image-name": "hylang",
+        "image-url": "hylang",
+        "category": [
+            "ProgrammingLanguages"
+        ],
+        "pull-count": 2129856,
+        "official": true,
+        "options": "",
+        "args": "",
+        "dependencies": {},
+        "id": "125"
+    },
+    "eggdrop": {
+        "enable": "false",
+        "image-name": "eggdrop",
+        "image-url": "eggdrop",
+        "category": [
+            "ApplicationServices"
+        ],
+        "pull-count": 1864255,
+        "official": true,
+        "options": "",
+        "args": "",
+        "dependencies": {},
+        "id": "126"
+    },
+    "rapidoid": {
+        "enable": "false",
+        "image-name": "rapidoid",
+        "image-url": "rapidoid",
+        "category": [
+            "ApplicationFrameworks"
+        ],
+        "pull-count": 1840289,
+        "official": true,
+        "options": "",
+        "args": "",
+        "dependencies": {},
+        "id": "127"
+    },
+    "spiped": {
+        "enable": "false",
+        "image-name": "spiped",
+        "image-url": "spiped",
+        "category": [
+            "ApplicationInfrastructure"
+        ],
+        "pull-count": 1762466,
+        "official": true,
+        "options": "",
+        "args": "",
+        "dependencies": {},
+        "id": "128"
+    },
+    "hello-seattle": {
+        "enable": "false",
+        "image-name": "hello-seattle",
+        "image-url": "hello-seattle",
+        "category": [
+            ""
+        ],
+        "pull-count": 1393529,
+        "official": true,
+        "options": "",
+        "args": "",
+        "dependencies": {},
+        "id": "129"
+    },
+    "bonita": {
+        "enable": "false",
+        "image-name": "bonita",
+        "image-url": "bonita",
+        "category": [
+            "ApplicationServices"
+        ],
+        "pull-count": 2549309,
+        "official": true,
+        "options": "",
+        "args": "",
+        "dependencies": {},
+        "id": "130"
+    },
+    "celery": {
+        "enable": "false",
+        "image-name": "celery",
+        "image-url": "celery",
+        "category": [
+            "MessagingServices"
+        ],
+        "pull-count": 2474813,
+        "official": true,
+        "options": "",
+        "args": "",
+        "dependencies": {},
+        "id": "131"
+    },
+    "glassfish": {
+        "enable": "false",
+        "image-name": "glassfish",
+        "image-url": "glassfish",
+        "category": [
+            ""
+        ],
+        "pull-count": 987256,
+        "official": true,
+        "options": "",
+        "args": "",
+        "dependencies": {},
+        "id": "132"
+    },
+    "lightstreamer": {
+        "enable": "false",
+        "image-name": "lightstreamer",
+        "image-url": "lightstreamer",
+        "category": [
+            "MessagingServices"
+        ],
+        "pull-count": 2035672,
+        "official": true,
+        "options": "",
+        "args": "",
+        "dependencies": {},
+        "id": "133"
+    },
+    "thrift": {
+        "enable": "false",
+        "image-name": "thrift",
+        "image-url": "thrift",
+        "category": [
+            "ApplicationFrameworks"
+        ],
+        "pull-count": 1325357,
+        "official": true,
+        "options": "",
+        "args": "",
+        "dependencies": {},
+        "id": "134"
+    },
+    "swipl": {
+        "enable": "false",
+        "image-name": "swipl",
+        "image-url": "swipl",
+        "category": [
+            ""
+        ],
+        "pull-count": 1730822,
+        "official": true,
+        "options": "",
+        "args": "",
+        "dependencies": {},
+        "id": "135"
+    },
+    "rakudo-star": {
+        "enable": "false",
+        "image-name": "rakudo-star",
+        "image-url": "rakudo-star",
+        "category": [
+            "ApplicationFrameworks"
+        ],
+        "pull-count": 1633330,
+        "official": true,
+        "options": "",
+        "args": "",
+        "dependencies": {},
+        "id": "136"
+    },
+    "hola-mundo": {
+        "enable": "false",
+        "image-name": "hola-mundo",
+        "image-url": "hola-mundo",
+        "category": [
+            ""
+        ],
+        "pull-count": 855680,
+        "official": true,
+        "options": "",
+        "args": "",
+        "dependencies": {},
+        "id": "137"
+    },
+    "filebeat": {
+        "enable": "false",
+        "image-name": "filebeat",
+        "image-url": "store/elastic/filebeat:7.1.0",
+        "category": [
+            "Analytics",
+            "Monitoring"
+        ],
+        "pull-count": 0,
+        "official": false,
+        "options": "",
+        "args": "",
+        "dependencies": {},
+        "id": "138"
+    },
+    "ubuntu-upstart": {
+        "enable": "false",
+        "image-name": "ubuntu-upstart",
+        "image-url": "ubuntu-upstart",
+        "category": [
+            ""
+        ],
+        "pull-count": 1362795,
+        "official": true,
+        "options": "",
+        "args": "",
+        "dependencies": {},
+        "id": "139"
+    },
+    "silverpeas": {
+        "enable": "false",
+        "image-name": "silverpeas",
+        "image-url": "silverpeas",
+        "category": [
+            "ApplicationServices"
+        ],
+        "pull-count": 525660,
+        "official": true,
+        "options": "",
+        "args": "",
+        "dependencies": {},
+        "id": "140"
+    },
+    "amazoncorretto": {
+        "enable": "false",
+        "image-name": "amazoncorretto",
+        "image-url": "amazoncorretto",
+        "category": [
+            ""
+        ],
+        "pull-count": 1045258,
+        "official": true,
+        "options": "",
+        "args": "",
+        "dependencies": {},
+        "id": "141"
+    },
+    "mageia": {
+        "enable": "false",
+        "image-name": "mageia",
+        "image-url": "mageia",
+        "category": [
+            "OperatingSystems"
+        ],
+        "pull-count": 929808,
+        "official": true,
+        "options": "",
+        "args": "",
+        "dependencies": {},
+        "id": "142"
+    },
+    "crux": {
+        "enable": "false",
+        "image-name": "crux",
+        "image-url": "crux",
+        "category": [
+            ""
+        ],
+        "pull-count": 524409,
+        "official": true,
+        "options": "",
+        "args": "",
+        "dependencies": {},
+        "id": "143"
+    },
+    "fluentd": {
+        "enable": "false",
+        "image-name": "fluentd",
+        "image-url": "fluentd",
+        "category": [
+            ""
+        ],
+        "pull-count": 425527,
+        "official": true,
+        "options": "",
+        "args": "",
+        "dependencies": {},
+        "id": "144"
+    },
+    "sourcemage": {
+        "enable": "false",
+        "image-name": "sourcemage",
+        "image-url": "sourcemage",
+        "category": [
+            "OperatingSystems"
+        ],
+        "pull-count": 417942,
+        "official": true,
+        "options": "",
+        "args": "",
+        "dependencies": {},
+        "id": "145"
+    },
+    "sematext-agent-monitoring-and-logging": {
+        "enable": "false",
+        "image-name": "sematext-agent-monitoring-and-logging",
+        "image-url": "store/sematext/agent:0.2.0",
+        "category": [
+            "FeaturedImages",
+            "DevOpsTools",
+            "DevOpsTools",
+            "Analytics",
+            "Analytics",
+            "Monitoring"
+        ],
+        "pull-count": 0,
+        "official": false,
+        "options": "",
+        "args": "",
+        "dependencies": {},
+        "id": "146"
+    },
+    "sl": {
+        "enable": "false",
+        "image-name": "sl",
+        "image-url": "sl",
+        "category": [
+            ""
+        ],
+        "pull-count": 282112,
+        "official": true,
+        "options": "",
+        "args": "",
+        "dependencies": {},
+        "id": "147"
+    },
+    "clearlinux": {
+        "enable": "false",
+        "image-name": "clearlinux",
+        "image-url": "clearlinux",
+        "category": [
+            "BaseImages",
+            "OperatingSystems"
+        ],
+        "pull-count": 360804,
+        "official": true,
+        "options": "",
+        "args": "",
+        "dependencies": {},
+        "id": "148"
+    },
+    "hipache": {
+        "enable": "false",
+        "image-name": "hipache",
+        "image-url": "hipache",
+        "category": [
+            ""
+        ],
+        "pull-count": 347809,
+        "official": true,
+        "options": "",
+        "args": "",
+        "dependencies": {},
+        "id": "149"
+    },
+    "express-gateway": {
+        "enable": "false",
+        "image-name": "express-gateway",
+        "image-url": "express-gateway",
+        "category": [
+            ""
+        ],
+        "pull-count": 209434,
+        "official": true,
+        "options": "",
+        "args": "",
+        "dependencies": {},
+        "id": "150"
+    },
+    "clefos": {
+        "enable": "false",
+        "image-name": "clefos",
+        "image-url": "clefos",
+        "category": [
+            "BaseImages",
+            "OperatingSystems"
+        ],
+        "pull-count": 277401,
+        "official": true,
+        "options": "",
+        "args": "",
+        "dependencies": {},
+        "id": "151"
+    },
+    "scratch": {
+        "enable": "false",
+        "image-name": "scratch",
+        "image-url": "scratch",
+        "category": [
+            "BaseImages"
+        ],
+        "pull-count": 265861,
+        "official": true,
+        "options": "",
+        "args": "",
+        "dependencies": {},
+        "id": "152"
+    },
+    "euleros": {
+        "enable": "false",
+        "image-name": "euleros",
+        "image-url": "euleros",
+        "category": [
+            ""
+        ],
+        "pull-count": 249944,
+        "official": true,
+        "options": "",
+        "args": "",
+        "dependencies": {},
+        "id": "153"
+    },
+    "postfixadmin": {
+        "enable": "false",
+        "image-name": "postfixadmin",
+        "image-url": "postfixadmin",
+        "category": [
+            ""
+        ],
+        "pull-count": 249722,
+        "official": true,
+        "options": "",
+        "args": "",
+        "dependencies": {},
+        "id": "154"
+    },
+    "metricbeat": {
+        "enable": "false",
+        "image-name": "metricbeat",
+        "image-url": "store/elastic/metricbeat:7.1.0",
+        "category": [
+            "Monitoring",
+            "Analytics"
+        ],
+        "pull-count": 0,
+        "official": false,
+        "options": "",
+        "args": "",
+        "dependencies": {},
+        "id": "155"
+    },
+    "alt": {
+        "enable": "false",
+        "image-name": "alt",
+        "image-url": "alt",
+        "category": [
+            ""
+        ],
+        "pull-count": 128248,
+        "official": true,
+        "options": "",
+        "args": "",
+        "dependencies": {},
+        "id": "156"
+    },
+    "appdynamics": {
+        "enable": "false",
+        "image-name": "appdynamics",
+        "image-url": "appdynamics",
+        "category": [
+            "Monitoring",
+            "ApplicationInfrastructure",
+            "DevOpsTools",
+            "Analytics",
+            "ApplicationFrameworks",
+            "ApplicationServices",
+            "BaseImages"
+        ],
+        "pull-count": 0,
+        "official": false,
+        "options": "",
+        "args": "",
+        "dependencies": {},
+        "id": "157"
+    },
+    "datadog-agent": {
+        "enable": "false",
+        "image-name": "datadog-agent",
+        "image-url": "store/datadog/agent:6.4.1",
+        "category": [
+            "Monitoring",
+            "DevOpsTools"
+        ],
+        "pull-count": 0,
+        "official": false,
+        "options": "",
+        "args": "",
+        "dependencies": {},
+        "id": "158"
+    },
+    "adoptopenjdk": {
+        "enable": "false",
+        "image-name": "adoptopenjdk",
+        "image-url": "adoptopenjdk",
+        "category": [
+            ""
+        ],
+        "pull-count": 45259,
+        "official": true,
+        "options": "",
+        "args": "",
+        "dependencies": {},
+        "id": "159"
+    },
+    "neuvector": {
+        "enable": "false",
+        "image-name": "neuvector",
+        "image-url": "neuvector",
+        "category": [
+            "Security",
+            "DevOpsTools",
+            "Monitoring"
+        ],
+        "pull-count": 0,
+        "official": false,
+        "options": "",
+        "args": "",
+        "dependencies": {},
+        "id": "160"
+    },
+    "aporeto-enforcer": {
+        "enable": "false",
+        "image-name": "aporeto-enforcer",
+        "image-url": "store/amirsharif/enforcerd:2.0",
+        "category": [
+            "Security",
+            "DevOpsTools",
+            "Analytics"
+        ],
+        "pull-count": 0,
+        "official": false,
+        "options": "",
+        "args": "",
+        "dependencies": {},
+        "id": "161"
+    },
+    "weave-cloud-agent": {
+        "enable": "false",
+        "image-name": "weave-cloud-agent",
+        "image-url": "weave-cloud-agent",
+        "category": [
+            "Monitoring",
+            "Analytics",
+            "DevOpsTools"
+        ],
+        "pull-count": 0,
+        "official": false,
+        "options": "",
+        "args": "",
+        "dependencies": {},
+        "id": "162"
+    },
+    "apm-server": {
+        "enable": "false",
+        "image-name": "apm-server",
+        "image-url": "store/elastic/apm-server:7.1.0",
+        "category": [
+            "Analytics",
+            "ApplicationInfrastructure",
+            "Monitoring"
+        ],
+        "pull-count": 0,
+        "official": false,
+        "options": "",
+        "args": "",
+        "dependencies": {},
+        "id": "163"
+    },
+    "skopos": {
+        "enable": "false",
+        "image-name": "skopos",
+        "image-url": "store/opsani/skopos:0.14.18",
+        "category": [
+            "ApplicationServices",
+            "DevOpsTools"
+        ],
+        "pull-count": 0,
+        "official": false,
+        "options": "",
+        "args": "",
+        "dependencies": {},
+        "id": "164"
+    },
+    "coscale-agent": {
+        "enable": "false",
+        "image-name": "coscale-agent",
+        "image-url": "coscale-agent",
+        "category": [
+            "DevOpsTools",
+            "Analytics",
+            "Monitoring"
+        ],
+        "pull-count": 0,
+        "official": false,
+        "options": "",
+        "args": "",
+        "dependencies": {},
+        "id": "165"
+    },
+    "traefikee": {
+        "enable": "false",
+        "image-name": "traefikee",
+        "image-url": "store/containous/traefikee:v1.0.2",
+        "category": [
+            "ApplicationInfrastructure",
+            "ApplicationServices",
+            "DevOpsTools",
+            "Security"
+        ],
+        "pull-count": 0,
+        "official": false,
+        "options": "",
+        "args": "",
+        "dependencies": {},
+        "id": "166"
+    },
+    "veritas-netbackup-client": {
+        "enable": "false",
+        "image-name": "veritas-netbackup-client",
+        "image-url": "store/veritasnetbackup/client:8.1.2",
+        "category": [
+            "Storage",
+            "Databases",
+            "ApplicationInfrastructure"
+        ],
+        "pull-count": 0,
+        "official": false,
+        "options": "",
+        "args": "",
+        "dependencies": {},
+        "id": "167"
+    },
+    "heartbeat": {
+        "enable": "false",
+        "image-name": "heartbeat",
+        "image-url": "store/elastic/heartbeat:7.1.0",
+        "category": [
+            "Monitoring"
+        ],
+        "pull-count": 0,
+        "official": false,
+        "options": "",
+        "args": "",
+        "dependencies": {},
+        "id": "168"
+    },
+    "intersystems-iris-data-platform": {
+        "enable": "false",
+        "image-name": "intersystems-iris-data-platform",
+        "image-url": "store/intersystems/iris:2019.1.0.511.0-community",
+        "category": [
+            "Databases",
+            "BaseImages",
+            "Analytics"
+        ],
+        "pull-count": 0,
+        "official": false,
+        "options": "",
+        "args": "",
+        "dependencies": {},
+        "id": "169"
+    },
+    "dynatrace": {
+        "enable": "false",
+        "image-name": "dynatrace",
+        "image-url": "store/dynatrace/oneagent:1.27.1000",
+        "category": [
+            "DevOpsTools",
+            "ApplicationInfrastructure",
+            "Monitoring"
+        ],
+        "pull-count": 0,
+        "official": false,
+        "options": "",
+        "args": "",
+        "dependencies": {},
+        "id": "170"
+    },
+    "portworx-px-developer": {
+        "enable": "false",
+        "image-name": "portworx-px-developer",
+        "image-url": "store/portworx/px-dev",
+        "category": [
+            "Storage",
+            "DevOpsTools",
+            "ApplicationInfrastructure",
+            "Databases"
+        ],
+        "pull-count": 0,
+        "official": false,
+        "options": "",
+        "args": "",
+        "dependencies": {},
+        "id": "171"
+    },
+    "auditbeat": {
+        "enable": "false",
+        "image-name": "auditbeat",
+        "image-url": "store/elastic/auditbeat:7.1.0",
+        "category": [
+            "Security",
+            "Analytics",
+            "Monitoring"
+        ],
+        "pull-count": 0,
+        "official": false,
+        "options": "",
+        "args": "",
+        "dependencies": {},
+        "id": "172"
+    },
+    "packetbeat": {
+        "enable": "false",
+        "image-name": "packetbeat",
+        "image-url": "store/elastic/packetbeat:7.1.0",
+        "category": [
+            "Analytics",
+            "Monitoring",
+            "Security"
+        ],
+        "pull-count": 0,
+        "official": false,
+        "options": "",
+        "args": "",
+        "dependencies": {},
+        "id": "173"
+    },
+    "cheers": {
+        "enable": "false",
+        "image-name": "cheers",
+        "image-url": "cheers",
+        "category": [
+            ""
+        ],
+        "pull-count": 1997,
+        "official": true,
+        "options": "",
+        "args": "",
+        "dependencies": {},
+        "id": "174"
+    },
+    "sitescope": {
+        "enable": "false",
+        "image-name": "sitescope",
+        "image-url": "store/hpsoftware/sitescope_store:sitescope.11.33",
+        "category": [
+            "Monitoring",
+            "DevOpsTools",
+            "ApplicationServices"
+        ],
+        "pull-count": 0,
+        "official": false,
+        "options": "",
+        "args": "",
+        "dependencies": {},
+        "id": "175"
+    },
+    "instana-dynamic-apm": {
+        "enable": "false",
+        "image-name": "instana-dynamic-apm",
+        "image-url": "store/instana/agent:1.0.0",
+        "category": [
+            "Analytics",
+            "DevOpsTools",
+            "Monitoring"
+        ],
+        "pull-count": 0,
+        "official": false,
+        "options": "",
+        "args": "",
+        "dependencies": {},
+        "id": "176"
+    },
+    "oracle-webtier-12c": {
+        "enable": "false",
+        "image-name": "oracle-webtier-12c",
+        "image-url": "store/oracle/webtier",
+        "category": [
+            "ApplicationInfrastructure"
+        ],
+        "pull-count": 0,
+        "official": false,
+        "options": "",
+        "args": "",
+        "dependencies": {},
+        "id": "177"
+    },
+    "logagent": {
+        "enable": "false",
+        "image-name": "logagent",
+        "image-url": "store/sematext/logagent:2.0.130",
+        "category": [
+            "Monitoring",
+            "DevOpsTools",
+            "Analytics"
+        ],
+        "pull-count": 0,
+        "official": false,
+        "options": "",
+        "args": "",
+        "dependencies": {},
+        "id": "178"
+    },
+    "bleemeo": {
+        "enable": "false",
+        "image-name": "bleemeo",
+        "image-url": "bleemeo",
+        "category": [
+            "Monitoring",
+            "DevOpsTools",
+            "ApplicationServices"
+        ],
+        "pull-count": 0,
+        "official": false,
+        "options": "",
+        "args": "",
+        "dependencies": {},
+        "id": "179"
+    },
+    "px-enterprise": {
+        "enable": "false",
+        "image-name": "px-enterprise",
+        "image-url": "store/portworx/oci-monitor:1.6.0",
+        "category": [
+            "Storage",
+            "ApplicationInfrastructure",
+            "DevOpsTools",
+            "Databases"
+        ],
+        "pull-count": 0,
+        "official": false,
+        "options": "",
+        "args": "",
+        "dependencies": {},
+        "id": "180"
+    },
+    "site24x7-linux-docker-agent": {
+        "enable": "false",
+        "image-name": "site24x7-linux-docker-agent",
+        "image-url": "store/site24x7/docker-agent:release",
+        "category": [
+            "Monitoring",
+            "DevOpsTools",
+            "OperatingSystems",
+            "ApplicationServices"
+        ],
+        "pull-count": 0,
+        "official": false,
+        "options": "",
+        "args": "",
+        "dependencies": {},
+        "id": "181"
+    },
+    "esystemstech": {
+        "enable": "false",
+        "image-name": "esystemstech",
+        "image-url": "esystemstech",
+        "category": [
+            "ApplicationFrameworks",
+            "ApplicationServices",
+            "MessagingServices",
+            "BaseImages"
+        ],
+        "pull-count": 0,
+        "official": false,
+        "options": "",
+        "args": "",
+        "dependencies": {},
+        "id": "182"
+    },
+    "sysdig-cloud-monitoring-agent-commercial": {
+        "enable": "false",
+        "image-name": "sysdig-cloud-monitoring-agent-commercial",
+        "image-url": "sysdig-cloud-monitoring-agent-commercial",
+        "category": [
+            "FeaturedImages",
+            "DevOpsTools",
+            "Analytics",
+            "Monitoring"
+        ],
+        "pull-count": 0,
+        "official": false,
+        "options": "",
+        "args": "",
+        "dependencies": {},
+        "id": "183"
+    },
+    "skaffolder-enterprise": {
+        "enable": "false",
+        "image-name": "skaffolder-enterprise",
+        "image-url": "store/skaffolder/skaffolder-enterprise:2.0",
+        "category": [
+            "ProgrammingLanguages",
+            "ApplicationFrameworks",
+            "ApplicationServices",
+            "DevOpsTools"
+        ],
+        "pull-count": 0,
+        "official": false,
+        "options": "",
+        "args": "",
+        "dependencies": {},
+        "id": "184"
+    },
+    "fluid-bpm": {
+        "enable": "false",
+        "image-name": "fluid-bpm",
+        "image-url": "fluid-bpm",
+        "category": [
+            "ApplicationServices",
+            "ApplicationFrameworks",
+            "Analytics"
+        ],
+        "pull-count": 0,
+        "official": false,
+        "options": "",
+        "args": "",
+        "dependencies": {},
+        "id": "185"
+    },
+    "foopipes": {
+        "enable": "false",
+        "image-name": "foopipes",
+        "image-url": "foopipes",
+        "category": [
+            "ApplicationServices",
+            "ApplicationInfrastructure"
+        ],
+        "pull-count": 0,
+        "official": false,
+        "options": "",
+        "args": "",
+        "dependencies": {},
+        "id": "186"
+    },
+    "ibm-cloud-automation-manager": {
+        "enable": "false",
+        "image-name": "ibm-cloud-automation-manager",
+        "image-url": "ibm-cloud-automation-manager",
+        "category": [
+            "ApplicationInfrastructure",
+            "DevOpsTools",
+            "ApplicationServices"
+        ],
+        "pull-count": 0,
+        "official": false,
+        "options": "",
+        "args": "",
+        "dependencies": {},
+        "id": "187"
+    },
+    "gitlab-community-edition": {
+        "enable": "false",
+        "image-name": "gitlab-community-edition",
+        "image-url": "store/gitlab/gitlab-ce:11.10.4-ce.0",
+        "category": [
+            "DevOpsTools"
+        ],
+        "pull-count": 0,
+        "official": false,
+        "options": "",
+        "args": "",
+        "dependencies": {},
+        "id": "188"
+    },
+    "rocketchat": {
+        "enable": "false",
+        "image-name": "rocketchat",
+        "image-url": "rocketchat",
+        "category": [
+            "ApplicationServices",
+            "MessagingServices",
+            "DevOpsTools"
+        ],
+        "pull-count": 0,
+        "official": false,
+        "options": "",
+        "args": "",
+        "dependencies": {},
+        "id": "189"
+    },
+    "ibm-db2-warehouse-ee": {
+        "enable": "false",
+        "image-name": "ibm-db2-warehouse-ee",
+        "image-url": "store/ibmcorp/db2wh_ee:v3.6.0-db2wh-linux",
+        "category": [
+            "Analytics",
+            "Databases"
+        ],
+        "pull-count": 0,
+        "official": false,
+        "options": "",
+        "args": "",
+        "dependencies": {},
+        "id": "190"
+    },
+    "ibm-db2-warehouse-dev": {
+        "enable": "false",
+        "image-name": "ibm-db2-warehouse-dev",
+        "image-url": "store/ibmcorp/db2wh_ce:v3.6.0-db2wh_devc-linux",
+        "category": [
+            "Analytics",
+            "Databases"
+        ],
+        "pull-count": 0,
+        "official": false,
+        "options": "",
+        "args": "",
+        "dependencies": {},
+        "id": "191"
+    },
+    "datastax": {
+        "enable": "false",
+        "image-name": "datastax",
+        "image-url": "datastax",
+        "category": [
+            "Databases"
+        ],
+        "pull-count": 0,
+        "official": false,
+        "options": "",
+        "args": "",
+        "dependencies": {},
+        "id": "192"
+    },
+    "softwareag-webmethods-microservicesruntime": {
+        "enable": "false",
+        "image-name": "softwareag-webmethods-microservicesruntime",
+        "image-url": "store/softwareag/webmethods-microservicesruntime:10.4.0.0",
+        "category": [
+            "ApplicationFrameworks",
+            "ApplicationInfrastructure",
+            "ApplicationServices",
+            "ProgrammingLanguages"
+        ],
+        "pull-count": 0,
+        "official": false,
+        "options": "",
+        "args": "",
+        "dependencies": {},
+        "id": "193"
+    },
+    "softwareag-commandcentral": {
+        "enable": "false",
+        "image-name": "softwareag-commandcentral",
+        "image-url": "store/softwareag/commandcentral-server:10.4",
+        "category": [
+            "DevOpsTools",
+            "Monitoring"
+        ],
+        "pull-count": 0,
+        "official": false,
+        "options": "",
+        "args": "",
+        "dependencies": {},
+        "id": "194"
+    },
+    "softwareag-apigateway": {
+        "enable": "false",
+        "image-name": "softwareag-apigateway",
+        "image-url": "store/softwareag/apigateway-trial:10.4",
+        "category": [
+            "ApplicationServices",
+            "Monitoring",
+            "Security"
+        ],
+        "pull-count": 0,
+        "official": false,
+        "options": "",
+        "args": "",
+        "dependencies": {},
+        "id": "195"
+    },
+    "anaconda": {
+        "enable": "false",
+        "image-name": "anaconda",
+        "image-url": "store/continuumio/anaconda:4.0.0",
+        "category": [
+            "ApplicationServices"
+        ],
+        "pull-count": 0,
+        "official": false,
+        "options": "",
+        "args": "",
+        "dependencies": {},
+        "id": "196"
+    },
+    "softwareag-apiportal": {
+        "enable": "false",
+        "image-name": "softwareag-apiportal",
+        "image-url": "softwareag-apiportal",
+        "category": [
+            "ApplicationServices"
+        ],
+        "pull-count": 0,
+        "official": false,
+        "options": "",
+        "args": "",
+        "dependencies": {},
+        "id": "197"
+    },
+    "ibm-mq-advanced": {
+        "enable": "false",
+        "image-name": "ibm-mq-advanced",
+        "image-url": "store/ibmcorp/mqadvanced-server-dev:9.1.0.0",
+        "category": [
+            "MessagingServices"
+        ],
+        "pull-count": 0,
+        "official": false,
+        "options": "",
+        "args": "",
+        "dependencies": {},
+        "id": "198"
+    },
+    "ibm-db2-warehouse-client-container": {
+        "enable": "false",
+        "image-name": "ibm-db2-warehouse-client-container",
+        "image-url": "store/ibmcorp/db2wh_ce:v3.6.0-db2wh_client-linux",
+        "category": [
+            "Analytics",
+            "Databases"
+        ],
+        "pull-count": 0,
+        "official": false,
+        "options": "",
+        "args": "",
+        "dependencies": {},
+        "id": "199"
+    },
+    "softwareag-terracottadb": {
+        "enable": "false",
+        "image-name": "softwareag-terracottadb",
+        "image-url": "store/softwareag/terracotta-server:10.3",
+        "category": [
+            "Databases"
+        ],
+        "pull-count": 0,
+        "official": false,
+        "options": "",
+        "args": "",
+        "dependencies": {},
+        "id": "200"
+    },
+    "r-base": {
+        "enable": "false",
+        "image-name": "r-base",
+        "image-url": "r-base",
+        "category": [
+            "ApplicationServices"
+        ],
+        "pull-count": 3057081,
+        "official": true,
+        "options": "",
+        "args": "",
+        "dependencies": {},
+        "id": "201"
+    },
+    "nuxeo": {
+        "enable": "false",
+        "image-name": "nuxeo",
+        "image-url": "nuxeo",
+        "category": [
+            "ApplicationServices"
+        ],
+        "pull-count": 2882674,
+        "official": true,
+        "options": "",
+        "args": "",
+        "dependencies": {},
+        "id": "202"
+    },
+    "gazebo": {
+        "enable": "false",
+        "image-name": "gazebo",
+        "image-url": "gazebo",
+        "category": [
+            "ApplicationServices"
+        ],
+        "pull-count": 2811214,
+        "official": true,
+        "options": "",
+        "args": "",
+        "dependencies": {},
+        "id": "203"
+    },
+    "storm": {
+        "enable": "false",
+        "image-name": "storm",
+        "image-url": "storm",
+        "category": [
+            "ApplicationFrameworks"
+        ],
+        "pull-count": 2701946,
+        "official": true,
+        "options": "",
+        "args": "",
+        "dependencies": {},
+        "id": "204"
+    },
+    "yourls": {
+        "enable": "false",
+        "image-name": "yourls",
+        "image-url": "yourls",
+        "category": [
+            ""
+        ],
+        "pull-count": 2652514,
+        "official": true,
+        "options": "",
+        "args": "",
+        "dependencies": {},
+        "id": "205"
+    },
+    "photon": {
+        "enable": "false",
+        "image-name": "photon",
+        "image-url": "photon",
+        "category": [
+            "OperatingSystems"
+        ],
+        "pull-count": 2484014,
+        "official": true,
+        "options": "",
+        "args": "",
+        "dependencies": {},
+        "id": "206"
+    },
+    "docker-dev": {
+        "enable": "false",
+        "image-name": "docker-dev",
+        "image-url": "docker-dev",
+        "category": [
+            ""
+        ],
+        "pull-count": 2391069,
+        "official": true,
+        "options": "",
+        "args": "",
+        "dependencies": {},
+        "id": "207"
+    },
+    "open-liberty": {
+        "enable": "false",
+        "image-name": "open-liberty",
+        "image-url": "open-liberty",
+        "category": [
+            ""
+        ],
+        "pull-count": 1988944,
+        "official": true,
+        "options": "",
+        "args": "",
+        "dependencies": {},
+        "id": "208"
+    },
+    "known": {
+        "enable": "false",
+        "image-name": "known",
+        "image-url": "known",
+        "category": [
+            "ApplicationServices"
+        ],
+        "pull-count": 530752,
+        "official": true,
+        "options": "",
+        "args": "",
+        "dependencies": {},
+        "id": "209"
+    }
+}

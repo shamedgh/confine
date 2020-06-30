@@ -101,6 +101,9 @@ if __name__ == '__main__':
     parser.add_option("", "--allbinaries", dest="allbinaries", action="store_true", default=False,
                       help="Enable/Disable extracting all binaries from the container")
 
+    parser.add_option("", "--skip", dest="skippreviousruns", action="store_true", default=False,
+                      help="Skip running analysis for containers ran previously")
+
     parser.add_option("-d", "--debug", dest="debug", action="store_true", default=False,
                       help="Debug enabled/disabled")
 
@@ -108,14 +111,18 @@ if __name__ == '__main__':
     if isValidOpts(options):
         rootLogger = setLogPath("containerprofiler.log")
 
-        rootLogger.info("////////////////////////////////////////////////////")
-        rootLogger.info("finegrain set!: %s", options.finegrain)
-        rootLogger.info("////////////////////////////////////////////////////")
+        if ( options.finegrain ):
+            rootLogger.info("////////////////////////////////////////////////////")
+            rootLogger.info("WARNING: You have enabled finegrain through the --finegrain option which is NOT fully operational yet. Use at your own risk.")
+            rootLogger.info("////////////////////////////////////////////////////")
 
         #Read list of libc and musl functions
         glibcFuncList = None
         muslFuncList = None
         if ( options.strictmode ):
+            rootLogger.info("////////////////////////////////////////////////////")
+            rootLogger.info("WARNING: You have enabled strictmode through the --strictmode option which is NOT fully operational yet. Use at your own risk.")
+            rootLogger.info("////////////////////////////////////////////////////")
             glibcFuncList = util.extractAllFunctions(options.libcfuncpath, rootLogger)
             if ( not glibcFuncList ):
                 rootLogger.error("Problem extracting list of functions from glibc")
@@ -133,16 +140,17 @@ if __name__ == '__main__':
 
         #Check for previous report file and skip profiling previous containers
         skipList = []
-        reportFilePath = options.reportfolder + "/profile.report"
-        try:
-            reportFile = open(reportFilePath + ".csv", 'r')
-            reportLine = reportFile.readline()
-            while reportLine:
-                skipList.append(reportLine.split(";")[1])
+        if ( options.skippreviousruns ):
+            reportFilePath = options.reportfolder + "/profile.report"
+            try:
+                reportFile = open(reportFilePath + ".csv", 'r')
                 reportLine = reportFile.readline()
-            reportFile.close()
-        except IOError as e:
-            rootLogger.info("Report file doesn't exist, no previous reports exist")
+                while reportLine:
+                    skipList.append(reportLine.split(";")[1])
+                    reportLine = reportFile.readline()
+                reportFile.close()
+            except IOError as e:
+                rootLogger.info("Report file doesn't exist, no previous reports exist")
 
 
         reportFile = open(reportFilePath + ".csv", 'a+')
@@ -156,11 +164,9 @@ if __name__ == '__main__':
             imageToPropertyStr = inputFile.read()
             imageToPropertyMap = json.loads(imageToPropertyStr)
         except Exception as e:
-            rootLogger.warning("Trying to load image list map json from: %s, but doesn't exist: %s", options.input, str(e))
-            rootLogger.debug("Finished loading json")
+            rootLogger.error("Trying to load image list map json from: %s, but doesn't exist: %s", options.input, str(e))
+            rootLogger.error("Exiting...")
             sys.exit(-1)
-
-        #inputLine = inputFile.readline()
 
         statsTotalImage = 0
         statsLaunchableImage = 0
@@ -171,44 +177,17 @@ if __name__ == '__main__':
 
         retry = False
 
-        #while ( inputLine ):
-        #    inputLine = inputLine.strip()
-        #    imageName = inputLine
-        #    imageOptions = ""
-        #    if ( ";" in inputLine ):
-        #        splittedInput = inputLine.split(";")
-        #        imageRank = splittedInput[0]
-        #        imageName = splittedInput[1]
-        #        imageNameFullPath = splittedInput[2]
-        #        if ( imageNameFullPath == "" ):
-        #            imageNameFullPath = imageName
-        #        #imageName = imageNameFullPath
-        #        #if ( "/" in imageName ):
-        #        #    imageName = imageName.replace("/", "-")
-        #        #if ( ":" in imageName ):
-        #        #    imageName = imageName[:imageName.find(":")]
-        #        imageCategory = splittedInput[3].strip()
-        #        imageCategory = imageCategory.replace("'", "")
-        #        imageCategory = imageCategory[1:-1]
-        #        if ( imageCategory != "" ):
-        #            imageCategoryList = imageCategory.split(",")
-        #        else:
-        #            imageCategoryList = ["Other"]
-        #        if ( len(splittedInput) > 6 ):
-        #            for splitPart in splittedInput[6:]:
-        #                imageOptions += splitPart + ";"
-        #            imageOptions = imageOptions[:-1]
-
         for imageKey, imageVals in imageToPropertyMap.items():
             #retry = True
             retryCount = 0
             depLinkSet = set()
             imageName = imageVals.get("image-name", imageKey)
             if ( imageVals.get("enable", "false") == "true" and imageName not in skipList ):
+                rootLogger.info("Starting analysis for image: %s", imageName)
                 killAllContainers = container.killToolContainers(rootLogger)
-                rootLogger.info("Killing all containers related to toolset returned: %s", killAllContainers)
+                #rootLogger.info("Killing all containers related to toolset returned: %s", killAllContainers)
                 deleteAllContainers = container.deleteStoppedContainers(rootLogger)
-                rootLogger.info("Deleting all containers related to toolset returned: %s", deleteAllContainers)
+                #rootLogger.info("Deleting all containers related to toolset returned: %s", deleteAllContainers)
 
                 imageDependencies = imageVals.get("dependencies", None)
                 for depKey, depVals in imageDependencies.items():

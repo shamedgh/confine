@@ -36,7 +36,7 @@ class Container():
             self.containerName = name.replace("/", "-")
         if ( ":" in self.containerName ):
             self.containerName = self.containerName[:self.containerName.index(":")]
-        self.containerName += "-container"
+        self.containerName += "-container-" + C.TOOLNAME
         self.options = options
         if ( remote ):
             self.remote = remote
