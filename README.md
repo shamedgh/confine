@@ -13,12 +13,34 @@ at your own risk.
 All the scripts have been written in coordinance with python version 3.7.
 ```
 sudo apt update
-sudo apt install python3.7
-sudo apt install docker.io
+sudo apt install -y python3.7
+sudo apt install -y docker.io
 sudo systemctl start docker
 sudo systemctl enable docker
-sudo apt install sysdig
+sudo apt install -y sysdig
 ```
+
+In case your system does not have the python3.7 in the default repositories, you
+may need to add them through third party PPAs separately.
+An example is provided below:
+```
+sudo add-apt-repository ppa:deadsnakes/ppa
+sudo apt update
+sudo apt install -y python3.7
+```
+***NOTE: Adding untrusted PPAs to your system repository is not advised. It can lead 
+to the installation of malicious applications. Use third party PPAs at your own risk.***
+
+In case enabling the docker service fails due to the following error:
+```
+Failed to start docker.service: Unit docker.service is masked
+```
+
+You can run the following command before starting and enabling the service.
+```
+sudo systemctl unmask docker.service
+```
+
 
 ## Installation
 You must run the following commands before running the main application.
@@ -40,7 +62,7 @@ images and creates respective SECCOMP profiles for each.
 -m: musl-libc callgraph
 -f: glibc shared object
 -n: musl-libc shared object
--i: input file containing list of images
+-i: input file containing JSON of images
 -o: path to store binaries and libraries extracted from container
 -p: path to Docker default seccomp profile
 -r: path to store results (seccomp profiles created)
@@ -54,13 +76,27 @@ and extremely more conservative filter.
 
 
 ```
-python3.7 createProfiles.py -l libc-callgraphs/glibc.callgraph -m libc-callgraphs/musllibc.callgraph -i images.list -o output/ -p default.seccomp.json -r results/ -g go.syscalls/ -c otherCfgs/ 
+python3.7 createProfiles.py -l libc-callgraphs/glibc.callgraph -m libc-callgraphs/musllibc.callgraph -i images.json -o output/ -p default.seccomp.json -r results/ -g go.syscalls/ -c otherCfgs/ 
 ```
 
--i: The input file must have a special format as you can see in the example below:
+-i: The input file is in the JSON format. The images.json provided in the 
+contains the images used for our paper. You can add or remove images as you 
+need and see fit. The format for each image is as shown below::
 ```
-16;mysql;mysql;['Databases'];903550824;Official;-e MYSQL_ROOT_PASSWORD=my-secret-pw
-Rank;ImageName;Image-Download-Name;Categories;NumberOfDownloads;Official/UnOfficial;Extra Options(optional)
+"nginx": {
+        "enable": "false",
+        "image-name": "nginx",
+        "image-url": "nginx",
+        "category": [
+            "ApplicationInfrastructure"
+        ],
+        "pull-count": 1960017377,
+        "official": true,
+        "options": "",
+        "args": "",
+        "dependencies": {},
+        "id": "15"
+    }
 ```
 -g: If the container uses languages such as Golang and we have extracted system 
 calls which are required through a different mechanism such as CFG extraction 
