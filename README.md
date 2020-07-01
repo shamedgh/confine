@@ -109,6 +109,40 @@ the folder specicified by this option. These CFGs will also be used in case
 the optional --finegrained option is enabled and use them to create stricter 
 syscall policies.
 
+## CVE Mapper
+In the evaluation section of our [paper](https://www3.cs.stonybrook.edu/~sghavamnia/papers/confine.raid20.pdf) 
+we have shown how hardening the container through applying our SECCOMP profiles 
+can mitigate previously disclosed Linux kernel CVEs. This can serve as a sign 
+as how effective our approach can be in limiting the attacker's capabilities.
+
+You can use the filterToCveProfile.py script to map the generated SECCOMP profile 
+to the mitigated CVEs.
+
+```
+python3.7 filterProfileToCve.py -c cve.files/cveToStartNodes.csv.validated -f profile.report.details.csv -o results -v cve.files/cveToFile.json.type.csv --manualcvefile cve.files/cve.to.syscall.manual --manualtypefile cve.files/cve.to.vulntype.manual -d
+```
+
+-c: Path to the file containing a map between each CVE and all the starting 
+nodes which can reach the vulnerable point in the kernel call graph
+
+-f: This file is generated after you run Confine for a set of containers. 
+It can be found in the results path in the root of the repository.
+
+-o: Name of the prefix of the file you would like to store the results in.
+
+-v: A CSV file containing the mapping of CVEs to their vulnerability type.
+
+--manualcvefile: Some CVEs have been gathered manually which can be specified 
+using this option.
+
+--manualtypefile: A file containing the mapping of CVEs identified manually to 
+their respective vulnerability type.
+
+-d: Enable/disable debug mode which prints much more log messages.
+
+***Note: The scripts required to generate the mapping between the kernel functions 
+and their CVEs are in a separate repository. You do not need to recreate those results.***
+
 ## Statistics Creator
 After running the createProfiles.py script we can generate different statistics 
 by running the createStats script.
@@ -122,7 +156,7 @@ by running the createStats script.
 python3.7 createStats.py -r results/profile.report.csv -e results/profile.report.details.csv -i images.list -o stats/ -c cveToSyscall.csv -b output/
 ```
 
-## Syscall Extractor
+## Syscall Extractor (Deprecated)
 The extractSysCalls python script is the main function which takes the name of 
 the required libc functions and the libc mapping file to create a seccomp 
 profile.
