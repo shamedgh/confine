@@ -1,0 +1,29 @@
+CVE-2017-6001;__x64_sys_perf_event_open
+CVE-2016-0728;__x64_sys_add_key, __x64_sys_request_key, __x64_sys_keyctl
+CVE-2016-4997;__x64_sys_setsockopt
+CVE-2016-8655;__x64_sys_setsockopt
+CVE-2016-9793;__x64_sys_setsockopt
+CVE-2017-6074;__x64_sys_setsockopt
+CVE-2017-7308;__x64_sys_setsockopt
+CVE-2017-5123;__x64_sys_waitid
+CVE-2017-14140;__x64_sys_move_pages
+CVE-2017-15274;__x64_sys_add_key, __x64_sys_keyctl
+CVE-2019-9857;__x64_sys_inotify_add_watch
+CVE-2015-7613;__x64_sys_shmget, __x64_sys_semget, __x64_sys_msgget
+CVE-2013-1858;__x64_sys_unshare
+CVE-2014-7970;__x64_sys_pivot_root
+CVE-2012-3511;__x64_sys_madvise
+CVE-2010-4072;__x64_sys_shmctl
+CVE-2017-12192;__x64_sys_keyctl
+CVE-2014-9903;__x64_sys_sched_getattr
+CVE-2015-7550;__x64_sys_keyctl
+CVE-2010-4083;__x64_sys_semctl
+CVE-2017-18208;__x64_sys_madvise
+CVE-2017-14954;__x64_sys_waitid
+CVE-2009-3624;__x64_sys_keyctl
+CVE-2016-9604;__x64_sys_keyctl
+CVE-2010-4250;__x64_sys_inotify_init1
+CVE-2015-2686;__x64_sys_sendto, __x64_sys_recvfrom
+CVE-2018-13053;__x64_sys_clock_nanosleep
+CVE-2012-3375;__x64_sys_epoll_ctl
+CVE-2016-7911;__x64_sys_ioprio_get
