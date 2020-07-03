@@ -25,8 +25,7 @@ their relevant installation commands in this section.
 
 ***
 
-## <img src="https://raw.githubusercontent.com/wiki/shamedgh/confine/images/userguide.png" alt="User guide icon" width=50 height=50 />
-User Guide
+## <img src="https://raw.githubusercontent.com/wiki/shamedgh/confine/images/userguide.png" alt="User guide icon" width=50 height=50 /> User Guide
 The user guide provides a general overview of how to run different parts of
 the toolchain and to generate the results provided in the paper.
 [Read more...](https://github.com/shamedgh/confine/wiki/User-Guide)
