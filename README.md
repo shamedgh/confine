@@ -53,9 +53,3 @@ author={Ghavamnia, Seyedhamed and Palit, Tapti and Benameur, Azzedine and
 Polychronakis, Michalis}
 }
 ```
-
-## Authors
-
-* **SeyedHamed Ghavamnia**
-* **Tapti Palit**
-
