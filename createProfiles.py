@@ -214,7 +214,7 @@ if __name__ == '__main__':
 
                 imageRank = imageVals.get("id", -1)
                 imageNameFullPath = imageVals.get("image-url", None)
-                if ( imageNameFullPath == "" ):
+                if ( not imageNameFullPath ):
                     imageNameFullPath = imageName
                 imageCategoryList = imageVals.get("category", ["Other"])
                 imageOptions = imageVals.get("options", "")
