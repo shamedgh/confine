@@ -9,8 +9,7 @@ analysis.
 
 ***
 
-## <img src="https://raw.githubusercontent.com/wiki/shamedgh/confine/images/about.png" alt="Confine overview figure" width=50
-height=50/> About Confine
+## <img src="https://raw.githubusercontent.com/wiki/shamedgh/confine/images/about.png" alt="Confine overview figure" width=50 height=50/> About Confine
 While you can find a more complete and thorough description of how Confine
 works by reading our
 [paper](https://www3.cs.stonybrook.edu/~sghavamnia/papers/confine.raid20.pdf),
@@ -19,8 +18,7 @@ we have summarized some of the most important points in this section.
 
 ***
 
-## <img src="https://raw.githubusercontent.com/wiki/shamedgh/confine/images/installation.png" alt="Installation icon" width=50
-height=50 /> Installation Guide
+## <img src="https://raw.githubusercontent.com/wiki/shamedgh/confine/images/installation.png" alt="Installation icon" width=50 height=50 /> Installation Guide
 You can find the list of applications required to run Confine, along with
 their relevant installation commands in this section.
 [[Read more...|Installation-Guide]]
@@ -35,8 +33,7 @@ the toolchain and to generate the results provided in the paper.
 
 ***
 
-## <img src="https://raw.githubusercontent.com/wiki/shamedgh/confine/images/step-by-step.png" alt="step by step icon" width=60
-height=50 style="float:left; margin-right: 1px;"/> Step-by-Step Guide
+## <img src="https://raw.githubusercontent.com/wiki/shamedgh/confine/images/step-by-step.png" alt="step by step icon" width=60 height=50 style="float:left; margin-right: 1px;"/> Step-by-Step Guide
 We also provide a step-by-step guide which walks you through running Confine
 for a single Docker image, explaining what to expect in each of the program
 execution.
