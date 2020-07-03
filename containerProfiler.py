@@ -326,10 +326,10 @@ class ContainerProfiler():
         #forkStatResult = myForkStat.runForkStatWithDuration("exec", ttr)
 
         while ( sysdigRunCount < sysdigTotalRunCount ):
-            self.logger.info("Running sysdig multiple times. Run count: %d from total: %d", sysdigRunCount, sysdigTotalRunCount)
             self.logger.info("Trying to kill and delete container which might not be running in loop... Not a problem if returns error")
             str(myContainer.kill())
             str(myContainer.delete())
+            self.logger.info("Running sysdig multiple times. Run count: %d from total: %d", sysdigRunCount, sysdigTotalRunCount)
             sysdigRunCount += 1
             #sysdigResult = mySysdig.runSysdigWithDurationWithContainer("execve", logSleepTime, myContainer.getContainerName())
             sysdigResult = mySysdig.runSysdigWithDuration("execve", logSleepTime)

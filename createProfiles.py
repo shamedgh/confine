@@ -20,9 +20,12 @@ def isValidOpts(opts):
     :param opts:
     :return:
     """
-    if not options.input or not options.outputfolder or not options.reportfolder or not options.defaultprofile or not options.libccfginput or not options.muslcfginput or not options.gofolderpath or not options.cfgfolderpath:
-        parser.error("All options -c, -i, -p, -r, -l, -m, -g, -c and -o should be provided.")
+    if not options.input or not options.outputfolder or not options.reportfolder or not options.defaultprofile or not options.libccfginput or not options.muslcfginput or not options.gofolderpath:
+        parser.error("All options -i, -p, -r, -l, -m, -g, -c and -o should be provided.")
         return False
+
+    if options.finegrain and not options.cfgfolderpath:
+        parser.error("Option --othercfgfolder must be specified when options --finegrain is set")
 
     if (options.strictmode and ( not options.libcfuncpath or not options.muslfuncpath ) ):
         parser.error("Options -f (libc path) and -n (musl path) should be provided in strict mode.")
@@ -56,9 +59,9 @@ def setLogPath(logPath):
 
 if __name__ == '__main__':
     """
-    Main function for finding physical memory usage of process
+    Confine: Main script to generate restrictive Seccomp profiles for Docker images.
     """
-    usage = "Usage: %prog -c <CFG input from libc> -i <Input containing list of docker images to run and debloat> -o <A temporary output folder to store intermediate results in>"
+    usage = "Usage: %prog -l <glibc call graph path> -m <musl-libc call graph path> -i <input containing list of docker images to run and harden> -o <a temporary output folder to store binaries and libraries identified and extracted from each container> -p <path to the default seccomp profile> -r <path to store results and generated seccomp profiles> -g <in case any applications (such as ones developed in golang> make direct system calls which must be extracted through source code analysis, put list of required system calls in a file named by the docker image [docker-image].syscalls>"
 
     parser = optparse.OptionParser(usage=usage, version="1")
 
@@ -92,7 +95,7 @@ if __name__ == '__main__':
     parser.add_option("-g", "--gofolder", dest="gofolderpath", default=None, nargs=1,
                       help="Golang system call folder path")
 
-    parser.add_option("-c", "--cfgfolder", dest="cfgfolderpath", default=None, nargs=1,
+    parser.add_option("", "--othercfgfolder", dest="cfgfolderpath", default=None, nargs=1,
                       help="Path to other cfg files")
 
     parser.add_option("", "--finegrain", dest="finegrain", action="store_true", default=False,
