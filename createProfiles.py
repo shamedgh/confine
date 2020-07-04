@@ -141,6 +141,34 @@ if __name__ == '__main__':
         defaultProfileJson = json.loads(defaultProfileStr)
         defaultSyscallSet = set(defaultProfileJson["default"])
 
+        #Initialize results and output folder
+        accessRights = 0o755
+        reportFolder = options.reportfolder
+        while ( reportFolder.endswith("/") ):
+            reportFolder = reportFolder[:-1]
+        if ( not os.path.exists(reportFolder) ):
+            try:
+                os.mkdir(reportFolder, accessRights)
+            except OSError:
+                rootLogger.error("There was a problem creating the results (-r) folder")
+                sys.exit(-1)
+        elif ( os.path.isfile(reportFolder) ):
+            rootLogger.error("The folder specified for the results (-r) already exists and is a file. Please change the path or delete the file and re-run the script.")
+            sys.exit(-1)
+
+        outputFolder = options.outputfolder
+        while ( outputFolder.endswith("/") ):
+            outputFolder = outputFolder[:-1]
+        if ( not os.path.exists(outputFolder) ):
+            try:
+                os.mkdir(outputFolder, accessRights)
+            except OSError:
+                rootLogger.error("There was a problem creating the output (-o) folder")
+                sys.exit(-1)
+        elif ( os.path.isfile(outputFolder) ):
+            rootLogger.error("The folder specified for the output (-o) already exists and is a file. Please change the path or delete the file and re-run the script.")
+            sys.exit(-1)
+
         #Check for previous report file and skip profiling previous containers
         skipList = []
         reportFilePath = options.reportfolder + "/profile.report"
