@@ -311,7 +311,7 @@ class ContainerProfiler():
         sysdigTotalRunCount = 3
         if ( binaryReady ):
             sysdigTotalRunCount = 1
-        sysdigRunCount = 0
+        sysdigRunCount = 1
 
         if ( self.name == "softwareag-apigateway" ):
             logSleepTime = 60
@@ -325,7 +325,7 @@ class ContainerProfiler():
         mySysdig = sysdig.Sysdig(self.logger)
         #forkStatResult = myForkStat.runForkStatWithDuration("exec", ttr)
 
-        while ( sysdigRunCount < sysdigTotalRunCount ):
+        while ( sysdigRunCount <= sysdigTotalRunCount ):
             self.logger.info("Trying to kill and delete container which might not be running in loop... Not a problem if returns error")
             str(myContainer.kill())
             str(myContainer.delete())
