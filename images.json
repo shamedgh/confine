@@ -85,7 +85,7 @@
         "id": "16"
     },
     "httpd": {
-        "enable": "true",
+        "enable": "false",
         "image-name": "httpd",
         "image-url": "httpd"
     },
@@ -104,7 +104,7 @@
         "id": "26"
     },
     "wordpress": {
-        "enable": "true",
+        "enable": "false",
         "image-name": "wordpress",
         "image-url": "wordpress",
         "category": [
