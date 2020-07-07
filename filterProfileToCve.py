@@ -198,7 +198,7 @@ if __name__ == '__main__':
                 cveId = splittedLine[0]
                 syscallListStr = splittedLine[1]
                 if ( not cveDict.get(cveId, None) ):
-                    rootLogger.info("adding cveId: %s manually", cveId)
+                    rootLogger.debug("adding cveId: %s manually", cveId)
                     syscallListStr = "{'" + syscallListStr + "'}"
                     syscallListStr = syscallListStr.replace(", ", "', '")
                     syscallList = ast.literal_eval(syscallListStr)
@@ -265,7 +265,7 @@ if __name__ == '__main__':
             syscallToCveDict[str(syscallSet)] = cveSet
             cveDictToSyscallOnly[cveId] = syscallSet
 
-        containerDetailedOutput = open(options.output + ".container.detailed.csv", 'w')
+        #containerDetailedOutput = open(options.output + ".container.detailed.csv", 'w')
         containerOutput = open(options.output + ".container.csv", 'w')
 
         for cveId, containerSet in cveToContainer.items():
@@ -276,38 +276,38 @@ if __name__ == '__main__':
                 if ( len(containerSet) > 3 ):
                     resultContainerSet = util.cleanStrList(str(getNContainers(containerSet, 3)))
 
-                containerDetailedOutput.write(cveId + ";" + util.cleanStrList(cveDictToSyscallOnly[cveId]).replace("__x64_sys_", "") + ";" + util.cleanStrList(vulnType) + ";" + str(cveInDefault) + ";" + str(len(containerSet)) + ";" + str(containerSet) + "\n")
-                containerDetailedOutput.flush()
+                #containerDetailedOutput.write(cveId + ";" + util.cleanStrList(cveDictToSyscallOnly[cveId]).replace("__x64_sys_", "") + ";" + util.cleanStrList(vulnType) + ";" + str(cveInDefault) + ";" + str(len(containerSet)) + ";" + str(containerSet) + "\n")
+                #containerDetailedOutput.flush()
                 containerOutput.write(cveId + ";" + util.cleanStrList(cveDictToSyscallOnly[cveId]).replace("__x64_sys_", "") + ";" + util.cleanStrList(vulnType) + ";" + str(cveInDefault) + ";" + str(len(containerSet)) + ";" + resultContainerSet + "\n")
                 containerOutput.flush()
         containerOutput.close()
 
-        containerBySyscallDetailedOutput = open(options.output + ".container.by.syscall.detailed.csv", 'w')
-        containerBySyscallOutput = open(options.output + ".container.by.syscall.csv", 'w')
-        for syscallSet, cveSet in syscallToCveDict.items():
-            cveId = next(iter(cveSet))
-            containerSet = cveToContainer.get(cveId, set())
-            cveInDefault = True if cveId in cveDefaultSet else False
-            vulnTypes = set()
-            resultCveSet = getNCves(cveSet, 2)
-            for cveId in cveSet:
-                if ( cveToVulnTypeDict.get(cveId, None) ):
-                    vulnTypes.update(cveToVulnTypeDict.get(cveId, "None"))
-            if ( len(containerSet) > 0 ):
-                resultContainerSet = util.cleanStrList(str(containerSet))
-                if ( len(containerSet) > 3 ):
-                    resultContainerSet = util.cleanStrList(str(getNContainers(containerSet, 3)))
-                containerBySyscallDetailedOutput.write(util.cleanStrList(syscallSet).replace("__x64_sys_", "") + ";" + str(cveSet) + ";" + str(vulnTypes) + ";" + str(cveInDefault) + ";" + str(len(containerSet)) + ";" + resultContainerSet + "\n")
-                containerBySyscallDetailedOutput.flush()
-                containerBySyscallOutput.write(util.cleanStrList(syscallSet).replace("__x64_sys_", "") + ";" + str(len(cveSet)) + ";" + util.cleanStrList(resultCveSet) + ";" + str(util.cleanStrList(vulnTypes)) + ";" + str(cveInDefault) + ";" + str(len(containerSet)) + ";" + resultContainerSet + "\n")
-                containerBySyscallOutput.flush()
-        containerBySyscallDetailedOutput.close()
-        containerBySyscallOutput.close()
-            
+        #containerBySyscallDetailedOutput = open(options.output + ".container.by.syscall.detailed.csv", 'w')
+        #containerBySyscallOutput = open(options.output + ".container.by.syscall.csv", 'w')
+        #for syscallSet, cveSet in syscallToCveDict.items():
+        #    cveId = next(iter(cveSet))
+        #    containerSet = cveToContainer.get(cveId, set())
+        #    cveInDefault = True if cveId in cveDefaultSet else False
+        #    vulnTypes = set()
+        #    resultCveSet = getNCves(cveSet, 2)
+        #    for cveId in cveSet:
+        #        if ( cveToVulnTypeDict.get(cveId, None) ):
+        #            vulnTypes.update(cveToVulnTypeDict.get(cveId, "None"))
+        #    if ( len(containerSet) > 0 ):
+        #        resultContainerSet = util.cleanStrList(str(containerSet))
+        #        if ( len(containerSet) > 3 ):
+        #            resultContainerSet = util.cleanStrList(str(getNContainers(containerSet, 3)))
+        #        containerBySyscallDetailedOutput.write(util.cleanStrList(syscallSet).replace("__x64_sys_", "") + ";" + str(cveSet) + ";" + str(vulnTypes) + ";" + str(cveInDefault) + ";" + str(len(containerSet)) + ";" + resultContainerSet + "\n")
+        #        containerBySyscallDetailedOutput.flush()
+        #        containerBySyscallOutput.write(util.cleanStrList(syscallSet).replace("__x64_sys_", "") + ";" + str(len(cveSet)) + ";" + util.cleanStrList(resultCveSet) + ";" + str(util.cleanStrList(vulnTypes)) + ";" + str(cveInDefault) + ";" + str(len(containerSet)) + ";" + resultContainerSet + "\n")
+        #        containerBySyscallOutput.flush()
+        #containerBySyscallDetailedOutput.close()
+        #containerBySyscallOutput.close()
+        #    
 
-        defaultOutput = open(options.output + ".default.csv", 'w')
+        #defaultOutput = open(options.output + ".default.csv", 'w')
 
-        for cveId in cveDefaultSet:
-            defaultOutput.write(cveId + ";" + str(cveDictToSyscallOnly[cveId]) + ";all;all\n")
-            defaultOutput.flush()
-        defaultOutput.close()
+        #for cveId in cveDefaultSet:
+        #    defaultOutput.write(cveId + ";" + str(cveDictToSyscallOnly[cveId]) + ";all;all\n")
+        #    defaultOutput.flush()
+        #defaultOutput.close()
