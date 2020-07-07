@@ -108,7 +108,7 @@ class ContainerProfiler():
                 #            break
         finalSet = set(fileList)# - set(removeList)
         for filePath in finalSet:
-            self.logger.info("extraction direct syscall for %s", filePath)
+            self.logger.debug("extraction direct syscall for %s", filePath)
             #temp = util.extractDirectSyscalls(filePath, self.logger)
             #self.directSyscallCount += temp
             #self.logger.debug("directSyscall for %s is %d", filePath, temp)
@@ -117,7 +117,7 @@ class ContainerProfiler():
             #self.logger.debug("libcSyscall for %s is %d", filePath, temp)
             binAnalysis = binaryAnalysis.BinaryAnalysis(filePath, self.logger)
             syscallSet, successCount, failCount = binAnalysis.extractDirectSyscalls()
-            self.logger.info("Successfull direct syscalls: %d list: %s, Failed direct syscalls: %d", successCount, str(syscallSet), failCount)
+            self.logger.debug("Successfull direct syscalls: %d list: %s, Failed direct syscalls: %d", successCount, str(syscallSet), failCount)
             #self.logger.warning("Failed syscalls: %d", failCount)
             finalSyscallSet.update(syscallSet)
         return finalSyscallSet
@@ -128,7 +128,7 @@ class ContainerProfiler():
         for fileName in os.listdir(folder):
             functionList = util.extractImportedFunctions(folder + "/" + fileName, self.logger)
             if ( not functionList ):
-                self.logger.warning("Function extraction for file: %s failed (probably not an ELF file).", fileName)
+                self.logger.debug("Function extraction for file: %s failed (probably not an ELF file).", fileName)
             else:
                 for function in functionList:
                     outputFile.write(function + "\n")
@@ -325,8 +325,9 @@ class ContainerProfiler():
         mySysdig = sysdig.Sysdig(self.logger)
         #forkStatResult = myForkStat.runForkStatWithDuration("exec", ttr)
 
+        self.logger.info("--->Starting MONITOR phase:")
         while ( sysdigRunCount <= sysdigTotalRunCount ):
-            self.logger.info("Trying to kill and delete container which might not be running in loop... Not a problem if returns error")
+            self.logger.debug("Trying to kill and delete container which might not be running in loop... Not a problem if returns error")
             str(myContainer.kill())
             str(myContainer.delete())
             self.logger.info("Running sysdig multiple times. Run count: %d from total: %d", sysdigRunCount, sysdigTotalRunCount)
@@ -341,7 +342,7 @@ class ContainerProfiler():
             nowTime = datetime.now()
             if ( sysdigResult and myContainer.runWithoutSeccomp() ):#myContainer.run() ):
                 self.status = True
-                self.logger.info("Ran container sleeping for %d seconds to generate logs and run sysdig", logSleepTime)
+                self.logger.info("Ran container sleeping for %d seconds to generate logs and extract execve system calls", logSleepTime)
                 time.sleep(logSleepTime)
                 originalLogs = myContainer.checkLogs()
                 self.logger.debug("originalLog: %s", originalLogs)
@@ -365,10 +366,10 @@ class ContainerProfiler():
                             self.logger.debug(str(myContainer.delete()))
                             return C.CONSTOP
                 self.runnable = True
-                self.logger.info("Ran container %s successfully, sleeping for %d seconds", self.name, ttr)
+                self.logger.debug("Ran container %s successfully, sleeping for %d seconds", self.name, ttr)
                 time.sleep(ttr)
-                self.logger.info("Finished sleeping, extracting psNames for %s", self.name)
-                self.logger.info("Starting to identify running processes and required binaries and libraries through dynamic analysis.")
+                self.logger.debug("Finished sleeping, extracting psNames for %s", self.name)
+                self.logger.debug("Starting to identify running processes and required binaries and libraries through dynamic analysis.")
 
                 if ( not binaryReady ):
                     psList = mySysdig.extractPsNames()
@@ -387,9 +388,9 @@ class ContainerProfiler():
                         return C.NOPROCESS
                     self.logger.info("len(psList) from sysdig: %d", len(psList))
                     psList = psList.union(myContainer.extractLibsFromProc())
-                    self.logger.info("len(psList) after extracting proc list: %d", len(psList))
-                    self.logger.info("Container: %s PS List: %s", self.name, str(psList))
-                    self.logger.info("Container: %s extracted psList with %d elements", self.name, len(psList))
+                    self.logger.debug("len(psList) after extracting proc list: %d", len(psList))
+                    self.logger.debug("Container: %s PS List: %s", self.name, str(psList))
+                    self.logger.debug("Container: %s extracted psList with %d elements", self.name, len(psList))
                     self.logger.debug("Entering not binaryReady")
                     if ( not util.deleteAllFilesInFolder(tempOutputFolder, self.logger) ):
                         self.logger.error("Failed to delete files in temporary output folder, exiting...")
@@ -397,10 +398,12 @@ class ContainerProfiler():
                         sys.exit(-1)
 
                     psListAll.update(psList)
+                    self.logger.info("Container: %s extracted psList with %d elements", self.name, len(psListAll))
 
         if ( self.status ):
             if ( not binaryReady ):
-                self.logger.info("Starting to copy identified binaries and libraries. Will try to copy from different paths. Some might not exist. Errors are normal.")
+                self.logger.info("Container: %s PS List: %s", self.name, str(psListAll))
+                self.logger.info("Starting to copy identified binaries and libraries (This can take some time...)")#Will try to copy from different paths. Some might not exist. Errors are normal.")
                 if ( self.extractAllBinaries ):
                     psListAll.update(myContainer.extractAllBinaries())
 
@@ -414,15 +417,22 @@ class ContainerProfiler():
                 myFile.write("complete")
                 myFile.flush()
                 myFile.close()
-                self.logger.info("Finished copying identified binaries and libraries.")
+                self.logger.info("Finished copying identified binaries and libraries")
+                self.logger.info("<---Finished MONITOR phase\n")
 
             self.logger.debug(str(myContainer.kill()))
             self.logger.debug(str(myContainer.delete()))
 
             if ( binaryReady ):
+                self.logger.info("--->Starting Direct Syscall Extraction")
+                self.logger.info("Extracting direct system call invocations")
                 directSyscallSet = self.extractDirectSyscalls(tempOutputFolder)
+                self.logger.info("<---Finished Direct Syscall Extraction\n")
                 if ( not libFileReady ):
+                    self.logger.info("--->Starting ANALYZE phase")
+                    self.logger.info("Extracting imported functions and storing in libs.out")
                     self.extractAllImportedFunctions(tempOutputFolder, C.LIBFILENAME)
+                    self.logger.info("<---Finished ANALYZE phase\n")
                 #if ( not languageReady ):
                 self.extractBinaryType(tempOutputFolder)
                 isMusl = self.usesMusl(tempOutputFolder)
@@ -435,6 +445,7 @@ class ContainerProfiler():
                     return C.NOFUNCS
 
 
+                self.logger.info("--->Starting INTEGRATE phase, extracting the list required system calls")
                 functionStartsOriginal = set()
                 functionStartsFineGrain = set()
 
@@ -504,7 +515,7 @@ class ContainerProfiler():
 
                 funcFile.close()
 
-
+                self.logger.info("Traversing libc call graph to identify required system calls")
                 tmpSet = set()
                 allSyscallsOriginal = set()
                 for function in functionStartsOriginal:
@@ -551,12 +562,13 @@ class ContainerProfiler():
                         staticSyscallList.append(int(syscallLine.strip()))
                         syscallLine = staticSyscallListFile.readline()
                 except Exception as e:
-                    self.logger.warning("Can't extract syscalls from: %s", os.path.join(self.goFolderPath, self.name + ".syscalls (probably not a golang developed application)"))
+                    self.logger.debug("Can't extract syscalls from: %s", os.path.join(self.goFolderPath, self.name + ".syscalls (probably not a golang developed application)"))
                 self.logger.debug("After reading file: %s len(staticSyscallList): %d", os.path.join(self.goFolderPath, self.name + ".syscalls"), len(staticSyscallList))
 
                 syscallMapper = syscall.Syscall(self.logger)
                 syscallMap = syscallMapper.createMap()
 
+                self.logger.info("Generating final system call filter list")
                 blackListOriginal = []
                 i = 1
                 while i < 400:
@@ -576,13 +588,16 @@ class ContainerProfiler():
                                     blackListFineGrain.append(syscallMap[i])
                         i += 1
 
-                self.logger.info("Container Name: %s Num of black listed syscalls (original): %s", self.name, str(len(blackListOriginal)))
+                self.logger.info("************************************************************************************")
+                self.logger.info("Container Name: %s Num of filtered syscalls (original): %s", self.name, str(len(blackListOriginal)))
+                self.logger.info("************************************************************************************")
+                self.logger.info("<---Finished INTEGRATE phase\n")
 
                 self.blSyscallsOriginal = blackListOriginal
                 self.blSyscallOriginalCount = len(blackListOriginal)
 
                 if ( self.fineGrain ):
-                    self.logger.info("Container Name: %s Num of black listed syscalls (fine grained): %s", self.name, str(len(blackListFineGrain)))
+                    self.logger.info("Container Name: %s Num of filtered syscalls (fine grained): %s", self.name, str(len(blackListFineGrain)))
                     self.blSyscallsFineGrain = blackListFineGrain
                     self.blSyscallFineGrainCount = len(blackListFineGrain)
 
@@ -599,13 +614,16 @@ class ContainerProfiler():
                 outputFile.write(blackListProfile)
                 outputFile.flush()
                 outputFile.close()
+                self.logger.info("--->Validating generated Seccomp profile: %s", outputPath)
                 if ( myContainer.runWithSeccompProfile(outputPath) ):
                     time.sleep(logSleepTime)
                     debloatedLogs = myContainer.checkLogs()
                     if ( len(originalLogs) == len(debloatedLogs) ):
                         time.sleep(3)
                         if ( myContainer.checkStatus() ):
-                            self.logger.info("Container for image: %s was hardened successfully!", self.name)
+                            self.logger.info("************************************************************************************")
+                            self.logger.info("Finished validation. Container for image: %s was hardened SUCCESSFULLY!", self.name)
+                            self.logger.info("************************************************************************************")
                             self.debloatStatus = True
                             returnCode = 0
                         else:

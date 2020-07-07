@@ -213,13 +213,16 @@ if __name__ == '__main__':
             depLinkSet = set()
             imageName = imageVals.get("image-name", imageKey)
             if ( imageVals.get("enable", "false") == "true" and imageName not in skipList ):
-                rootLogger.info("--->Starting analysis for image: %s", imageName)
+                rootLogger.info("------------------------------------------------------------------------")
+                rootLogger.info("////////////////////////////////////////////////////////////////////////")
+                rootLogger.info("----->Starting analysis for image: %s<-----", imageName)
+                rootLogger.info("////////////////////////////////////////////////////////////////////////\n")
                 killAllContainers = container.killToolContainers(rootLogger)
                 #rootLogger.info("Killing all containers related to toolset returned: %s", killAllContainers)
                 deleteAllContainers = container.deleteStoppedContainers(rootLogger)
                 #rootLogger.info("Deleting all containers related to toolset returned: %s", deleteAllContainers)
 
-                imageDependencies = imageVals.get("dependencies", None)
+                imageDependencies = imageVals.get("dependencies", dict())
                 for depKey, depVals in imageDependencies.items():
                     depImageName = depVals.get("image-name", depKey)
                     depImageNameFullPath = depVals.get("image-url", depImageName)
@@ -286,7 +289,7 @@ if __name__ == '__main__':
                         unionSet = currentSet.copy()
                         unionSet.update(defaultSyscallSet)
                         remainingSetSize = len(unionSet.difference(currentSet))-1   #-1 for clone system call
-                        reportFile.write(imageRank + ";" + imageName + ";" + str(newProfile.getStatus()) + ";" + str(newProfile.getRunnableStatus()) + ";" + str(newProfile.getInstallStatus()) + ";" + str(len(originalSet)) + ";" + str(len(finegrainSet)) + ";" + str(len(unionSet)-len(defaultSyscallSet)) + ";" + str(len(unionSet)) + ";" + str(newProfile.getDebloatStatus()) + ";" + newProfile.getErrorMessage() + ";" + str(newProfile.getDirectSyscallCount()) + ";" + str(newProfile.getLibcSyscallCount()) + ";" + str(end-start) + ";" + str(newProfile.getLanguageSet()) + ";" + str(remainingSetSize) + "\n")
+                        reportFile.write(str(imageRank) + ";" + imageName + ";" + str(newProfile.getStatus()) + ";" + str(newProfile.getRunnableStatus()) + ";" + str(newProfile.getInstallStatus()) + ";" + str(len(originalSet)) + ";" + str(len(finegrainSet)) + ";" + str(len(unionSet)-len(defaultSyscallSet)) + ";" + str(len(unionSet)) + ";" + str(newProfile.getDebloatStatus()) + ";" + newProfile.getErrorMessage() + ";" + str(newProfile.getDirectSyscallCount()) + ";" + str(newProfile.getLibcSyscallCount()) + ";" + str(end-start) + ";" + str(newProfile.getLanguageSet()) + ";" + str(remainingSetSize) + "\n")
 
                         statsTotalImage += 1
                         if ( newProfile.getStatus() ):
@@ -299,7 +302,7 @@ if __name__ == '__main__':
                         reportFile.flush()
                         rootLogger.debug("Default syscalls not in extracted ones: %s", str(unionSet.difference(currentSet)))
                         if ( newProfile.getDebloatStatus() ):
-                            reportFileDetailed.write(imageRank + ";" + imageName + ";" + str(len(currentSet)) + ";" + str(len(unionSet)-len(defaultSyscallSet)) + ";" + str(len(unionSet)) + ";" + str(newProfile.getDirectSyscallCount()) + ";" + str(newProfile.getLibcSyscallCount()) + ";" + str(currentSet) + "\n")
+                            reportFileDetailed.write(str(imageRank) + ";" + imageName + ";" + str(len(currentSet)) + ";" + str(len(unionSet)-len(defaultSyscallSet)) + ";" + str(len(unionSet)) + ";" + str(newProfile.getDirectSyscallCount()) + ";" + str(newProfile.getLibcSyscallCount()) + ";" + str(currentSet) + "\n")
                             reportFileDetailed.flush()
                             for category in imageCategoryList:
                                 reportFileCategorized.write(category + "," + str(len(currentSet)) + "\n")
@@ -321,13 +324,16 @@ if __name__ == '__main__':
                                 count += 1
                                 langDict[successStatus] = count
                                 langCount[lang] = langDict
-                        rootLogger.info("<---Finished extracting system calls for %s, sleeping for 5 seconds", imageName)
+                        rootLogger.info("///////////////////////////////////////////////////////////////////////////////////////")
+                        rootLogger.info("----->Finished extracting system calls for %s, sleeping for 5 seconds<-----", imageName)
+                        rootLogger.info("///////////////////////////////////////////////////////////////////////////////////////")
+                        rootLogger.info("---------------------------------------------------------------------------------------\n")
                         time.sleep(5)
                     else:
                         rootLogger.error("Tried hardening container: %s returned: %d:%s", imageName, returncode, C.ERRTOMSG[returncode])
                     retryCount += 1
             else:
-                rootLogger.info("Skipping %s because is disabled in the JSON file", imageName)
+                rootLogger.debug("Skipping %s because is disabled in the JSON file", imageName)
             #if ( not retry ):
             #    inputLine = inputFile.readline()
         reportFile.close()

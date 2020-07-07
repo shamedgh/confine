@@ -96,7 +96,7 @@ class Container():
         return True
 
     def run(self):
-        self.logger.info("Running container %s", self.imageName)
+        self.logger.debug("Running container %s", self.imageName)
         #TODO extract log in both scenarios, mariadb logs is the same with unconfined percona the other
         #cmd = "sudo docker {} run -l {}  --security-opt seccomp=unconfined --name {} {} -td {}"
         cmd = "sudo docker {} run -l {} --name {} {} -td {} {}"
@@ -109,7 +109,7 @@ class Container():
         return True
 
     def runWithoutSeccomp(self):
-        self.logger.info("Running container %s", self.imageName)
+        self.logger.debug("Running container %s", self.imageName)
         #TODO extract log in both scenarios, mariadb logs is the same with unconfined percona the other
         cmd = "sudo docker {} run -l {} --security-opt seccomp=unconfined --name {} {} -td {} {}"
         cmd = cmd.format(self.remote, C.TOOLNAME, self.containerName, self.options, self.imageName, self.args)
@@ -121,7 +121,7 @@ class Container():
         return True
 
     def runWithRuntime(self, runtime):
-        self.logger.info("Running container %s with runtime: %s", self.imageName, runtime)
+        self.logger.debug("Running container %s with runtime: %s", self.imageName, runtime)
         #TODO extract log in both scenarios, mariadb logs is the same with unconfined percona the other
         cmd = "sudo docker {} run -l {} --runtime={} --name {} {} -td {} {}"
         cmd = cmd.format(self.remote, C.TOOLNAME, runtime, self.containerName, self.options, self.imageName, self.args)
@@ -133,7 +133,7 @@ class Container():
         return True
 
     def runInAttachedMode(self):
-        self.logger.info("Running container in attached mode %s", self.imageName)
+        self.logger.debug("Running container in attached mode %s", self.imageName)
         cmd = "sudo docker {} run -l {} --name {} {} -it {} {}"
         cmd = cmd.format(self.remote, C.TOOLNAME, self.containerName, self.options, self.imageName, self.args)
         proc = util.runCommandWithoutWait(cmd)
@@ -144,7 +144,7 @@ class Container():
         return True
 
     def runWithSeccompProfile(self, seccompPath):
-        self.logger.info("Running container %s", self.imageName)
+        self.logger.debug("Running container %s", self.imageName)
         cmd = "sudo docker {} run -l {} --name {} {} --security-opt seccomp={} -td {} {}"
         cmd = cmd.format(self.remote, C.TOOLNAME, self.containerName, self.options, seccompPath, self.imageName, self.args)
         returncode, out, err = util.runCommand(cmd)
@@ -157,16 +157,16 @@ class Container():
 
     def kill(self):
         if ( self.containerId ):
-            self.logger.info("Killing container %s", self.imageName)
+            self.logger.debug("Killing container %s", self.imageName)
             cmd = "sudo docker {} kill {}"
             cmd = cmd.format(self.remote, self.containerId)
             returncode, out, err = util.runCommand(cmd)
             if ( returncode != 0 ):
-                self.logger.error("Error killing docker: %s", err)
+                self.logger.debug("Error killing docker: %s", err)
                 return False
             return True
         else:
-            self.logger.error("Trying to kill non-existent container")
+            self.logger.debug("Trying to kill non-existent container")
             return False
 
     def find(self, folder, fileName):
@@ -197,16 +197,16 @@ class Container():
  
     def delete(self):
         if ( self.containerId ):
-            self.logger.info("Deleting container %s", self.imageName)
+            self.logger.debug("Deleting container %s", self.imageName)
             cmd = "sudo docker {} rm {}"
             cmd = cmd.format(self.remote, self.containerId)
             returncode, out, err = util.runCommand(cmd)
             if ( returncode != 0 ):
-                self.logger.error("Error deleting docker: %s", err)
+                self.logger.debug("Error deleting docker: %s", err)
                 return False
             return True
         else:
-            self.logger.error("Trying to delete non-existent container")
+            self.logger.debug("Trying to delete non-existent container")
             return False
 
     def checkStatus(self):
@@ -247,12 +247,12 @@ class Container():
         returncode, out, err = util.runCommand(cmd)
         tempFilePath = filePath
         if ( returncode != 0 ):
-            self.logger.error("Error copying from docker. Starting to check for file in environment paths. dockerId: %s, filePath: %s, outputFolderPath: %s Error message: %s", self.containerId, filePath, outFolderPath,  err)
+            self.logger.debug("Error copying from docker. Starting to check for file in environment paths. dockerId: %s, filePath: %s, outputFolderPath: %s Error message: %s", self.containerId, filePath, outFolderPath,  err)
             cmd = "sudo docker exec -it {} echo $PATH"
             cmd = cmd.format(self.containerId)
             returncode, envPaths, err = util.runCommand(cmd)
             if ( returncode != 0 ):
-                self.logger.warning("Error running echo PATH command on docker: %s, forfeiting file: %s", err, filePath)
+                self.logger.debug("Error running echo PATH command on docker: %s, forfeiting file: %s", err, filePath)
                 return False
             envPaths = envPaths.split(":")
             for envPath in envPaths:
@@ -427,19 +427,19 @@ class Container():
             finalCmd = cmd.format(self.remote, self.containerId, pid)
             returncode, out, err = util.runCommand(finalCmd)
             if ( returncode != 0 ):
-                self.logger.warning("Couldn't run cat /proc/%s with default user, trying with runuser command", pid)
+                self.logger.debug("Couldn't run cat /proc/%s with default user, trying with runuser command", pid)
                 user = pidToUserDict.get(pid, None)
                 if ( not user ):
-                    self.logger.error("Can't retrieve username for pid: %s", pid)
+                    self.logger.debug("Can't retrieve username for pid: %s", pid)
                     user = "root"
                 finalCmd = cmdWithUser.format(self.remote, self.containerId, user, pid)
                 returncode, out, err = util.runCommand(finalCmd)
                 if ( returncode != 0 ):
-                    self.logger.warning("Couldn't run cat /proc with runuser, trying with su")
+                    self.logger.debug("Couldn't run cat /proc with runuser, trying with su")
                     finalCmd = cmdWithUserWithSh.format(self.remote, self.containerId, pid, user)
                     returncode, out, err = util.runCommand(finalCmd)
                     if ( returncode != 0 ):
-                        self.logger.warning("Couldn't run cat /proc with su, trying on host!")
+                        self.logger.debug("Couldn't run cat /proc with su, trying on host!")
                         if ( pidToCmdDict.get(pid, None) ):
                             getPidOnHostFinalCmd = getPidOnHostCmd.format(pidToCmdDict[pid])
                             returncode, out, err = util.runCommand(getPidOnHostFinalCmd)
@@ -454,7 +454,7 @@ class Container():
                                         hostOut += tmpOut + "\n"
                                 out = hostOut
                         else:
-                            self.logger.error("Can't extract maps from host because pidToCmd is empty for %s", pid)
+                            self.logger.debug("Can't extract maps from host because pidToCmd is empty for %s", pid)
             outLines = out.splitlines()
             for line in outLines:
                 splittedLine = line.split()
@@ -496,37 +496,37 @@ class Container():
             self.logger.error("Trying to install package on non-running container! self.containerId: %s", self.containerId)
             return False
         if ( self.checkOs() == "debian" ):
-            self.logger.info("Running apt-get update on container")
+            self.logger.debug("Running apt-get update on container")
             cmd = "sudo docker {} exec -it {} apt-get update"
             cmd = cmd.format(self.remote, self.containerId)
             returncode, out, err = util.runCommand(cmd)
             if ( returncode != 0 ):
-                self.logger.error("Error running apt-get update on docker: %s", err)
+                self.logger.debug("Error running apt-get update on docker: %s", err)
                 return False
-            self.logger.info("Running apt install -y %s", packageName)
+            self.logger.debug("Running apt install -y %s", packageName)
             cmd = "sudo docker {} exec -it {} apt install -y {}"
             cmd = cmd.format(self.remote, self.containerId, packageName)
             returncode, out, err = util.runCommand(cmd)
             if ( returncode != 0 ):
-                self.logger.error("Error installing procps docker: %s", err)
+                self.logger.debug("Error installing procps docker: %s", err)
                 return False
-            self.logger.info("Finished running apt install -y %s", packageName)
+            self.logger.debug("Finished running apt install -y %s", packageName)
         else:
-            self.logger.info("Running yum -y update on container")
+            self.logger.debug("Running yum -y update on container")
             cmd = "sudo docker {} exec -it {} yum -y update"
             cmd = cmd.format(self.remote, self.containerId)
             returncode, out, err = util.runCommand(cmd)
             if ( returncode != 0 ):
-                self.logger.error("Error running yum -y update on docker: %s", err)
+                self.logger.debug("Error running yum -y update on docker: %s", err)
                 return False
-            self.logger.info("Running yum install -y %s", packageName)
+            self.logger.debug("Running yum install -y %s", packageName)
             cmd = "sudo docker {} exec -it {} yum install -y {}"
             cmd = cmd.format(self.remote, self.containerId, packageName)
             returncode, out, err = util.runCommand(cmd)
             if ( returncode != 0 ):
-                self.logger.error("Error installing procps docker: %s", err)
+                self.logger.debug("Error installing procps docker: %s", err)
                 return False
-            self.logger.info("Finished running yum install -y %s", packageName)
+            self.logger.debug("Finished running yum install -y %s", packageName)
         return True
 
     def extractAllBinaries(self):

@@ -85,18 +85,9 @@
         "id": "16"
     },
     "httpd": {
-        "enable": "false",
+        "enable": "true",
         "image-name": "httpd",
-        "image-url": "httpd",
-        "category": [
-            "ApplicationInfrastructure"
-        ],
-        "pull-count": 1154196606,
-        "official": true,
-        "options": "",
-        "args": "",
-        "dependencies": {},
-        "id": "21"
+        "image-url": "httpd"
     },
     "memcached": {
         "enable": "false",
@@ -113,7 +104,7 @@
         "id": "26"
     },
     "wordpress": {
-        "enable": "false",
+        "enable": "true",
         "image-name": "wordpress",
         "image-url": "wordpress",
         "category": [
