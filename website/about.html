@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <link rel="icon" href="/static/img/favicon.ico"/>
+
+  
+  <title>Confine Tutorial</title>
+
+<link rel="stylesheet" href="https://assets.ubuntu.com/v1/vanilla-framework-version-1.8.0.min.css" />
+<link rel="stylesheet" href="mystyle.css" />
+</head>
+<body>
+<div class="page-wrap">
+<!--<h1>Confine: Automated System Call Policy Generation for Container Attack Surface Reduction</h1>-->
+<h1>About Confine</h1>
+
+
+
+<div class="tab">
+<h2>Overview</h2>
+</div>
+
+<div class="tabcontent">
+<p>
+Confine can be used to generate restrictive Seccomp profiles for Docker
+images. Due to the nature of OS virtualization technologies, such as Docker,
+isolation among different containers is enforced at the software layer in the
+Linux kernel.
+By prohibiting access to unnecessary system calls, we target reducing the
+attack surface of the Linux kernel.
+With reliability and soundness in mind, Confine has been built mainly
+using static analysis.
+To gain a better understanding of how Confine works we provide an overview in
+this section. We suggest reading our
+<a href="https://www3.cs.stonybrook.edu/~sghavamnia/papers/confine.raid20.pdf">paper</a>
+for more details.</p>
+
+<img style="display: block; margin-left: auto; margin-right: auto;" src="images/overview.png"
+     alt="Confine overview figure" />
+</div>
+
+<br/>
+
+<div class="tab">
+<h2>Call Graph Extraction</h2>
+</div>
+
+<div class="tabcontent">
+<p>
+We have used an LLVM pass to create a call graph for musl-libc
+which maps all the exported functions to system calls. We also used the
+gcc RTL and the egypt tool to create a call graph for glibc.
+We mainly rely on these two call graphs along with the functions imported from
+these two libraries in other applications and libraries to generate the list
+of required system calls.
+</p>
+</div>
+
+<br/>
+<div class="tab">
+<h2>Paper for reference</h2>
+</div>
+
+<div class="tabcontent">
+<p>
+Please consider citing our paper if you found our tool set useful.
+</p>
+<pre>
+@inproceedings{confineraid20,
+year={2020},
+booktitle={Proceedings of the International Conference on Research in Attacks,
+Intrusions, and Defenses (RAID)},
+title={Confine: Automated System Call Policy Generation for Container Attack
+Surface Reduction},
+author={Ghavamnia, Seyedhamed and Palit, Tapti and Benameur, Azzedine and
+Polychronakis, Michalis}</pre>
+</div>
+
+
+</div>
+
+</body>
+</html> 
