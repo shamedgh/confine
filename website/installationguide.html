@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <link rel="icon" href="/static/img/favicon.ico"/>
+
+  
+  <title>Confine Tutorial</title>
+
+<link rel="stylesheet" href="https://assets.ubuntu.com/v1/vanilla-framework-version-1.8.0.min.css" />
+<link rel="stylesheet" href="mystyle.css" />
+</head>
+<body>
+<div class="page-wrap">
+<!--<h1>Confine: Automated System Call Policy Generation for Container Attack Surface Reduction</h1>-->
+<h1>Confine Installation Guide</h1>
+<p>
+Confine has been mainly developed in python. You need to install the packages
+described in the following section and initialize the repository before using
+the tool set.
+</p>
+
+<div class="tab"><h2>Prerequisites</h2></div>
+<div class="tabcontent">
+<p>This project has only been tested on Ubuntu 18.04 and it requires Linux kernel v4.15. 
+Due to usage of specific
+debian-based tools (such as dpkg and apt-file) use on other operating systems
+at your own risk.
+All the scripts have been written in coordinance with python version 3.7.
+</p>
+
+<pre>
+sudo apt update
+sudo apt install -y python3.7
+sudo apt install -y docker.io
+sudo systemctl start docker
+sudo systemctl enable docker
+sudo apt install -y sysdig
+</pre>
+
+<p>
+In case your system does not have the python3.7 in the default repositories, you
+may need to add them through third party PPAs separately.
+<br/>
+An example is provided below:
+</p>
+<pre>
+sudo add-apt-repository ppa:deadsnakes/ppa
+sudo apt update
+sudo apt install -y python3.7
+</pre>
+
+<p><span style="font-weight:bold; font-style:italic;">NOTE: Adding untrusted PPAs to your system repository is not advised. It can lead 
+to the installation of malicious applications. Use third party PPAs at your own risk.</span>
+<br/>
+
+In case enabling the docker service fails due to the following error:
+</p>
+<pre class="tryit_output">
+Failed to start docker.service: Unit docker.service is masked</pre>
+
+<p>
+You can run the following command before starting and enabling the service.
+</p>
+
+<pre>
+sudo systemctl unmask docker.service</pre>
+</div>
+
+</div>
+
+</script>
+</body>
+</body>
+</html> 
