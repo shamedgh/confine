@@ -20,11 +20,11 @@
 In this page we will walk through the steps required to generate a Seccomp
 profile for the Nginx Docker image.
 This guide has been prepared for use in the Software Security Summer
-School (SSSS20).
+School (SSSS'20).
 </p>
-<p class="thick">NOTE: It is supposed that the <a href="installationguide.html">Installation Guide</a> have been 
+<p class="thick">NOTE: It is assumed that the <a href="installationguide.html">Installation Guide</a> has been 
 followed. Reading
-the <a href="userguide.html">User Guide</a> prior to performing these steps is advised.</p>
+the <a href="userguide.html">User Guide</a> prior to performing these steps is also advised.</p>
 
 <p>After you connect to the provided AWS instance, open a terminal and run the
 following commands.
@@ -38,26 +38,23 @@ following commands.
 <div id="Exercise0" class="tabcontent">
 
     <h4>System Validation</h4>
-          <p>In this section we will run a command to validate you are running the correct
+          <p>We will  first check that we are running the correct
             kernel version required for completing the hands-on exercise.</p>
           <pre><span class="tryit_run">uname -a</span></pre>
           <p>This should print a line which starts as follows:</p>
           <pre class="tryit_output">Linux [hostname] 4.15.0-1054-aws #56-Ubuntu SMP</pre>
-        <p>It is critical that you see the correct Linux kernel version which should be
+        <p>It is critical that you see the correct Linux kernel version, which should be:
         <span style="font-weight:bold;">4.15.0-1054-aws</span>.
         <br/>
-        <span style="font-weight:bold;">Please use the raise your hand feature of your Cisco Webex to notify one of
-        the panelists, if the version does NOT match.</span>
+        <span style="font-weight:bold;">Please use the raise hand feature of Webex to notify one of
+        the panelists if the version does not match.</span>
         </p>
 
     <h4>Working with Docker Commands</h4>
-          <p>Our system generates Seccomp profiles which can be used in launching Docker
-        containers. In this section we will learn the basics of running and killing
+          <p>Confine generates Seccomp profiles which can be used in launching Docker
+        containers. In this section, we will show the basics of running and killing
         containers.
-        All Docker commands should be run with sudo. We will switch to the root user
-        for the rest of the tutorial using the following command:</p>
-
-          <pre><span class="tryit_run">sudo -s</span></pre>
+        All Docker commands should be run as root, so we will be using <tt>sudo</tt>.</p>
 
         <p>1. View list of containers:</p>
           <pre><span class="tryit_run">sudo docker container ls -a</span></pre>
@@ -66,13 +63,12 @@ following commands.
 CONTAINER ID        IMAGE         COMMAND                 CREATED        STATUS              PORTS               NAMES
 </pre>
 
-        <p>2. Launch a container with the default Seccomp policy.</p>
-        Command format:
-        <pre>sudo docker run --name [any-name] -td [docker-image-name]</pre>
-        Example:
+        <p>2. Let's launch a container with the default Seccomp policy. The format of the command format is:
+        <tt>sudo docker run --name [any-name] -td [docker-image-name]</tt>.
+        </p>
         <pre>sudo docker run --name test1 -td nginx</pre>
 
-        <p>3. Now let's view the list of containers again</p>
+        <p>3. Now let's view the list of containers again:</p>
         <pre>sudo docker container ls -a</pre>
         <p>The output will show a list of containers both running and killed. The format is as follows:</p>
 
@@ -117,13 +113,13 @@ CONTAINER ID    IMAGE     COMMAND                  CREATED            STATUS    
 </div>
 
 <div id="Exercise1" class="tabcontent">
-  <p>1. Change your current working directory to the root of the respository (/home/ubuntu/confine).</p>
+  <p>1. Change your current working directory to the root of the respository (<tt>/home/ubuntu/confine</tt>).</p>
     <pre>cd /home/ubuntu/confine</pre>
-    <p>2. Open a new file, name it as you like. We will use *myimages.json*. If you
+    <p>2. Open a new file, name it as you like. We will use <tt>myimages.json</tt> in the following examples. If you
 choose another name you need to change the rest of the commands accordingly.
 You can use your favorite text editor (vim, nano, emacs).</p>
     <pre>vim myimages.json</pre>
-    <p>3. Copy the following (the text in the box) into the file you opened.</p>
+    <p>3. Copy the following in the file you just opened and then save and close it.</p>
     <pre>
 {
     "nginx": {
@@ -142,10 +138,9 @@ You can use your favorite text editor (vim, nano, emacs).</p>
     <pre>sudo python3.7 confine.py -l libc-callgraphs/glibc.callgraph -m libc-callgraphs/musllibc.callgraph -i myimages.json -o output/ -p default.seccomp.json -r results/ -g go.syscalls/</pre>
 
     <p>The script will now start analyzing the Nginx Docker image. We will go through
-    each step the script is performing and what it will output to the console in
-    this section:
+    each step the script is performing and explain the output:
     <br/>
-    <span style="font-weight:bold;">a)</span> The scripts prints the following line, showing it has started its analysis.
+    <span style="font-weight:bold;">a)</span> The script prints the following line, showing it has started its analysis.
     </p>
 
     <pre class="tryit_output">
@@ -154,17 +149,16 @@ You can use your favorite text editor (vim, nano, emacs).</p>
 -----&gt;Starting analysis for image: nginx&lt;-----
 ////////////////////////////////////////////////////////////////////////</pre>
 
-    <p><span style="font-weight:bold;">b)</span> Then it will start the monitoring phase where it will launch 
-    <span style="font-weight:bold;">sysdig</span> the third party tool used to identify binaries executed in our 
-    initial 60 seconds and the container.<br/>
+    <p><span style="font-weight:bold;">b)</span> Then it will start the monitoring phase, which uses 
+    Sysdig to identify the binaries executed in the container. This phase lasts for 60 seconds.
     <span style="font-style:italic;">(For more details on why we do this please refer to the 
-    <a href="about.html">about</a>  page)</span><br/>
+    <a href="about.html">about</a>  page.)</span><br/>
     In case it is the first time we are hardening a Docker image and we haven't
     previously extracted the list of binaries and libraries it will first print:</p>
 
     <pre class="tryit_output">Cache doesn't exist, must extract binaries and libraries</pre>
 
-    <p>Then it will monitor the executed binaries by running sysdig. This will print the following line:</p>
+    <p>Then it will monitor the executed binaries by running sysdig, generating the following output:</p>
 
     <pre class="tryit_output">
 ---&gt;Starting MONITOR phase:
@@ -211,25 +205,26 @@ Finished copying identified binaries and libraries
 &lt;---Finished MONITOR phase</pre>
 
     <p>In case we have previously ran the dynamic analysis phase and extracted all the binaries and
-    libraries it will only run once. We need this to generate the logs created for
+    libraries, it will only run once. We need this to generate the logs created for
     the Docker image as our baseline to validate the correctness of the generated
     Seccomp profile.</p>
 
-    <p><span style="font-weight:bold;">c)</span> The execution of the script can differ in this step, depending on needing
-    to extract the binaries or not. In case the dynamic analysis has successfully
+    <p><span style="font-weight:bold;">c)</span> The execution of the script can differ in this step, depending on whether the binaries have been extracted or not.
+    In case the dynamic analysis has successfully
     extracted the set of binaries and libraries from the container, it does not
     need to copy the binaries and libraries and it will skip this step.
-    Otherwise it will first generate the list of binaries used in the container
-    and then start trying to copy them.</p>
+    Otherwise, it will first generate the list of binaries used in the container
+    and then start copying them.</p>
 
     <pre class="tryit_output">
 Starting to copy identified binaries and libraries (This can take some time...)
 Finished copying identified binaries and libraries
 &lt;---Finished MONITOR phase</pre>
 
-    <p><span style="font-weight:bold;">d)</span> First it starts extracting direct system calls through objdump. It will go
+    <p><span style="font-weight:bold;">d)</span> After the executables have been extracted, 
+    the script then starts extracting any direct system calls in them using objdump. It will go
     over all the files copied from the container to the temporary output folder
-    and identify direct system calls. It will output the start and finish.
+    and identify direct system calls.
     </p>
 
     <pre class="tryit_output">
@@ -237,14 +232,14 @@ Finished copying identified binaries and libraries
 Extracting direct system call invocations
 &lt;---Finished Direct Syscall Extraction</pre>
 
-    <p><span style="font-weight:bold;">e)</span> Then it extracts the list of functions imported by each binary and library.</p>
+    <p><span style="font-weight:bold;">e)</span> Then, it extracts the list of functions imported by each binary and library.</p>
     <pre class="tryit_output">
 ---&gt;Starting ANALYZE phase
 Extracting imported functions and storing in libs.out
 &lt;---Finished ANALYZE phase</pre>
 
     <p><span style="font-weight:bold;">f)</span> After it extracts all the direct system calls and combines the imported
-    libc functions with the set of system calls required by those libc functions
+    libc functions with the set of system calls required by those libc functions,
     it generates the set of prohibited system calls and prints the following line:</p>
 
     <pre class="tryit_output">
@@ -257,7 +252,7 @@ Container Name: nginx Num of filtered syscalls (original): 149
 &lt;---Finished INTEGRATE phase</pre>
 
     <p><span style="font-weight:bold;">h)</span> Now that the unnecessary system calls have been extracted, we generate the
-    respective Seccomp profile and validate if it works correctly through
+    respective Seccomp profile and validate if it works correctly by
     launching the container with our generated Seccomp profile.</p>
 
     <pre class="tryit_output">
@@ -266,15 +261,13 @@ Container Name: nginx Num of filtered syscalls (original): 149
 Finished validation. Container for image: nginx was hardened SUCCESSFULLY!
 ************************************************************************************</pre>
 
-    <p>In case you see the <span style="font-style:italic;">Container for image: $$$ was hardened successfully!</span> it
-    means that the Seccomp profile passed our validation steps.<br/>
+    <p>If you see the message <span style="font-style:italic;">Container for image: $$$ was hardened successfully!</span>, this means that the Seccomp profile passed our validation steps.<br/>
 
     <span style="font-weight:bold; font-style:italic;">IMPORTANT: If you did not see the message above 
     please ask for help from one of the panelists.</span></p>
 
 
-    <p><span style="font-weight:bold;">i)</span> Finally analyzing the Nginx Docker image has finished and Confine prints
-    the following line:</p>
+    <p><span style="font-weight:bold;">i)</span> Finally, the analysis of the Nginx Docker image has finished and Confine prints the following line:</p>
 
     <pre class="tryit_output">
 ///////////////////////////////////////////////////////////////////////////////////////
@@ -282,13 +275,11 @@ Finished validation. Container for image: nginx was hardened SUCCESSFULLY!
 ///////////////////////////////////////////////////////////////////////////////////////
 --------------------------------------------------------------------------------------</pre>
 
-    <p>5. Now that we have generated the Seccomp profile, we can look into the
-    results. Please check the output/nginx folder to see the binaries and libraries
-    identified for nginx.</p>
+    <p>5. Now that the analysis is complete, we can view the binaries and libraries that were identified as required for the proper execution of the container (stored in <tt>./output/nginx</tt>):</p>
 
     <pre>ls -lh ./output/nginx</pre>
 
-    <p>Also look into results/ and view nginx.seccomp.json which has stored the generated Seccomp profile.</p>
+    <p>And the generated Seccomp profile (stored in <tt>./results/nginx.seccomp.json</tt>):</p>
 
     <pre>cat ./results/nginx.seccomp.json</pre>
  
@@ -302,8 +293,8 @@ Finished validation. Container for image: nginx was hardened SUCCESSFULLY!
 </div>
 
 <div id="Exercise2" class="tabcontent">
-    <p>In this part of the hands-on exercise, we would like to work with the hardened
-container to see if any operation has become restricted. To do so:</p>
+    <p>In this part, we will be working with the hardened
+container to see if any operations have become restricted.</p>
 
     <p>1. Launch the container using the generated Seccomp profile:</p>
     <pre>sudo docker run --name container-hardened --security-opt seccomp=results/nginx.seccomp.json -td nginx</pre>
@@ -312,24 +303,29 @@ container to see if any operation has become restricted. To do so:</p>
     <pre>sudo docker inspect --format='{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' container-hardened</pre>
 
     <p>3. Fetch the default index page of Nginx from the host. Does it work?</p>
-    <pre>wget http://[IP-Address]</pre>
+    <pre>wget http://[IP-Address]
+cat index.html</pre>
 
     <p>4. Try connecting to the hardened container and run some commands.</p>
     <pre>sudo docker exec -it container-hardened /bin/bash</pre>
 
-    <p>As you can see, this does not work. That's because /bin/bash was not
-identified as necessary for running the container. Now let's test with the sh shell.</p>
+    <p>As you can see, the above command does not work. That's because <tt>/bin/bash</tt> was not
+    identified as necessary for running the container. Now let's try again with <tt>/bin/sh</tt>.</p>
     <pre>sudo docker exec -it container-hardened /bin/sh</pre>
 
     <p>5. Now that we are inside the container let's see which commands work and which don't.
     <br/>Should work:</p>
 
     <pre>
+whoami
+date
 ls
 cp</pre>
 
     <p>Should not work:</p>
-    <pre>apt-get update</pre>
+    <pre>
+apt-get update
+</pre>
 </div>
 
 <br/>
@@ -343,39 +339,42 @@ cp</pre>
 
     <p>In this part we would like to explore the security benefits of applying a Seccomp filter like the one generated for Nginx.</p>
 
-    <p>1. How many system calls can be filtered?</p>
-    <pre>cat results/nginx.seccomp.json | grep name | wc -l</pre>
+    <p>1. Which system calls can be filtered? How many are they?</p>
+    <pre>
+cat results/nginx.seccomp.json | grep name
+cat results/nginx.seccomp.json | grep name | wc -l
+</pre>
 
-    <p>2. Map the filtered system calls to kernel CVEs mitigated.<br/>
-    You can use the filterToCveProfile.py script to map the generated Seccomp
+    <p>2. Determine which kernel CVEs have been mitigated by disabling the above system calls.
+    You can use the <tt>filterToCveProfile.py</tt> script to map the generated Seccomp
     profile to the mitigated CVEs.
     </p>
 
     <pre>python3.7 filterProfileToCve.py -c cve.files/cveToStartNodes.csv.validated -f results/profile.report.details.csv -o results -v cve.files/cveToFile.json.type.csv --manualcvefile cve.files/cve.to.syscall.manual --manualtypefile cve.files/cve.to.vulntype.manual</pre>
 
     <p>
-    -c: Path to the file containing a map between each CVE and all the starting
+    <tt>-c</tt>: Path to the file containing a map between each CVE and all the starting
     nodes which can reach the vulnerable point in the kernel call graph
     <br/>
-    -f: This file is generated after you run Confine for a set of containers.
+    <tt>-f</tt>: This file is generated after you run Confine for a set of containers.
     It can be found in the results path in the root of the repository.
     <br/>
     
-    -o: Name of the prefix of the file you would like to store the results in.
+    <tt>-o</tt>: Name of the prefix of the file you would like to store the results in.
     <br/>
     
-    -v: A CSV file containing the mapping of CVEs to their vulnerability type.
+    <tt>-v</tt>: A CSV file containing the mapping of CVEs to their vulnerability type.
     <br/>
     
-    --manualcvefile: Some CVEs have been gathered manually which can be specified
+    <tt>--manualcvefile</tt>: Some CVEs have been gathered manually which can be specified
     using this option.
     <br/>
     
-    --manualtypefile: A file containing the mapping of CVEs identified manually to
+    <tt>--manualtypefile</tt>: A file containing the mapping of CVEs identified manually to
     their respective vulnerability type.
     <br/>
     
-    -d: Enable/disable debug mode which prints much more log messages.
+    <tt>-d</tt>: Enable/disable debug mode which prints much more log messages.
     <br/>
     
     <span style="font-weight:bold; font-style:italic;">Note: The scripts required to generate the mapping between the kernel
@@ -385,20 +384,21 @@ cp</pre>
     
     <br/>
     After you run the script above a single file will be created named
-    [results].container.csv. You can change the prefix through the -o option.
-    Each line corresponds to a CVE mitigated in at least one of the Docker images
-    provided in the profile.report.details.csv file.
-    
-    <br/>
+    <tt>results.container.csv</tt>. Each line corresponds to a CVE mitigated in at least one of the Docker images
+    provided in the <tt>profile.report.details.csv</tt> file.<br/>
     Line format:
     </p>
     <pre class="tryit_output">
-cveid;system call names(can be more than one);cve-type(can be more than one);was-it-mitigated-by-the-default-seccomp-policies;number-of-docker-images-affected;name of docker images</pre>
+cveid;system call names(can be more than one);cve-type(can be more than one);was-it-mitigated-by-the-default-seccomp-policies;number-of-docker-images-affected;names of docker images</pre>
 
     <pre class="tryit_output">CVE-2015-8539;add_key, keyctl;Denial Of Service, Gain privileges;True;1;nginx</pre>
 
-    <p>3. Open the generated file (results.container.csv) and see how many CVEs can
-    be mitigated. Also check if CVE-2017-5123 is mitigated by applying the Nginx Seccomp profile.</p>
+    <p>3. View all the mitigated CVEs reported in <tt>results.container.csv</tt>.
+    Is CVE-2017-5123 mitigated by applying the Nginx Seccomp profile? You can also view the subset of CVEs that were not mitigated by the default Docker Seccomp filter, but are now mitigated by Confine.</p>
+<pre>
+cat results.container.csv
+cat results.container.csv | grep False
+</pre>
 
 
 </div>
