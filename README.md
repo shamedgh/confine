@@ -14,21 +14,21 @@ While you can find a more complete and thorough description of how Confine
 works by reading our
 [paper](https://www3.cs.stonybrook.edu/~sghavamnia/papers/confine.raid20.pdf),
 we have summarized some of the most important points in this section. 
-[Read more...](https://github.com/shamedgh/confine/wiki/About)
+[Read more...](https://www3.cs.stonybrook.edu/~sghavamnia/confine/about.html)
 
 ***
 
 ## <img src="https://raw.githubusercontent.com/wiki/shamedgh/confine/images/installation.png" alt="Installation icon" width=50 height=50 /> Installation Guide
 You can find the list of applications required to run Confine, along with
 their relevant installation commands in this section.
-[Read more...](https://github.com/shamedgh/confine/wiki/Installation-Guide)
+[Read more...](https://www3.cs.stonybrook.edu/~sghavamnia/confine/installationguide.html)
 
 ***
 
 ## <img src="https://raw.githubusercontent.com/wiki/shamedgh/confine/images/userguide.png" alt="User guide icon" width=50 height=50 /> User Guide
 The user guide provides a general overview of how to run different parts of
 the toolchain and to generate the results provided in the paper.
-[Read more...](https://github.com/shamedgh/confine/wiki/User-Guide)
+[Read more...](https://www3.cs.stonybrook.edu/~sghavamnia/confine/userguide.html)
 
 ***
 
@@ -36,7 +36,7 @@ the toolchain and to generate the results provided in the paper.
 We also provide a step-by-step guide which walks you through running Confine
 for a single Docker image, explaining what to expect in each of the program
 execution.
-[Read more...](https://github.com/shamedgh/confine/wiki/Step-by-Step-Guide)
+[Read more...](https://www3.cs.stonybrook.edu/~sghavamnia/confine/stepbystep.html)
 
 ***
 
