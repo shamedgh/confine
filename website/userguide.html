@@ -7,7 +7,7 @@
   <link rel="icon" href="/static/img/favicon.ico"/>
 
   
-  <title>Confine Tutorial</title>
+  <title>Confine User Guide</title>
 
 <link rel="stylesheet" href="https://assets.ubuntu.com/v1/vanilla-framework-version-1.8.0.min.css" />
 <link rel="stylesheet" href="mystyle.css" />
@@ -15,57 +15,210 @@
 <body>
 <div class="page-wrap">
 <!--<h1>Confine: Automated System Call Policy Generation for Container Attack Surface Reduction</h1>-->
-<h1>Confine: Automated System Call Policy Generation for Container Attack Surface Reduction</h1>
+<h1>Confine User Guide</h1>
+<p>
+This is the user guide for working with Confine. A more detailed step-by-step 
+tutorial can be found <a href="stepbystep.html">here</a>.
+
+</p>
+<p class="thick">NOTE: It is assumed that the <a href="installationguide.html">Installation Guide</a> has been 
+followed. 
+
+<p>There are four main sections in this guide:
+<ul>
+  <li>A Beginner's Guide to Docker Commands</li>
+  <li>Seccomp Profile Generation</li>
+<!--  <li>Interpreting Confine Results</li>
+  <li>Extracting Mitigated CVEs by applying Confine-generated Seccomp profile</li><--!>
+</ul>
+</p>
 
 <div class="tab">
-<h2><img src="images/about.png" alt="Confine overview figure" width=35 height=35/> About Confine</h2>
+    <h3>Docker Commands Guide</h3>
+<!--  <button class="tablinks" onclick="openExercise(event, 'Exercise0')">Hands-on Exercise 0</button> -->
 </div>
 
-<div class="tabcontent">
-<p>While you can find a more complete and thorough description of how Confine
-works by reading our
-<a href="https://www3.cs.stonybrook.edu/~sghavamnia/papers/confine.raid20.pdf">paper</a>,
-we have summarized some of the most important points in this section. 
-<a href="about.html">Read more...</a>
-</p>
-</div>
+<div id="Exercise0" class="tabcontent">
 
+    <h4>Working with Docker Commands</h4>
+          <p>Confine generates Seccomp profiles which can be used in launching Docker
+        containers. In this section, we will show the basics of running and killing
+        containers.
+        All Docker commands should be run as root, so we will be using <tt>sudo</tt>.</p>
+
+        <p>1. View list of containers:</p>
+          <pre><span class="tryit_run">sudo docker container ls -a</span></pre>
+        <p>The output will show a list of containers both running and killed. The format is as follows:</p>
+          <pre class="tryit_output">
+CONTAINER ID        IMAGE         COMMAND                 CREATED        STATUS              PORTS               NAMES
+</pre>
+
+        <p>2. Let's launch a container with the default Seccomp policy. The format of the command format is:
+        <tt>sudo docker run --name [any-name] -td [docker-image-name]</tt>.
+        </p>
+        <pre>sudo docker run --name test1 -td nginx</pre>
+
+        <p>3. Now let's view the list of containers again:</p>
+        <pre>sudo docker container ls -a</pre>
+        <p>The output will show a list of containers both running and killed. The format is as follows:</p>
+
+        <pre class="tryit_output">
+CONTAINER ID        IMAGE        COMMAND                  CREATED        STATUS              PORTS               NAMES
+[long hash]         nginx        "/docker-entrypoint.…"   2 seconds ago  Up 1 second         80/tcp              test1
+        </pre>
+
+        <p>4. If we try to launch another container with the same name we will get an
+        error from Docker. So each container should have a unique name. Run the
+        following command:</p>
+
+        <pre>sudo docker run --name test1 -td nginx</pre>
+
+        <p>You should get an error with the following format:</p>
+        <pre class="tryit_output">docker: Error response from daemon: Conflict. The container name "/test1" is already in use by container "[long hash]". You have to remove (or rename) that container to be able to reuse that name.
+        </pre>
+
+        <p>5. Now we will kill the previously launched container.</p>
+
+        <pre>sudo docker kill test1</pre>
+
+        <p>6. Let's view the list of containers again.</p>
+
+        <pre>sudo docker container ls -a</pre>
+        <p>The output should be as follows:</p>
+
+        <pre class="tryit_output">
+CONTAINER ID    IMAGE     COMMAND                  CREATED            STATUS                      PORTS          NAMES
+[long hash]     nginx     "/docker-entrypoint.…"   [x] minutes ago    Exited(137) seconds ago     80/tcp         test1
+        </pre>
+
+        <p>7. Now we will delete the previously launched container.</p>
+
+        <pre>sudo docker rm test1</pre>
+
+        <p>8. Run a container with a custom Seccomp profile.
+        <tt>sudo docker run --name [any-name] --security-opt seccomp=[path-to-seccomp-profile] -td [docker-image-name]</tt>
+        </p>
+
+        <pre>sudo docker run --name container-hardened --security-opt seccomp=results/nginx.seccomp.json -td nginx</pre>
+
+        <p>9. Connect to a running container instance and launch bash/sh/.
+        <tt>sudo docker exec -it [container-name] [any-shell]</tt></p>
+
+        <pre>sudo docker exec -it nginx-container /bin/bash</pre>
+        
+        <p>10. Extract IP address of running container:
+        <tt>sudo docker  inspect --format='{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' [container-name]</tt></p>
+
+        <pre>sudo docker  inspect --format='{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' nginx-container</pre>
+</div>
+<br/>
+<br/>
 <div class="tab">
-<h2><img src="images/installation.png" alt="Installation icon" width=35 height=35 /> Installation Guide</h2>
+<!--  <button class="tablinks" onclick="openExercise(event, 'Exercise1')">Hands-on Exercise 1</button>-->
+  <h3>Using Confine to Harden a Docker Image</h3>
 </div>
 
-<div class="tabcontent">
-<p>You can find the list of applications required to run Confine, along with
-their relevant installation commands in this section.
-<a href="installationguide.html">Read more...</a>
-</p>
+<div id="Exercise1" class="tabcontent">
+    <p>The main script in this repo is the confine.py file which uses
+previously created call graphs for musl-libc and glibc, along with a list of
+images and creates respective Seccomp profiles for each.</p>
+
+    <pre class="tryit_output">
+-l: glibc callgraph
+
+-m: musl-libc callgraph
+
+-i: input file containing JSON of images (more details provided below)
+
+-o: path to store binaries and libraries extracted from container
+
+-p: path to Docker default seccomp profile
+
+-r: path to store results (seccomp profiles created)
+
+-g: path to special cases containers like golang ones (more details provided
+below)
+
+-d: debugging enabled or disabled
+
+--skip: [Optional] In case you set this option, the script will not run the
+analysis for previously run images which have their results inserted into the
+profile.results.csv file.
+
+-f: [Optional] glibc shared object
+
+-n: [Optional] musl-libc shared object
+
+--finegrain: [Optional] Passing this argument enables the fine grained
+policy generation. Using this feature is not advised, since it is under
+development.
+
+--othercfgfolder: [Optional] In case you enable the fine grained analysis
+through setting --finegrain, you must set this option as well. This folder
+should contain the call graph for the other libraries used in the fine grained
+analysis.
+
+--allbinaries: [Optional] Passing this argument causes the extraction of all
+binaries instead of only the ones run during the 30 seconds. This would cause
+an extremely more conservative filter.</pre>
+
+  <p>Change your current working directory to the root of the respository (<tt>/home/ubuntu/confine</tt>).</p>
+    <pre>cd /home/ubuntu/confine</pre>
+  
+  <p>Execute the main script to generate Seccomp profiles for the enabled images.</p>
+    <pre>sudo python3.7 confine.py -l libc-callgraphs/glibc.callgraph -m libc-callgraphs/musllibc.callgraph -i images.json -o output/ -p default.seccomp.json -r results/ -g go.syscalls/</pre>
+
+    <p>The JSON input file has the following format:</p>
+    <pre>{
+    "nginx": {
+        "enable": "false",
+        "image-name": "nginx",
+        "image-url": "nginx",
+        "category": [
+            "ApplicationInfrastructure"
+        ],
+        "options": "",
+        "args": "",
+        "dependencies": {}
+    }
+}</pre>
+
+    <p><span style="font-weight:bold;">Note:</span> 
+The only keys which are required for any item in the JSON file are
+<span style="font-style:italic;">enable<span>, <span style="font-style:italic;">image-name</span>
+ and <span style="font-style:italic;">image-url</span>. The rest are optional. Some Docker images
+need a set of options to run correctly. Such as passing configuration options
+or setting environment variables. Docker supports two types of arguments, one
+is for <span style="font-style:italic;">options</span> which are used by Docker and 
+the other is <span style="font-italic;">args</span> which are
+arguments passed directly to the application running in the container.
+For example the <span style="font-weight:bold;">MySQL</span> Docker
+image must be run with the <span style="font-style:italic;">options</span> below:
+<pre>-e MYSQL_ROOT_PASSWORD=my-secret-pw</pre>
+These options are typically specified in the image page on
+<a href="https://hub.docker.com/">Docker Hub</a>.</p>
+
 </div>
 
-<div class="tab">
-<h2><img src="images/userguide.png" alt="User guide icon" width=35 height=35 /> User Guide</h2>
-</div>
-
-<div class="tabcontent">
-<p>The user guide provides a general overview of how to run different parts of
-the toolchain and to generate the results provided in the paper.
-<a href="userguide.html">Read more...</a>
-</p>
-</div>
-
-<div class="tab">
-<h2><img src="images/step-by-step.png" alt="step by step icon" width=40 height=30 /> Step-by-Step Guide</h2>
-</div>
-
-<div class="tabcontent">
-<p>We also provide a step-by-step guide which walks you through running Confine
-for a single Docker image, explaining what to expect in each of the program
-execution.
-<a href="stepbystep.html">Read more...</a>
-</p>
-</div>
+<br/>
+<br/>
 
 
-</div>
-
+<script>
+function openExercise(evt, exerciseName) {
+  var i, tabcontent, tablinks;
+  tabcontent = document.getElementsByClassName("tabcontent");
+  //for (i = 0; i < tabcontent.length; i++) {
+  //  tabcontent[i].style.display = "none";
+  //}
+  //tablinks = document.getElementsByClassName("tablinks");
+  //for (i = 0; i < tablinks.length; i++) {
+  //  tablinks[i].className = tablinks[i].className.replace(" active", "");
+  //}
+  document.getElementById(exerciseName).style.display = "block";
+  evt.currentTarget.className += " active";
+}
+</script>
+</body>
 </body>
 </html> 
