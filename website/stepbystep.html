@@ -40,11 +40,10 @@ following commands.
     <h4>System Validation</h4>
           <p>We will  first check that we are running the correct
             kernel version required for completing the hands-on exercise.</p>
-          <pre><span class="tryit_run">uname -a</span></pre>
-          <p>This should print a line which starts as follows:</p>
-          <pre class="tryit_output">Linux [hostname] 4.15.0-1054-aws #56-Ubuntu SMP</pre>
-        <p>It is critical that you see the correct Linux kernel version, which should be:
-        <span style="font-weight:bold;">4.15.0-1054-aws</span>.
+          <pre><span class="tryit_run">uname --kernel-version</span></pre>
+          <p>This should print the kernel version which should be as follows:</p>
+          <pre class="tryit_output">4.15.0-1054-aws</pre>
+        <p>It is critical that you see the correct Linux kernel version.
         <br/>
         <span style="font-weight:bold;">Please use the raise hand feature of Webex to notify one of
         the panelists if the version does not match.</span>
@@ -302,7 +301,8 @@ container to see if any operations have become restricted.</p>
     <p>2. Extract the IP address of the running container:</p>
     <pre>sudo docker inspect --format='{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' container-hardened</pre>
 
-    <p>3. Fetch the default index page of Nginx from the host. Does it work?</p>
+    <p>3. Fetch the default index page of Nginx from the host. Does it work?
+    <span style="font-weight:bold;">Remember to replace [IP-Address] with the IP you retained using the previous command</span></p>
     <pre>wget http://[IP-Address]
 cat index.html</pre>
 
@@ -326,6 +326,10 @@ cp</pre>
     <pre>
 apt-get update
 </pre>
+    
+    <p>6. To conclude this exercise please exit the container and return to the host system bash shell using the following command:</p>
+
+    <pre>exit</pre>
 </div>
 
 <br/>
@@ -337,7 +341,10 @@ apt-get update
 
 <div id="Exercise3" class="tabcontent">
 
-    <p>In this part we would like to explore the security benefits of applying a Seccomp filter like the one generated for Nginx.</p>
+    <p>To make sure you are out of the container please run the following command. 
+    If you get an error saying the folder does not exist, it means you are still in the container. 
+    Go back to step 6 of the previous exercise</p>
+    <pre>ls -lh /home/ubuntu/confine</pre>
 
     <p>1. Which system calls can be filtered? How many are they?</p>
     <pre>
