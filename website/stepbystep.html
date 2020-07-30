@@ -330,6 +330,14 @@ apt-get update
     <p>6. To conclude this exercise please exit the container and return to the host system bash shell using the following command:</p>
 
     <pre>exit</pre>
+
+    <p>7. To make sure you are out of the container please run the following command.</p>
+    <pre>ls -lh /home/ubuntu/confine</pre>
+
+    <p>If you get an error saying the folder does not exist, it means you are still in the container. 
+    Go back to step 6.</p>
+    <pre class="tryit_output">ls: cannot access '/home/ubuntu/confine': No such file or directory</pre>
+
 </div>
 
 <br/>
@@ -341,10 +349,12 @@ apt-get update
 
 <div id="Exercise3" class="tabcontent">
 
-    <p>To make sure you are out of the container please run the following command. 
-    If you get an error saying the folder does not exist, it means you are still in the container. 
-    Go back to step 6 of the previous exercise</p>
-    <pre>ls -lh /home/ubuntu/confine</pre>
+    <p>0. Change your current working directory to the root of the respository again (<tt>/home/ubuntu/confine</tt>).</p>
+    <pre>cd /home/ubuntu/confine</pre>
+
+    <p>If you get an error saying the folder does not exist, it means you are still in the container. 
+    Go back to step 6 of the previous exercise.</p>
+    <pre class="tryit_output">bash: cd: /home/ubuntu/confine: No such file or directory</pre>
 
     <p>1. Which system calls can be filtered? How many are they?</p>
     <pre>
