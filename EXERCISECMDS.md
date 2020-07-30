@@ -1,5 +1,5 @@
 ```
-uname -a
+uname --kernel-release
 ```
 
 ```
