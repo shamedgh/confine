@@ -19,7 +19,7 @@ def isValidOpts(opts):
     :param opts:
     :return:
     """
-    if not options.input or not options.outputfolder or not options.reportfolder or not options.defaultprofile or not options.libccfginput or not options.libcfuncpath or not options.muslcfginput or not options.muslfuncpath or not options.gofolderpath or not options.cfgfolderpath:
+    if not options.input or not options.outputfolder or not options.reportfolder or not options.defaultprofile or not options.libccfginput or not options.muslcfginput or not options.gofolderpath or not options.cfgfolderpath:
         parser.error("All options -c, -i, -p, -r, -l, -f, -m, -n, -g, -c and -o should be provided.")
         return False
 
