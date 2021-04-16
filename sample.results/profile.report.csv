@@ -1,0 +1,209 @@
+1;oracle-database-enterprise-edition;True;True;False;147;112;165;False;Unknown problem in debloating container!;0;0;81.56901359558105;{'CCPP'};17
+2;oracle-serverjre-8;True;True;False;195;159;212;True;;0;4;124.89276504516602;{'CCPP'};16
+3;mysql-enterprise-server;True;True;False;151;115;168;False;Unknown problem in debloating container!;2;15;148.55860924720764;{'CCPP'};16
+4;oracle-weblogic-server-12c;True;False;False;0;0;53;False;Container got killed after running in attached mode as well!;0;0;26.622638940811157;set();52
+5;couchbase;True;True;False;144;110;163;True;;3;67;104.77485775947571;{'Go', 'CCPP'};18
+6;db2-developer-c-edition;True;True;False;114;84;137;True;;8;8;204.58353304862976;{'Java', 'CCPP'};22
+7;oracle-instant-client;True;True;False;195;159;212;True;;0;4;178.5818543434143;{'CCPP'};16
+8;redis;True;True;False;174;138;191;True;;1;9;78.14722633361816;{'CCPP'};16
+9;ibm-security-access-manager;True;True;False;122;90;143;False;Unknown problem in debloating container!;4;15;207.77122974395752;{'Java', 'CCPP'};20
+10;mongo;True;True;False;147;111;164;False;Unknown problem in debloating container!;10;28;184.454607963562;{'CCPP'};16
+11;ubuntu;True;True;False;193;157;210;True;;0;0;76.18916344642639;{'CCPP'};16
+12;busybox;True;True;False;0;0;53;False;container can't be debloated because no functions can be extracted from binaries;0;0;55.137452840805054;{'CCPP'};52
+13;node;True;True;False;165;129;182;False;Unknown problem in debloating container!;1;18;88.34331822395325;{'CCPP'};16
+14;postgres;True;True;False;136;100;153;True;;0;0;89.30333137512207;{'CCPP'};16
+15;nginx;True;True;False;171;135;188;True;;1;8;77.25743818283081;{'CCPP'};16
+16;mysql;True;True;False;144;108;161;False;Unknown problem in debloating container!;1;18;282.5363390445709;{'CCPP'};16
+17;hello-world;True;False;False;0;0;53;False;Container got killed after running in attached mode as well!;0;0;27.40164566040039;set();52
+18;registry;True;True;False;157;127;180;False;Unknown problem in debloating container!;0;0;61.48075199127197;{'CCPP', 'Go'};22
+19;traefik;True;True;False;205;170;223;True;;0;0;62.62985134124756;{'Go'};17
+20;alpine;True;True;False;157;127;180;True;;0;0;65.21165800094604;{'CCPP'};22
+21;httpd;True;True;False;170;133;186;True;;1;2;79.7049012184143;{'CCPP'};15
+22;golang;True;True;False;192;156;209;True;;0;0;84.76015114784241;{'CCPP'};16
+23;consul;True;True;False;138;109;162;True;;50;14;68.17062425613403;{'CCPP', 'Go'};23
+24;mariadb;True;True;False;136;100;153;False;Unknown problem in debloating container!;1;5;116.5047025680542;{'CCPP'};16
+25;docker;True;True;False;157;127;180;True;;0;0;65.64633345603943;{'Go'};22
+26;memcached;True;True;False;178;142;195;True;;0;0;67.36231064796448;{'CCPP'};16
+27;openjdk;True;True;False;152;116;169;True;;0;0;137.65576243400574;{'Java', 'CCPP'};16
+28;centos;True;True;False;194;158;211;True;;0;4;116.23301863670349;{'CCPP'};16
+29;elasticsearch;True;True;False;154;120;173;False;Unknown problem in debloating container!;159;6;81.1419665813446;{'Java', 'CCPP'};18
+30;ruby;True;True;False;164;128;181;True;;0;0;75.72191715240479;{'CCPP'};16
+31;influxdb;True;True;False;191;155;208;False;Unknown problem in debloating container!;0;0;70.73947405815125;{'CCPP', 'Go'};16
+32;rabbitmq;True;True;False;149;113;166;False;Unknown problem in debloating container!;2;19;84.71019506454468;{'CCPP'};16
+33;python;True;True;False;148;113;166;True;;0;0;77.94787526130676;{'CCPP'};17
+34;debian;True;True;False;192;156;209;True;;0;0;74.99153017997742;{'CCPP'};16
+35;tomcat;True;True;False;142;106;159;True;;0;0;74.72739315032959;{'Java', 'CCPP'};16
+36;php;True;True;False;163;127;180;True;;1;2;98.71908259391785;{'CCPP'};16
+37;haproxy;True;False;False;0;0;53;False;Container got killed after running in attached mode as well!;0;0;28.009363889694214;set();52
+38;wordpress;True;True;False;135;99;152;True;;1;2;94.18346047401428;{'CCPP'};16
+39;crate;True;False;False;0;0;53;False;Container got killed after running in attached mode as well!;0;0;26.59601902961731;set();52
+40;maven;True;False;False;0;0;53;False;Container got killed after running in attached mode as well!;0;0;26.477195262908936;set();52
+41;nextcloud;True;True;False;138;102;155;False;Unknown problem in debloating container!;2;4;100.54155373573303;{'CCPP'};16
+42;amazonlinux;True;True;False;199;163;216;True;;0;0;104.63989615440369;{'CCPP'};16
+43;java;True;True;False;193;157;210;True;;0;3;107.29935240745544;{'CCPP'};16
+44;sonarqube;True;True;False;151;115;168;True;;155;0;80.09343433380127;{'Java', 'CCPP'};16
+45;logstash;True;True;False;184;148;201;False;Unknown problem in debloating container!;0;4;62.885645151138306;{'Java', 'CCPP', 'Go'};16
+46;cassandra;True;True;False;149;114;167;False;Unknown problem in debloating container!;155;0;78.21725940704346;{'Java', 'CCPP'};17
+47;telegraf;True;True;False;166;132;185;True;;0;0;73.29560661315918;{'CCPP', 'Go'};18
+48;kibana;True;True;False;164;128;181;False;Container was debloated with problems. Dies after running!;1;22;84.23022079467773;{'CCPP'};16
+49;ghost;True;True;False;150;114;167;False;Unknown problem in debloating container!;1;18;89.69487833976746;{'CCPP'};16
+50;kong;True;False;False;0;0;53;False;Container got killed after running in attached mode as well!;0;0;30.12624979019165;set();52
+51;jenkins;True;True;False;145;111;164;False;Unknown problem in debloating container!;256;0;65.51302695274353;{'Java', 'CCPP'};18
+52;gradle;True;False;False;0;0;53;False;Container got killed after running in attached mode as well!;0;0;26.64214038848877;set();52
+53;chronograf;True;True;False;192;156;209;False;Unknown problem in debloating container!;0;0;71.27477240562439;{'CCPP', 'Go'};16
+54;couchdb;True;True;False;152;116;169;True;;1;23;88.874342918396;{'CCPP'};16
+55;solr;True;True;False;138;102;155;False;Unknown problem in debloating container!;0;0;76.08593916893005;{'Java', 'CCPP'};16
+56;swarm;True;False;False;0;0;53;False;Container got killed after running in attached mode as well!;0;0;27.805043935775757;set();52
+57;bash;True;True;False;151;121;174;True;;1;7;66.1119658946991;{'CCPP'};22
+58;eclipse-mosquitto;True;True;False;148;118;171;False;Unknown problem in debloating container!;1;7;63.21659326553345;{'CCPP'};22
+59;vault;True;True;False;132;103;156;False;Unknown problem in debloating container!;48;35;67.77011728286743;{'Go'};23
+60;drupal;True;True;False;146;110;163;True;;1;2;91.20612931251526;{'CCPP'};16
+61;joomla;True;False;False;0;0;53;False;Container got killed after running in attached mode as well!;0;0;32.2726891040802;set();52
+62;perl;True;True;False;159;123;176;True;;0;0;75.81266617774963;{'CCPP'};16
+63;neo4j;True;True;False;149;119;172;False;Unknown problem in debloating container!;14;98;74.82525300979614;{'Java', 'CCPP'};22
+64;percona;True;True;False;150;114;167;False;Unknown problem in debloating container!;1;16;78.4009063243866;{'CCPP'};16
+65;buildpack-deps;True;True;False;192;156;209;True;;0;0;73.92401266098022;{'CCPP'};16
+66;rocket-chat;False;False;False;0;0;53;False;;0;0;0.5230565071105957;set();52
+67;owncloud;True;True;False;136;100;153;True;;1;2;91.29249382019043;{'CCPP'};16
+68;nats;True;True;False;220;183;236;True;;0;0;62.607885122299194;{'Go'};15
+69;flink;True;False;False;0;0;53;False;Container got killed after running in attached mode as well!;0;0;39.67598032951355;set();52
+70;groovy;True;True;False;158;122;175;True;;0;0;70.85838842391968;{'Java', 'CCPP'};16
+71;nats-streaming;True;True;False;264;226;279;False;Unknown problem in debloating container!;0;0;59.31216883659363;{'Go'};14
+72;jruby;True;True;False;150;114;167;True;;0;0;84.72539758682251;{'Java', 'CCPP'};16
+73;rethinkdb;True;True;False;163;127;180;False;Unknown problem in debloating container!;1;8;125.72152781486511;{'CCPP'};16
+74;adminer;True;True;False;150;120;173;True;;2;9;75.37763333320618;{'CCPP'};22
+75;fedora;True;True;False;111;82;135;True;;0;0;182.22281122207642;{'CCPP'};23
+76;zookeeper;True;True;False;150;114;167;False;Unknown problem in debloating container!;0;0;72.86990237236023;{'Java', 'CCPP'};16
+77;pypy;True;True;False;136;101;154;True;;0;0;73.2491385936737;{'CCPP'};17
+78;kapacitor;True;True;False;165;131;184;True;;0;0;69.2125506401062;{'CCPP', 'Go'};18
+79;jetty;True;True;False;154;118;171;False;Unknown problem in debloating container!;0;0;64.44607758522034;{'Java', 'CCPP'};16
+80;websphere-liberty;True;True;False;144;108;161;True;;1;4;77.85950589179993;{'Java', 'CCPP'};16
+81;erlang;True;True;False;158;122;175;True;;1;17;85.36363959312439;{'CCPP'};16
+82;ibm-websphere-liberty;True;True;False;145;109;162;False;Unknown problem in debloating container!;1;4;63.73640966415405;{'Java', 'CCPP'};16
+83;redmine;True;True;False;154;118;171;False;Unknown problem in debloating container!;0;0;71.5973904132843;{'CCPP'};16
+84;matomo;True;True;False;136;100;153;True;;1;2;95.15956664085388;{'CCPP'};16
+85;mongo-express;True;False;False;0;0;53;False;Container got killed after running in attached mode as well!;0;0;26.504069805145264;set();52
+86;teamspeak;True;False;False;0;0;53;False;Container got killed after running in attached mode as well!;0;0;28.77083468437195;set();52
+87;iojs;True;True;False;174;138;191;False;Container was debloated with problems. Dies after running!;1;24;99.72376656532288;{'CCPP'};16
+88;swift;True;True;False;193;157;210;True;;0;0;99.95354151725769;{'CCPP'};16
+89;elixir;True;True;False;158;122;175;True;;1;17;86.23839902877808;{'CCPP'};16
+90;composer;True;False;False;0;0;53;False;Container got killed after running in attached mode as well!;0;0;32.39877367019653;set();52
+91;mono;True;True;False;192;156;209;True;;0;0;86.23868894577026;{'CCPP'};16
+92;tomee;True;True;False;155;119;172;False;Unknown problem in debloating container!;0;0;73.56463360786438;{'Java', 'CCPP'};16
+93;django;True;True;False;153;117;170;True;;0;3;102.10074973106384;{'CCPP'};16
+94;piwik;True;True;False;137;101;154;True;;1;2;96.4529025554657;{'CCPP'};16
+95;haxe;True;False;False;0;0;53;False;Container got killed after running in attached mode as well!;0;0;28.696726322174072;set();52
+96;rust;True;True;False;192;156;209;True;;0;0;91.41339588165283;{'CCPP'};16
+97;xwiki;True;True;False;121;85;138;True;;0;0;610.5517687797546;{'Java', 'CCPP'};16
+98;odoo;True;True;False;123;88;141;True;;158;15;242.90561294555664;{'CCPP'};17
+99;arangodb;True;False;False;0;0;53;False;Container got killed after running in attached mode as well!;0;0;35.728126764297485;set();52
+100;znc;True;False;False;0;0;53;False;Container got killed after running in attached mode as well!;0;0;36.554139137268066;set();52
+101;mediawiki;True;True;False;146;110;163;True;;1;2;87.68655753135681;{'CCPP'};16
+102;oraclelinux;True;True;False;144;110;163;True;;0;4;99.78946280479431;{'CCPP'};18
+103;ubuntu-debootstrap;True;True;False;197;161;214;True;;0;0;115.62418603897095;{'CCPP'};16
+104;clojure;True;True;False;149;113;166;True;;0;0;75.87422943115234;{'Java', 'CCPP'};16
+105;rails;True;True;False;175;139;192;True;;0;3;107.43080568313599;{'CCPP'};16
+106;ibmjava;True;True;False;186;150;203;True;;1;4;77.03892159461975;{'CCPP'};16
+107;opensuse;True;True;False;201;164;217;True;;0;0;65.30653810501099;{'CCPP'};15
+108;orientdb;True;True;False;143;113;166;False;Unknown problem in debloating container!;2;14;63.76435422897339;{'Java', 'CCPP'};22
+109;gcc;True;True;False;192;156;209;True;;0;0;79.98339438438416;{'CCPP'};16
+110;ros;True;True;False;165;129;182;True;;0;0;107.06768822669983;{'CCPP', 'Python'};16
+111;neurodebian;True;True;False;192;156;209;True;;0;0;75.94102931022644;{'CCPP'};16
+112;notary;False;False;False;0;0;53;False;;0;0;0.47274112701416016;set();52
+113;julia;True;True;False;156;120;173;False;Unknown problem in debloating container!;0;0;71.60887479782104;{'CCPP'};16
+114;irssi;True;True;False;158;122;175;True;;0;0;70.20383524894714;{'CCPP'};16
+115;kaazing-gateway;True;True;False;150;114;167;True;;0;0;75.366938829422;{'Java', 'CCPP'};16
+116;backdrop;True;False;False;0;0;53;False;Container got killed after running in attached mode as well!;0;0;30.548943281173706;set();52
+117;oracle-fmw-infrastructure;True;False;False;0;0;53;False;Container got killed after running in attached mode as well!;0;0;26.415192365646362;set();52
+118;plone;True;True;False;175;139;192;False;Unknown problem in debloating container!;155;0;75.52178645133972;{'CCPP', 'Python'};16
+119;php-zendserver;True;True;False;124;90;143;True;;3;32;129.5785529613495;{'CCPP'};18
+120;cirros;True;True;False;156;128;181;False;Unknown problem in debloating container!;18;36;73.14671277999878;{'CCPP'};24
+121;convertigo;True;True;False;177;141;194;False;Unknown problem in debloating container!;0;0;71.55601859092712;{'Java', 'CCPP'};16
+122;geonetwork;True;True;False;142;106;159;True;;0;0;88.15585470199585;{'Java', 'CCPP'};16
+123;haskell;True;True;False;165;129;182;True;;2;0;97.63112115859985;{'CCPP'};16
+124;fsharp;True;True;False;144;109;162;False;Unknown problem in debloating container!;2;4;89.1305992603302;{'CCPP'};17
+125;hylang;True;True;False;132;97;150;True;;0;0;77.36283326148987;{'CCPP', 'Python'};17
+126;eggdrop;True;False;False;0;0;53;False;Container got killed after running in attached mode as well!;0;0;28.717751502990723;set();52
+127;rapidoid;True;False;False;0;0;53;False;Container got killed after running in attached mode as well!;0;0;28.029680967330933;set();52
+128;spiped;True;False;False;0;0;53;False;Container got killed after running in attached mode as well!;0;0;28.415404796600342;set();52
+129;hello-seattle;True;False;False;0;0;53;False;Container got killed after running in attached mode as well!;0;0;27.106621980667114;set();52
+130;bonita;True;True;False;171;135;188;False;Unknown problem in debloating container!;1;4;74.35654258728027;{'Java', 'CCPP'};16
+131;celery;True;True;False;135;100;153;True;;115;3;80.14887428283691;{'CCPP', 'Python'};17
+132;glassfish;True;True;False;156;120;173;False;Unknown problem in debloating container!;0;3;109.43659734725952;{'Java', 'CCPP'};16
+133;lightstreamer;True;True;False;153;117;170;True;;0;0;86.89468097686768;{'Java', 'CCPP'};16
+134;thrift;True;False;False;0;0;53;False;Container got killed after running in attached mode as well!;0;0;28.90644598007202;set();52
+135;swipl;True;True;False;184;148;201;True;;0;0;78.59693264961243;{'CCPP'};16
+136;rakudo-star;True;True;False;171;135;188;True;;0;0;84.37510299682617;{'CCPP'};16
+137;hola-mundo;True;False;False;0;0;53;False;Container got killed after running in attached mode as well!;0;0;27.051201820373535;set();52
+138;filebeat;True;True;False;175;139;192;True;;0;4;65.48655104637146;{'CCPP', 'Go'};16
+139;ubuntu-upstart;True;True;False;146;114;167;False;Unknown problem in debloating container!;0;0;133.4235486984253;{'CCPP'};20
+140;silverpeas;True;False;False;0;0;53;False;Container got killed after running in attached mode as well!;0;0;61.20289874076843;set();52
+141;amazoncorretto;True;True;False;199;163;216;True;;0;0;103.6566514968872;{'CCPP'};16
+142;mageia;True;True;False;193;156;209;True;;1;4;75.38605833053589;{'CCPP'};15
+143;crux;True;True;False;187;150;203;True;;0;0;64.69643998146057;{'CCPP'};15
+144;fluentd;True;True;False;146;116;169;False;Unknown problem in debloating container!;0;0;63.69976210594177;{'CCPP'};22
+145;sourcemage;True;True;False;190;153;206;True;;0;0;65.68383383750916;{'CCPP'};15
+146;sematext-agent-monitoring-and-logging;True;True;False;211;174;227;False;Unknown problem in debloating container!;0;0;70.02952718734741;{'CCPP', 'Go'};15
+147;sl;True;True;False;194;158;211;True;;0;4;72.69786357879639;{'CCPP'};16
+148;clearlinux;True;True;False;207;170;223;True;;0;0;71.99530100822449;{'CCPP'};15
+149;hipache;True;True;False;159;123;176;False;Unknown problem in debloating container!;1;17;126.37173867225647;{'CCPP', 'Python'};16
+150;express-gateway;True;True;False;146;116;169;False;Unknown problem in debloating container!;3;32;102.99321842193604;{'CCPP'};22
+151;clefos;False;False;False;0;0;53;False;;0;0;0.5209453105926514;set();52
+152;scratch;False;False;False;0;0;53;False;;0;0;0.21916651725769043;set();52
+153;euleros;True;True;False;197;161;214;True;;0;0;65.36731195449829;{'CCPP'};16
+154;postfixadmin;True;True;False;135;99;152;True;;2;4;102.03139042854309;{'CCPP'};16
+155;metricbeat;True;True;False;182;147;200;True;;0;4;65.11355996131897;{'CCPP', 'Go'};17
+156;alt;True;True;False;114;82;135;False;Unknown problem in debloating container!;0;0;65.7481336593628;{'CCPP'};20
+157;appdynamics;False;False;False;0;0;53;False;;0;0;0.4577338695526123;set();52
+158;datadog-agent;True;False;False;0;0;53;False;Container got killed after running in attached mode as well!;0;0;26.5048725605011;set();52
+159;adoptopenjdk;True;True;False;155;119;172;True;;0;0;78.66336560249329;{'Java', 'CCPP'};16
+160;neuvector;False;False;False;0;0;53;False;;0;0;0.4644486904144287;set();52
+161;aporeto-enforcer;True;False;False;0;0;53;False;Container got killed after running in attached mode as well!;0;0;26.51720142364502;set();52
+162;weave-cloud-agent;False;False;False;0;0;53;False;;0;0;0.4899766445159912;set();52
+163;apm-server;True;True;False;179;144;197;True;;0;4;65.29595637321472;{'CCPP', 'Go'};17
+164;skopos;True;True;False;192;156;209;False;Unknown problem in debloating container!;1;4;71.76426386833191;{'CCPP', 'Go'};16
+165;coscale-agent;False;False;False;0;0;53;False;;0;0;0.46160125732421875;set();52
+166;traefikee;True;False;False;0;0;53;False;Container got killed after running in attached mode as well!;0;0;26.448967933654785;set();52
+167;veritas-netbackup-client;True;False;False;0;0;53;False;Container got killed after running in attached mode as well!;0;0;26.49847149848938;set();52
+168;heartbeat;True;True;False;175;139;192;True;;0;4;66.29152464866638;{'CCPP', 'Go'};16
+169;intersystems-iris-data-platform;True;True;False;135;100;153;True;;11;26;123.86895751953125;{'CCPP'};17
+170;dynatrace;True;False;False;0;0;53;False;Container got killed after running in attached mode as well!;0;0;26.574854612350464;set();52
+171;portworx-px-developer;False;False;False;0;0;53;False;;0;0;0.6410048007965088;set();52
+172;auditbeat;True;False;False;0;0;53;False;Container got killed after running in attached mode as well!;0;0;26.600489854812622;set();52
+173;packetbeat;True;False;False;0;0;53;False;Container got killed after running in attached mode as well!;0;0;26.5745689868927;set();52
+174;cheers;True;True;False;229;192;245;True;;0;0;62.51088571548462;{'Go'};15
+175;sitescope;True;True;False;179;143;196;False;Unknown problem in debloating container!;1;4;67.06049013137817;{'Java', 'CCPP'};16
+176;instana-dynamic-apm;True;False;False;0;0;53;False;Container got killed after running in attached mode as well!;0;0;26.48218822479248;set();52
+177;oracle-webtier-12c;False;False;False;0;0;53;False;;0;0;0.6098394393920898;set();52
+178;logagent;True;False;False;0;0;53;False;Container got killed after running in attached mode as well!;0;0;26.55090355873108;set();52
+179;bleemeo;False;False;False;0;0;53;False;;0;0;0.41087985038757324;set();52
+180;px-enterprise;True;False;False;0;0;53;False;Container got killed after running in attached mode as well!;0;0;26.49812602996826;set();52
+181;site24x7-linux-docker-agent;True;False;False;0;0;53;False;Container got killed after running in attached mode as well!;0;0;26.538925170898438;set();52
+182;esystemstech;False;False;False;0;0;53;False;;0;0;0.511329174041748;set();52
+183;sysdig-cloud-monitoring-agent-commercial;False;False;False;0;0;53;False;;0;0;0.43236637115478516;set();52
+184;skaffolder-enterprise;True;True;False;150;114;167;False;Unknown problem in debloating container!;11;49;215.8101303577423;{'CCPP'};16
+185;fluid-bpm;False;False;False;0;0;53;False;;0;0;0.487476110458374;set();52
+186;foopipes;False;False;False;0;0;53;False;;0;0;0.43541502952575684;set();52
+187;ibm-cloud-automation-manager;False;False;False;0;0;53;False;;0;0;0.4532294273376465;set();52
+188;gitlab-community-edition;True;True;False;117;82;135;True;;119;26;130.87042784690857;{'CCPP', 'Go', 'Perl'};17
+189;rocketchat;False;False;False;0;0;53;False;;0;0;0.48421788215637207;set();52
+190;ibm-db2-warehouse-ee;True;True;False;116;89;142;False;Unknown problem in debloating container!;1;18;256.7826063632965;{'CCPP'};25
+191;ibm-db2-warehouse-dev;True;True;False;116;89;142;False;Unknown problem in debloating container!;1;18;200.00513434410095;{'CCPP'};25
+192;datastax;False;False;False;0;0;53;False;;0;0;0.6004669666290283;set();52
+193;softwareag-webmethods-microservicesruntime;True;True;False;151;115;168;True;;0;4;68.31415605545044;{'Java', 'CCPP'};16
+194;softwareag-commandcentral;True;True;False;134;100;153;True;;0;4;71.44866061210632;{'Java', 'CCPP'};18
+195;softwareag-apigateway;True;True;False;149;114;167;True;;0;0;72.86337351799011;{'Java', 'CCPP'};17
+196;anaconda;True;True;False;215;178;231;True;;0;0;70.03316807746887;{'CCPP'};15
+197;softwareag-apiportal;False;False;False;0;0;53;False;;0;0;0.47772717475891113;set();52
+198;ibm-mq-advanced;True;False;False;0;0;53;False;Container got killed after running in attached mode as well!;0;0;26.585772275924683;set();52
+199;ibm-db2-warehouse-client-container;True;True;False;128;96;149;True;;1;6;183.44707560539246;{'CCPP'};20
+200;softwareag-terracottadb;True;False;False;0;0;53;False;Container got killed after running in attached mode as well!;0;0;26.49871277809143;set();52
+201;r-base;True;True;False;173;137;190;True;;0;0;96.8289566040039;{'CCPP'};16
+202;nuxeo;True;True;False;103;70;123;True;;119;8;109.24394798278809;{'Java', 'CCPP', 'Perl'};19
+203;gazebo;True;True;False;116;82;135;True;;0;0;134.96498250961304;{'CCPP'};18
+204;storm;True;False;False;0;0;53;False;Container got killed after running in attached mode as well!;0;0;32.924715757369995;set();52
+205;yourls;True;True;False;167;130;183;False;Unknown problem in debloating container!;1;2;70.34515237808228;{'CCPP'};15
+206;photon;True;True;False;162;130;183;True;;0;0;92.10886216163635;{'CCPP'};20
+207;docker-dev;False;False;False;0;0;53;False;;0;0;0.48537564277648926;set();52
+208;open-liberty;True;True;False;144;108;161;True;;1;4;66.96846532821655;{'Java', 'CCPP'};16
+209;known;True;False;False;0;0;53;False;Container got killed after running in attached mode as well!;0;0;42.48699736595154;set();52
