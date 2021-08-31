@@ -109,15 +109,24 @@ class Container():
         return True
 
     def runWithoutSeccomp(self):
-        self.logger.debug("Running container %s", self.imageName)
-        #TODO extract log in both scenarios, mariadb logs is the same with unconfined percona the other
-        cmd = "sudo docker {} run -l {} --security-opt seccomp=unconfined --name {} {} -td {} {}"
-        cmd = cmd.format(self.remote, C.TOOLNAME, self.containerName, self.options, self.imageName, self.args)
-        returncode, out, err = util.runCommand(cmd)
-        if ( returncode != 0 ):
-            self.logger.error("Error running docker: %s", err)
+        # The command list cannot contain empty strings
+        cmd = list(filter(None,
+                ["docker", self.remote, "run", "-l", C.TOOLNAME, "--security-opt", 
+                 "seccomp=unconfined", "--name", self.containerName, self.options,
+                 "-td", self.imageName, self.args]))
+        self.logger.debug("Running container %s, cmd=%s", self.imageName, cmd)
+        proc = subprocess.Popen(cmd, shell=False, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
+        (stdout, stderr) = proc.communicate()
+        if (proc.returncode != 0):
+            self.logger.error("**********\n"
+                              "Error running docker: %d.\n  cmd=%s\n"
+                              "*********** stderr:\n%s\n"
+                              "*********** stdout:\n%s\n"
+                              "***********", proc.returncode, str(cmd), stderr, stdout)
             return False
-        self.containerId = out.strip()
+        self.logger.debug ("Docker run success, output: %s", stdout)
+        self.containerId = stdout.strip()
+
         return True
 
     def runWithRuntime(self, runtime):
@@ -295,6 +304,8 @@ class Container():
             self.logger.error("Error extracting library dependencies from docker: %s", err)
             return False
 
+        # Process the output from ldd.  This excludes vdso and ld.so, as we do not beleive these will ever contain system calls.
+        # (vdso and ld.so will not have a "=>" in the ldd output)
         splittedOut = out.splitlines()
         for outItem in splittedOut:
             if ( "=>" in outItem ):
@@ -302,9 +313,9 @@ class Container():
                 if ( len(splittedItem) > 1 ):
                     splittedItem = splittedItem[1].split()
                     if ( not self.copyFromContainer(splittedItem[0].strip(), outFolderPath) ):
-                        self.logger.warning("Wasn't able to copy library: %s dependent of: %s", splittedItem[0].strip(), filePath)
+                        self.logger.warning("Wasn't able to copy library: %s dependent of: %s.\n    LDD Line: %s", splittedItem[0].strip(), filePath, outItem)
                 else:
-                    self.logger.warning("This should not happen! ldd output line has => but can't be split into two parts by that substring.")
+                    self.logger.warning("This should not happen! ldd output line has => but can't be split into two parts by that substring.\n   LDD Line: %s", outItem)
         return True
 
     def extractAllUsersFromPasswd(self):
