@@ -16,10 +16,10 @@ class MonitoringTool():
             self.stopSysdig()
 
         # in debug mode don't remove the file
-        if not self.logger.isEnabledFor(logging.DEBUG):
-            os.remove(self.tmpFile)
-        else:
-            self.logger.debug("Monitoring tool output file not removed when in debug mode: " + self.tmpFile)
+        #if not self.logger.isEnabledFor(logging.DEBUG):
+        #    os.remove(self.tmpFile)
+        #else:
+        #    self.logger.debug("Monitoring tool output file not removed when in debug mode: " + self.tmpFile)
 
     def waitUntilComplete(self):
         return
