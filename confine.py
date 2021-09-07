@@ -86,6 +86,9 @@ if __name__ == '__main__':
     parser.add_option("-r", "--reportfolder", dest="reportfolder", default=None, nargs=1,
                       help="Report file path")
 
+    parser.add_option("", "--monitoringtool", dest="monitoringtool", default="sysdig", nargs=1,
+                      help="Monitoring tool to be used for dynamic analysis")
+
     parser.add_option("-p", "--defaultprofile", dest="defaultprofile", default=None, nargs=1,
                       help="Report file path")
 
@@ -232,7 +235,12 @@ if __name__ == '__main__':
 
                     retryCount = 0
                     while ( retryCount < 2 ):
-                        newProfile = containerProfiler.ContainerProfiler(depImageName, depImageNameFullPath, depOptions, options.libccfginput, options.muslcfginput, glibcFuncList, muslFuncList, options.strictmode, options.gofolderpath, options.cfgfolderpath, options.finegrain, options.allbinaries, rootLogger, True)
+                        newProfile = containerProfiler.ContainerProfiler(depImageName, 
+                                depImageNameFullPath, depOptions, options.libccfginput, 
+                                options.muslcfginput, glibcFuncList, muslFuncList, 
+                                options.strictmode, options.gofolderpath, options.cfgfolderpath, 
+                                options.finegrain, options.allbinaries, 
+                                options.monitoringtool, rootLogger, True)
                         returncode = newProfile.createSeccompProfile(options.outputfolder + "/" + depImageName + "/", options.reportfolder)
                         #if ( returncode != C.SYSDIGERR ):
                         if ( returncode == 0 ):
@@ -262,7 +270,12 @@ if __name__ == '__main__':
                 retryCount = 0
                 while ( retryCount < 2 ):
                     start = time.time()
-                    newProfile = containerProfiler.ContainerProfiler(imageName, imageNameFullPath, imageOptions, options.libccfginput, options.muslcfginput, glibcFuncList, muslFuncList, options.strictmode, options.gofolderpath, options.cfgfolderpath, options.finegrain, options.allbinaries, rootLogger)
+                    newProfile = containerProfiler.ContainerProfiler(imageName,
+                            imageNameFullPath, imageOptions, options.libccfginput, 
+                            options.muslcfginput, glibcFuncList, muslFuncList, 
+                            options.strictmode, options.gofolderpath, 
+                            options.cfgfolderpath, options.finegrain, 
+                            options.allbinaries, options.monitoringtool, rootLogger)
                     returncode = newProfile.createSeccompProfile(options.outputfolder + "/" + imageName + "/", options.reportfolder)
                     end = time.time()
                     #if ( returncode != C.SYSDIGERR ):

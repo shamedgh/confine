@@ -14,13 +14,18 @@ from datetime import datetime
 import sysdig
 import constants as C
 import binaryAnalysis
+import processMonitorFactory
 
 
 class ContainerProfiler():
     """
     This class can be used to create a seccomp profile for a container through static anlyasis of the useful binaries
     """
-    def __init__(self, name, imagePath, options, glibccfgpath, muslcfgpath, glibcfunclist, muslfunclist, strictmode, gofolderpath, cfgfolderpath, fineGrain, extractAllBinaries, logger, isDependent=False):
+    def __init__(self, name, imagePath, options, 
+                 glibccfgpath, muslcfgpath, glibcfunclist, 
+                 muslfunclist, strictmode, gofolderpath, 
+                 cfgfolderpath, fineGrain, extractAllBinaries, 
+                 monitoringTool, logger, isDependent=False):
         self.logger = logger
         self.name = name
         self.imagePath = imagePath
@@ -53,6 +58,7 @@ class ContainerProfiler():
         self.extractAllBinaries = extractAllBinaries
         self.isDependent = isDependent
         self.containerName = None
+        self.monitoringTool = monitoringTool
 
     #TODO List
     '''
@@ -323,23 +329,25 @@ class ContainerProfiler():
 
         self.logger.info("--->Starting MONITOR phase:")
         while ( sysdigRunCount <= sysdigTotalRunCount ):
-            mySysdig = sysdig.Sysdig(self.logger)
+            myMonitor = processMonitorFactory.Factory(self.logger, self.monitoringTool)
+            #mySysdig = sysdig.Sysdig(self.logger)
             self.logger.debug("Trying to kill and delete container which might not be running in loop... Not a problem if returns error")
             str(myContainer.kill())
             str(myContainer.delete())
             self.logger.info("Running sysdig multiple times. Run count: %d from total: %d", sysdigRunCount, sysdigTotalRunCount)
             sysdigRunCount += 1
-            sysdigResult = mySysdig.runSysdigWithDuration(logSleepTime)
-            if ( not sysdigResult ):
+            #sysdigResult = mySysdig.runSysdigWithDuration(logSleepTime)
+            monitorResult = myMonitor.runWithDuration(logSleepTime)
+            if ( not monitorResult ):
                 self.logger.error("Running sysdig with execve failed, not continuing for container: %s", self.name)
                 self.logger.error("Please make sure sysdig is installed and you are running the script with root privileges. If problem consists please contact our support team.")
                 self.errorMessage = "Running sysdig with execve failed"
             
-            if ( sysdigResult and myContainer.runWithoutSeccomp() ):#myContainer.run() ):
+            if ( monitorResult and myContainer.runWithoutSeccomp() ):#myContainer.run() ):
                 self.status = True
                 self.logger.info("Ran container sleeping for %d seconds to generate logs and extract execve system calls", logSleepTime)
                 time.sleep(logSleepTime)
-                mySysdig.waitUntilComplete()
+                myMonitor.waitUntilComplete()
                 originalLogs = myContainer.checkLogs()
                 self.logger.debug("originalLog: %s", originalLogs)
                 time.sleep(10)
@@ -368,7 +376,7 @@ class ContainerProfiler():
                 self.logger.debug("Starting to identify running processes and required binaries and libraries through dynamic analysis.")
 
                 if ( not binaryReady ):
-                    psList = mySysdig.extractPsNames("execve", myContainer.getContainerName())
+                    psList = myMonitor.extractPsNames("execve", myContainer.getContainerName())
 
                     if ( not psList ):
                         self.logger.error("PS List is None from extractPsNames(). Retrying this container: %s", self.name)
@@ -786,7 +794,7 @@ if __name__ == '__main__':
     mySysdig = sysdig.Sysdig(rootLogger)
 
     myContainer = container.Container("nginx", "", rootLogger)
-    sysdigResult = mySysdig.runSysdigWithDuration(60)
+    sysdigResult = mySysdig.runWithDuration(60)
     if ( not sysdigResult ):
         rootLogger.error("Running sysdig with execve failed, not continuing for container: %s", self.name)
         rootLogger.error("Please make sure sysdig is installed and you are running the script with root privileges. If problem consists please contact our support team.")

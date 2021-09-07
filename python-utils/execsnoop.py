@@ -3,17 +3,17 @@ import tempfile
 import logging
 from monitoringTool import MonitoringTool
 
-class Sysdig(MonitoringTool):
+class Execsnoop(MonitoringTool):
     """
-    This class can be used to start a sysdig process and extract information from the output when required
+    This class can be used to start an execsnoop process and extract information from the output when required
     """
     def __init__(self, logger):
         MonitoringTool.__init__(self, logger)
-        fd, self.tmpFile = tempfile.mkstemp(prefix="confine-sysdig_")
+        fd, self.tmpFile = tempfile.mkstemp(prefix="confine-execsnoop_")
         os.close(fd)
-        self.logger.debug("Created sysdig trace file: " + self.tmpFile)
+        self.logger.debug("Created execsnoop trace file: " + self.tmpFile)
 
-    def waitForSysdigToStart(self):
+    def waitForExecsnoopToStart(self):
         start = time.monotonic_ns()
         
         # TODO: Add a timeout & throw an exception
@@ -22,7 +22,7 @@ class Sysdig(MonitoringTool):
             time.sleep(0.1)
 
         time.sleep(1) # wait another second for good measure? (this is so hack)
-        self.logger.debug("Waited: " + str((time.monotonic_ns() - start) / 1000000) + "ms for sysdig to start.")
+        self.logger.debug("Waited: " + str((time.monotonic_ns() - start) / 1000000) + "ms for execsnoop to start.")
 
     def waitUntilComplete(self):
         if not self.proc:
@@ -35,7 +35,7 @@ class Sysdig(MonitoringTool):
             self.proc.wait(timeout=1)
 
     def runWithDuration(self, duration):
-        cmd = ["sysdig", "-pc", "-M", str(duration),
+        cmd = ["execsnoop", "-pc", "-M", str(duration),
                "-w", self.tmpFile]
         self.logger.debug("Running command:" + str(cmd))
         self.proc = subprocess.Popen(cmd)
@@ -58,36 +58,37 @@ class Sysdig(MonitoringTool):
             self.stopMonitoringTool()
 
         psNames = set()
-        try:
-            cmd = ["sudo", "sysdig", "-r", self.tmpFile, "evt.type=" + eventType, "and", "container.name=" + containerName]
-            result = None
-            for loopCounter in range(3):
-                result = subprocess.run(cmd, capture_output=True)
-                if result.returncode == 0:
-                    break
-                self.logger.error("Couldn't open file: %s with err: %s", self.tmpFile, result.stderr)
-            if result.returncode != 0:
-                self.logger.error("Failed to open file %s", self.tmpFile)
-                return None
-
-            outStr = str(result.stdout.decode("utf-8"))
-            self.logger.debug("sysdig output: %s", outStr)
-            splittedOut = outStr.splitlines()
-            for line in splittedOut:
-                splittedLine = line.split()
-                if ( len(splittedLine) >= 9 and splittedLine[8].startswith("exe=")):
-                    psName = splittedLine[8].strip()[4:]
-                    psName = psName.replace("[", "")
-                    if ( not psName.strip().startswith("/proc/")):
-                        psNames.add(psName)
-                elif ( len(splittedLine) == 8 and splittedLine[7].startswith("filename=")):
-                    psName = splittedLine[7].strip()[9:]
-                    psName = psName.replace("[", "")
-                    if ( not psName.strip().startswith("/proc/") ):
-                        psNames.add(psName)
-        except IOError as e:
-            self.logger.error("Couldn't open file: %s", self.tmpFile)
-            return None
+        #TODO
+#        try:
+#            cmd = ["sudo", "sysdig", "-r", self.tmpFile, "evt.type=" + eventType, "and", "container.name=" + containerName]
+#            result = None
+#            for loopCounter in range(3):
+#                result = subprocess.run(cmd, capture_output=True)
+#                if result.returncode == 0:
+#                    break
+#                self.logger.error("Couldn't open file: %s with err: %s", self.tmpFile, result.stderr)
+#            if result.returncode != 0:
+#                self.logger.error("Failed to open file %s", self.tmpFile)
+#                return None
+#
+#            outStr = str(result.stdout.decode("utf-8"))
+#            self.logger.debug("sysdig output: %s", outStr)
+#            splittedOut = outStr.splitlines()
+#            for line in splittedOut:
+#                splittedLine = line.split()
+#                if ( len(splittedLine) >= 9 and splittedLine[8].startswith("exe=")):
+#                    psName = splittedLine[8].strip()[4:]
+#                    psName = psName.replace("[", "")
+#                    if ( not psName.strip().startswith("/proc/")):
+#                        psNames.add(psName)
+#                elif ( len(splittedLine) == 8 and splittedLine[7].startswith("filename=")):
+#                    psName = splittedLine[7].strip()[9:]
+#                    psName = psName.replace("[", "")
+#                    if ( not psName.strip().startswith("/proc/") ):
+#                        psNames.add(psName)
+#        except IOError as e:
+#            self.logger.error("Couldn't open file: %s", self.tmpFile)
+#            return None
         return psNames
 
 
