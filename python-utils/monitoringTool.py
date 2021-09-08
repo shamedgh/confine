@@ -13,7 +13,7 @@ class MonitoringTool():
 
     def __del__(self):
         if self.proc != None:
-            self.stopSysdig()
+            self.stopMonitoringTool()
 
         # in debug mode don't remove the file
         #if not self.logger.isEnabledFor(logging.DEBUG):
