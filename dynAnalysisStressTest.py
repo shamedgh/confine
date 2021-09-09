@@ -128,6 +128,7 @@ class DynamicAnalysisTester():
                 psListSizes.append(len(psList))
             else:
                 psListSizes.append(0)
+            self.logger.info("psListSizes till now: %s", str(psListSizes))
             runCount += 1
 
         return psListSizes
