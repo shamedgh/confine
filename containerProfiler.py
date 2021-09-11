@@ -376,7 +376,7 @@ class ContainerProfiler():
                 self.logger.debug("Starting to identify running processes and required binaries and libraries through dynamic analysis.")
 
                 if ( not binaryReady ):
-                    psList = myMonitor.extractPsNames("execve", myContainer.getContainerName())
+                    psList = myMonitor.extractPsNames("execve", myContainer.getContainerName(), myContainer.getContainerId())
 
                     if ( not psList ):
                         self.logger.error("PS List is None from extractPsNames(). Retrying this container: %s", self.name)

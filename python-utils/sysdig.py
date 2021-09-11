@@ -9,9 +9,19 @@ class Sysdig(MonitoringTool):
     """
     def __init__(self, logger):
         MonitoringTool.__init__(self, logger)
+        self.cleanSysdigState()
         fd, self.tmpFile = tempfile.mkstemp(prefix="confine-sysdig_")
         os.close(fd)
         self.logger.debug("Created sysdig trace file: " + self.tmpFile)
+
+    def cleanSysdigState(self):
+        cmd = ["sudo", "rmmod", "sysdig_probe"]
+        self.logger.debug("Running command:" + str(cmd))
+        self.proc = subprocess.Popen(cmd)
+        if ( not self.proc ):
+            self.logger.error("%s failed", cmd)
+            return False
+        return True
 
     def waitForSysdigToStart(self):
         start = time.monotonic_ns()
@@ -52,14 +62,22 @@ class Sysdig(MonitoringTool):
 532866 01:02:11.451150437 2 sshd (8368) < execve res=0 exe=/usr/sbin/sshd args=-D.-R. tid=8368(sshd) pid=8368(sshd) ptid=1472(sshd) cwd= fdlimit=1024 pgft_maj=0 pgft_min=42 vm_size=1128 vm_rss=4 vm_swap=0 comm=sshd cgroups=cpuset=/.cpu=/system.slice/ssh.service.cpuacct=/system.slice/ssh.service.io=/... env=LANG=en_US.UTF-8.PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin... tty=0 
 
     '''
-    def extractPsNames(self, eventType, containerName):
+    '''
+    cgroupid takes priority over containerName, if set we won't
+    check the container name
+    '''
+    def extractPsNames(self, eventType, containerName, cgroupId=""):
         self.logger.debug("extractPsNames called!")
         if self.proc != None:
             self.stopMonitoringTool()
 
         psNames = set()
         try:
-            cmd = ["sudo", "sysdig", "-r", self.tmpFile, "evt.type=" + eventType, "and", "container.name=" + containerName]
+            cmd = ["sudo", "sysdig", "-r", self.tmpFile, "evt.type=" + eventType]
+            if ( cgroupId != "" ):
+                cmd = ["sudo", "sysdig", "-r", self.tmpFile, "evt.type=" + eventType, "and", "thread.cgroups", "contains", cgroupId ]
+            elif ( containerName != "" ):
+                cmd = ["sudo", "sysdig", "-r", self.tmpFile, "evt.type=" + eventType, "and", "container.name=" + containerName]
             result = None
             for loopCounter in range(3):
                 result = subprocess.run(cmd, capture_output=True)

@@ -117,13 +117,14 @@ class DynamicAnalysisTester():
                             self.logger.debug(str(myContainer.kill()))
                             self.logger.debug(str(myContainer.delete()))
                             return C.CONSTOP
-            psList = myMonitor.extractPsNames("execve", myContainer.getContainerName())
+            psList = myMonitor.extractPsNames("execve", myContainer.getContainerName(), myContainer.getContainerId())
             if ( not psList or len(psList) == 0 ):
                 self.logger.error("PS List is None or empyt from extractPsNames(). Retrying this container: %s", self.name)
                 self.logger.debug(str(myContainer.kill()))
                 self.logger.debug(str(myContainer.delete()))
                 self.errorMessage = "PS List is None or empty from extractPsNames(), error in sysdig, retrying this container"
                 sysdigErrCount += 1
+            self.logger.info("current psList: %s", str(psList))
             if ( psList ):
                 psListSizes.append(len(psList))
             else:
