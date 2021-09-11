@@ -25,72 +25,49 @@ class Execsnoop(MonitoringTool):
         self.logger.debug("Waited: " + str((time.monotonic_ns() - start) / 1000000) + "ms for execsnoop to start.")
 
     def waitUntilComplete(self):
-        if not self.proc:
-            return
-        
-        # TODO: Add a timeout & throw an exception
-        while (self.proc.poll() == None):
-            justRunTrue = subprocess.Popen(["/bin/true"])
-            justRunTrue.wait()
-            self.proc.wait(timeout=1)
+        self.stopMonitoringTool()
+        return
+        #if not self.proc:
+        #    return
+        #
+        ## TODO: Add a timeout & throw an exception
+        #while (self.proc.poll() == None):
+        #    justRunTrue = subprocess.Popen(["/bin/true"])
+        #    justRunTrue.wait()
+        #    self.proc.wait(timeout=1)
 
     def runWithDuration(self, duration):
-        cmd = ["execsnoop", "-pc", "-M", str(duration),
-               "-w", self.tmpFile]
+        cmd = ["sudo", "execsnoop-bpfcc"]
         self.logger.debug("Running command:" + str(cmd))
-        self.proc = subprocess.Popen(cmd)
+        outputFile = open(self.tmpFile, 'w')
+        self.proc = subprocess.Popen(cmd, stdout=outputFile)
         if ( not self.proc ):
             self.logger.error("%s failed", cmd)
             return False
-        self.waitForSysdigToStart()
+        self.waitForExecsnoopToStart()
         return True
 
     '''
-525529 01:02:07.944909488 3 sshd (8366) > execve filename=/usr/sbin/sshd 
-525530 01:02:07.945347374 3 sshd (8366) < execve res=0 exe=/usr/sbin/sshd args=-D.-R. tid=8366(sshd) pid=8366(sshd) ptid=1472(sshd) cwd= fdlimit=1024 pgft_maj=0 pgft_min=42 vm_size=1128 vm_rss=4 vm_swap=0 comm=sshd cgroups=cpuset=/.cpu=/system.slice/ssh.service.cpuacct=/system.slice/ssh.service.io=/... env=LANG=en_US.UTF-8.PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin... tty=0 
-532865 01:02:11.450742037 2 sshd (8368) > execve filename=/usr/sbin/sshd 
-532866 01:02:11.451150437 2 sshd (8368) < execve res=0 exe=/usr/sbin/sshd args=-D.-R. tid=8368(sshd) pid=8368(sshd) ptid=1472(sshd) cwd= fdlimit=1024 pgft_maj=0 pgft_min=42 vm_size=1128 vm_rss=4 vm_swap=0 comm=sshd cgroups=cpuset=/.cpu=/system.slice/ssh.service.cpuacct=/system.slice/ssh.service.io=/... env=LANG=en_US.UTF-8.PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin... tty=0 
-
+    clear_console    816681 816672   0 /usr/bin/clear_console -q
     '''
-    def extractPsNames(self, eventType, containerName):
+    def extractPsNames(self, eventType, containerName, cgroupId=""):
         self.logger.debug("extractPsNames called!")
         if self.proc != None:
             self.stopMonitoringTool()
 
         psNames = set()
-        #TODO
-#        try:
-#            cmd = ["sudo", "sysdig", "-r", self.tmpFile, "evt.type=" + eventType, "and", "container.name=" + containerName]
-#            result = None
-#            for loopCounter in range(3):
-#                result = subprocess.run(cmd, capture_output=True)
-#                if result.returncode == 0:
-#                    break
-#                self.logger.error("Couldn't open file: %s with err: %s", self.tmpFile, result.stderr)
-#            if result.returncode != 0:
-#                self.logger.error("Failed to open file %s", self.tmpFile)
-#                return None
-#
-#            outStr = str(result.stdout.decode("utf-8"))
-#            self.logger.debug("sysdig output: %s", outStr)
-#            splittedOut = outStr.splitlines()
-#            for line in splittedOut:
-#                splittedLine = line.split()
-#                if ( len(splittedLine) >= 9 and splittedLine[8].startswith("exe=")):
-#                    psName = splittedLine[8].strip()[4:]
-#                    psName = psName.replace("[", "")
-#                    if ( not psName.strip().startswith("/proc/")):
-#                        psNames.add(psName)
-#                elif ( len(splittedLine) == 8 and splittedLine[7].startswith("filename=")):
-#                    psName = splittedLine[7].strip()[9:]
-#                    psName = psName.replace("[", "")
-#                    if ( not psName.strip().startswith("/proc/") ):
-#                        psNames.add(psName)
-#        except IOError as e:
-#            self.logger.error("Couldn't open file: %s", self.tmpFile)
-#            return None
+        outputFile = open(self.tmpFile, 'r')
+        outputLine = outputFile.readline()
+        while ( outputLine ):
+            tokens = outputLine.strip().split()
+            if ( len(tokens) > 4 ):
+                psName = tokens[4].strip()
+                if ( not psName.strip().startswith("/proc/") ):
+                    psNames.add(psName)
+            else:
+                self.logger.warning("execsnoop output line has fewer tokens than expected: %s", outputLine.strip())
+            outputLine = outputFile.readline()
         return psNames
-
 
 
 import logging
@@ -106,9 +83,7 @@ if __name__ == '__main__':
     handler.setFormatter(formatter)
     rootLogger.addHandler(handler)
 
-    mySysdig = Sysdig(rootLogger)
-    mySysdig.runWithDuration(60)
+    myExecsnoop = Execsnoop(rootLogger)
+    myExecsnoop.runWithDuration(60)
     # sysdig runs asynchronously, so we need to wait around too...
     time.sleep(61)
-
-
