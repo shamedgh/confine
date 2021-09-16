@@ -40,6 +40,22 @@ execution.
 
 ***
 
+## Test Monitoring Tool
+We experienced event-loss issues in the dynamic analysis phase of Confine.
+As a result we have added support for other tools as well. Currently we 
+support Sysdig and execsnoop. We have also added a tool to only test the 
+monitoring phase of Confine. It launches the monitoring tool and a requested 
+container, extracts the list of binaries and reports the number.
+We expect this number to be same in the same environment. It can be run multiple 
+times to show whether or not events are being dropped.
+
+```
+sudo python3.8 dynAnalysisStressTest.py --imagename nginx --monitoringtool [sysdig/execsnoop] --count 100
+```
+
+*NOTE:* There seems to be an event-loss issue in the older versions of Sysdig. 
+We recommend using the latest version (&gt;0.26)
+
 ## Paper for reference:
 Please consider citing our paper if you found our tool set useful.
 ```
