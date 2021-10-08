@@ -25,7 +25,7 @@ class ContainerProfiler():
                  glibccfgpath, muslcfgpath, glibcfunclist, 
                  muslfunclist, strictmode, gofolderpath, 
                  cfgfolderpath, fineGrain, extractAllBinaries, 
-                 monitoringTool, logger, isDependent=False):
+                 binLibList, monitoringTool, logger, isDependent=False):
         self.logger = logger
         self.name = name
         self.imagePath = imagePath
@@ -58,6 +58,7 @@ class ContainerProfiler():
         self.extractAllBinaries = extractAllBinaries
         self.isDependent = isDependent
         self.containerName = None
+        self.binLibList = binLibList
         self.monitoringTool = monitoringTool
 
     #TODO List
@@ -329,7 +330,7 @@ class ContainerProfiler():
 
         self.logger.info("--->Starting MONITOR phase:")
         while ( sysdigRunCount <= sysdigTotalRunCount ):
-            myMonitor = processMonitorFactory.Factory(self.logger, self.monitoringTool)
+            myMonitor = processMonitorFactory.Factory(self.logger, self.monitoringTool, psListFilePath=self.binLibList)
             #mySysdig = sysdig.Sysdig(self.logger)
             self.logger.debug("Trying to kill and delete container which might not be running in loop... Not a problem if returns error")
             str(myContainer.kill())

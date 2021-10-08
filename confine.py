@@ -110,6 +110,9 @@ if __name__ == '__main__':
     parser.add_option("", "--skip", dest="skippreviousruns", action="store_true", default=False,
                       help="Skip running analysis for containers ran previously")
 
+    parser.add_option("", "--binliblist", dest="binliblist", default=None, nargs=1,
+                      help="Path to file containing list of binaries and libraries")
+
     parser.add_option("-d", "--debug", dest="debug", action="store_true", default=False,
                       help="Debug enabled/disabled")
 
@@ -239,7 +242,7 @@ if __name__ == '__main__':
                                 depImageNameFullPath, depOptions, options.libccfginput, 
                                 options.muslcfginput, glibcFuncList, muslFuncList, 
                                 options.strictmode, options.gofolderpath, options.cfgfolderpath, 
-                                options.finegrain, options.allbinaries, 
+                                options.finegrain, options.allbinaries, options.binliblist, 
                                 options.monitoringtool, rootLogger, True)
                         returncode = newProfile.createSeccompProfile(options.outputfolder + "/" + depImageName + "/", options.reportfolder)
                         #if ( returncode != C.SYSDIGERR ):
@@ -275,7 +278,8 @@ if __name__ == '__main__':
                             options.muslcfginput, glibcFuncList, muslFuncList, 
                             options.strictmode, options.gofolderpath, 
                             options.cfgfolderpath, options.finegrain, 
-                            options.allbinaries, options.monitoringtool, rootLogger)
+                            options.allbinaries, options.binliblist, 
+                            options.monitoringtool, rootLogger)
                     returncode = newProfile.createSeccompProfile(options.outputfolder + "/" + imageName + "/", options.reportfolder)
                     end = time.time()
                     #if ( returncode != C.SYSDIGERR ):

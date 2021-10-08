@@ -7,7 +7,7 @@ class Sysdig(MonitoringTool):
     """
     This class can be used to start a sysdig process and extract information from the output when required
     """
-    def __init__(self, logger):
+    def __init__(self, logger, psListPath=None):
         MonitoringTool.__init__(self, logger)
         self.cleanSysdigState()
         fd, self.tmpFile = tempfile.mkstemp(prefix="confine-sysdig_")
@@ -45,7 +45,7 @@ class Sysdig(MonitoringTool):
             self.proc.wait(timeout=1)
 
     def runWithDuration(self, duration):
-        cmd = ["sysdig", "-pc", "-M", str(duration),
+        cmd = ["sysdig", "-pc", "evt.type=execve", "-M", str(duration),
                "-w", self.tmpFile]
         self.logger.debug("Running command:" + str(cmd))
         self.proc = subprocess.Popen(cmd)

@@ -7,7 +7,7 @@ class Execsnoop(MonitoringTool):
     """
     This class can be used to start an execsnoop process and extract information from the output when required
     """
-    def __init__(self, logger):
+    def __init__(self, logger, psListPath=None):
         MonitoringTool.__init__(self, logger)
         fd, self.tmpFile = tempfile.mkstemp(prefix="confine-execsnoop_")
         os.close(fd)
