@@ -59,6 +59,36 @@ of required system calls.
 </p>
 </div>
 
+<div class="tab">
+<h2>List of Required Binaries</h2>
+</div>
+
+<div class="tabcontent">
+<p>
+We need to identify which binaries are required for the container to work
+properly. It might seem like a Docker iamge such as nginx only executes nginx
+and that would be the only necessary binary. But that is not the case, since
+most containers run utility programs during their initialization, we need to
+identify this set of programs. We have three options for doing so. 
+<ul>
+    <li>Consider all ELF files in the Docker image.</li>
+    <li>Require the user to provide this list.</li>
+    <li>Launch the container for a short period of time and extract the
+binaries executed.</li>
+</ul>
+
+While considering all the binaries is the most complete approach, it comes
+with very low security benefit. That is because most containers are launched
+with all the binaries and files available in a Linux distribution  (e.g.
+Ubuntu). Asking the user would also be complete, but the user might not be
+completely aware of all the binaries required for the correct execution of the
+container. That is why we choose option 3. We launch the container for 60
+seconds (can be changed) and monitor all invocations of the execve system
+call. We consider these binaries and all their respective libraries for our
+analysis.
+</p>
+</div>
+
 <br/>
 <div class="tab">
 <h2>Paper for reference</h2>
