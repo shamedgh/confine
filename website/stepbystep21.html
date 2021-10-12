@@ -43,7 +43,7 @@ following commands.
             kernel version required for completing the hands-on exercise.</p>
           <pre><span class="tryit_run">uname --kernel-release</span></pre>
           <p>This should print the kernel version which should be as follows:</p>
-          <pre class="tryit_output">4.15.0-1054-aws</pre>
+          <pre class="tryit_output">5.4.0-1045-aws</pre>
         <p>It is critical that you see the correct Linux kernel version.
         <br/>
         <span style="font-weight:bold;">Please use the raise hand feature of Webex to notify one of
@@ -146,7 +146,7 @@ You can use your favorite text editor (vim, nano, emacs).</p>
     <span style="font-weight:bold;">Note: You must run the following command as root.</span>
     </p>
 
-    <pre>sudo python3.7 confine.py -l libc-callgraphs/glibc.callgraph -m libc-callgraphs/musllibc.callgraph -i myimages.json -o output/ -p default.seccomp.json -r results/ -g go.syscalls/ --finegrain --othercfgfolder other-callgraphs.wsyscalls/</pre>
+    <pre>sudo python3.8 confine.py -l libc-callgraphs/glibc.callgraph -m libc-callgraphs/musllibc.callgraph -i myimages.json -o output/ -p default.seccomp.json -r results/ -g go.syscalls/ --finegrain --othercfgfolder other-callgraphs.wsyscalls/</pre>
 
     <p>The script will now start analyzing the Nginx Docker image. We have also passed the 
     `--finegrain` option which causes Confine to generate two separate filters; one for the 
@@ -157,65 +157,31 @@ You can use your favorite text editor (vim, nano, emacs).</p>
     </p>
 
     <pre class="tryit_output">
-------------------------------------------------------------------------
-////////////////////////////////////////////////////////////////////////
------&gt;Starting analysis for image: nginx&lt;-----
-////////////////////////////////////////////////////////////////////////</pre>
+  /$$$$$$   /$$$$$$  /$$   /$$ /$$$$$$$$ /$$$$$$ /$$   /$$ /$$$$$$$$
+ /$$__  $$ /$$__  $$| $$$ | $$| $$_____/|_  $$_/| $$$ | $$| $$_____/
+| $$  \__/| $$  \ $$| $$$$| $$| $$        | $$  | $$$$| $$| $$      
+| $$      | $$  | $$| $$ $$ $$| $$$$$     | $$  | $$ $$ $$| $$$$$   
+| $$      | $$  | $$| $$  $$$$| $$__/     | $$  | $$  $$$$| $$__/   
+| $$    $$| $$  | $$| $$\  $$$| $$        | $$  | $$\  $$$| $$      
+|  $$$$$$/|  $$$$$$/| $$ \  $$| $$       /$$$$$$| $$ \  $$| $$$$$$$$
+ \______/  \______/ |__/  \__/|__/      |______/|__/  \__/|________/
+
+[INIT] Starting analysis for image: nginx</pre>
 
     <p><span style="font-weight:bold;">b)</span> Then it will start the monitoring phase, which uses 
-    Sysdig to identify the binaries executed in the container. This phase lasts for 60 seconds.
+    Sysdig to identify the binaries executed in the container. This phase lasts for 20 seconds.
     <span style="font-style:italic;">(For more details on why we do this please refer to the 
     <a href="about.html">about</a>  page.)</span><br/>
     In case it is the first time we are hardening a Docker image and we haven't
     previously extracted the list of binaries and libraries it will first print:</p>
 
-    <pre class="tryit_output">Cache doesn't exist, must extract binaries and libraries</pre>
+    <pre class="tryit_output">[MONITOR] Cache doesn't exist, must extract binaries and libraries </pre>
 
     <p>Then it will monitor the executed binaries by running sysdig, generating the following output:</p>
 
     <pre class="tryit_output">
----&gt;Starting MONITOR phase:
-Running sysdig multiple times. Run count: 1 from total: 3
-Ran container sleeping for 60 seconds to generate logs and extract execve
-system calls
-len(psList) from sysdig: 39
-Container: nginx extracted psList with 52 elements
-Running sysdig multiple times. Run count: 2 from total: 3
-Ran container sleeping for 60 seconds to generate logs and extract execve
-system calls
-len(psList) from sysdig: 48
-Container: nginx extracted psList with 62 elements
-Running sysdig multiple times. Run count: 3 from total: 3
-Ran container sleeping for 60 seconds to generate logs and extract execve
-system calls
-len(psList) from sysdig: 45
-Container: nginx extracted psList with 63 elements
-Container: nginx PS List: {'env', '/usr/sbin/sh', '/usr/bin/basename', 'find',
-'containerd-shim', '/docker-entrypoint.d/20-envsubst-on-templates.sh',
-'/usr/bin/sort', '/usr/bin/sh', '/bin/grep', '/usr/local/sbin/nginx',
-'md5sum', 'dumpe2fs', '/usr/local/sbin/dumpe2fs', '/usr/sbin/runc',
-'/docker-entrypoint.sh', 'cut', '/lib/x86_64-linux-gnu/libc-2.28.so',
-'/usr/bin/dumpe2fs', 'libnetwork-setkey', '/usr/sbin/nginx', '[vdso]',
-'/usr/bin/find', '/usr/bin/dpkg-query', '/lib/x86_64-linux-gnu/libdl-2.28.so',
-'/sbin/sh', '/sbin/dumpe2fs', '/bin/sed', '/usr/bin/env', '/usr/bin/touch',
-'basename', '/usr/local/bin/nginx', '/bin/sh', '/usr/sbin/dumpe2fs',
-'set-ipv6', '/usr/local/sbin/sh', 'touch',
-'/lib/x86_64-linux-gnu/libz.so.1.2.11', 'sort', '[vsyscall]', 'runc',
-'/lib/systemd/systemd-sysctl', 'sed', 'ifquery', '/usr/local/bin/dumpe2fs',
-'/docker-entrypoint.d/10-listen-on-ipv6-by-default.sh',
-'/usr/lib/x86_64-linux-gnu/libssl.so.1.1',
-'/lib/x86_64-linux-gnu/libnss_files-2.28.so',
-'/lib/x86_64-linux-gnu/libcrypt-2.28.so', '/lib/x86_64-linux-gnu/ld-2.28.so',
-'nginx', '/lib/udev/bridge-network-interface', '/usr/bin/md5sum',
-'/lib/x86_64-linux-gnu/libpcre.so.3.13.3',
-'/usr/lib/x86_64-linux-gnu/libcrypto.so.1.1', '/usr/bin/cut', 'dpkg-query',
-'grep', '/usr/bin/containerd-shim',
-'/lib/x86_64-linux-gnu/libpthread-2.28.so', 'sh',
-'/lib/udev/ifupdown-hotplug', '/sbin/ifquery', '/usr/local/bin/sh'}
-Starting to copy identified binaries and libraries (This can take some
-time...)
-Finished copying identified binaries and libraries
-&lt;---Finished MONITOR phase</pre>
+[MONITOR] Ran container, sleeping for 20 seconds to generate logs and extract execve system calls
+[MONITOR] len(psList) from sysdig: 27</pre>
 
     <p>In case we have previously ran the dynamic analysis phase and extracted all the binaries and
     libraries, it will only run once. We need this to generate the logs created for
@@ -230,72 +196,54 @@ Finished copying identified binaries and libraries
     and then start copying them.</p>
 
     <pre class="tryit_output">
-Starting to copy identified binaries and libraries (This can take some time...)
-Finished copying identified binaries and libraries
-&lt;---Finished MONITOR phase</pre>
+[MONITOR] Starting to copy identified binaries and libraries (This can take some time...)
+[MONITOR] Finished copying identified binaries and libraries
+[MONITOR] Finished Monitoring phase</pre>
 
     <p><span style="font-weight:bold;">d)</span> After the executables have been extracted, 
-    the script then starts extracting any direct system calls in them using objdump. It will go
+    the script then starts extracting any direct and indirect system calls in them using objdump
+    and the libc callgraph. It will go
     over all the files copied from the container to the temporary output folder
-    and identify direct system calls.
+    and identify direct and indirect system calls.
     </p>
 
     <pre class="tryit_output">
----&gt;Starting Direct Syscall Extraction
-Extracting direct system call invocations
-&lt;---Finished Direct Syscall Extraction</pre>
-
-    <p><span style="font-weight:bold;">e)</span> Then, it extracts the list of functions imported by each binary and library.</p>
-    <pre class="tryit_output">
----&gt;Starting ANALYZE phase
-Extracting imported functions and storing in libs.out
-&lt;---Finished ANALYZE phase</pre>
+[ANALYSIS] Starting Analysis Phase...
+[ANALYSIS] Extracting imported functions and storing in libs.out
+[ANALYSIS] ...Analysis Phase Done</pre>
 
     <p><span style="font-weight:bold;">f)</span> After it extracts all the direct system calls and combines the imported
     libc functions with the set of system calls required by those libc functions,
     it generates the set of prohibited system calls and prints the following line:</p>
 
     <pre class="tryit_output">
----&gt;Starting INTEGRATE phase, extracting the list required system calls
----&gt;Starting Fine Grain Syscall Extraction
-&lt;---Finished Direct Syscall Extraction
+[INTEGRATE] Starting Integrate phase, extracting the list required system calls 
+[INTEGRATE] Generating final system call filter list</pre>
 
-Traversing libc call graph to identify required system calls
-Generating final system call filter list
-************************************************************************************
-Container Name: nginx Num of filtered syscalls (original): 150
-************************************************************************************
-&lt;---Finished INTEGRATE phase</pre>
-
-    <p><span style="font-weight:bold;">g)</span> In our latest release, Confine supports
-    both library debloating and multi-phase system call filtering.
+    <p><span style="font-weight:bold;">g)</span> 
+    In our latest release, Confine supports
+    multi-phase system call filtering.
     In this section we can see the number of system calls which are filtered after 
-    applying library debloating and then the number of system calls filtered after 
     the container finishes its initialization phase.
     </p>
 
     <pre class="tryit_output">
-Container Name: nginx Num of filtered syscalls (fine grained): 154
-nginx binary profile denylist: 202</pre>
+[INTEGRATE] Container Name: nginx Num of filtered syscalls (initialization-phase): 161 
+[INTEGRATE] Container name: nginx Num of filtered syscalls (post-initialization): 207 </pre>
 
     <p><span style="font-weight:bold;">h)</span> Now that the unnecessary system calls have 
-    been extracted and we have generated the original, fine-grained (library debloating) and 
-    multi-phased Seccomp profile we validate if the container works correctly after
-    applying the fine-grained profile to the entire container and applying the post-initialization
+    been extracted and we have generated the original, and post-initialization
+    Seccomp profile we validate if the container works correctly after
+    applying the post-initialization
     phase profile to the final binary (Nginx in this case).
     We validate if it works correctly by comparing the logs generated by the container without 
     any Seccomp profile and with our profiles in place.</p>
 
     <pre class="tryit_output">
----&gt;Validating generated Seccomp profile: fgReport.new//nginx.finegrain.seccomp.json
-************************************************************************************
-Finished validation. Container for image: nginx was hardened SUCCESSFULLY!
-************************************************************************************
----&gt;Validating more restrictive Seccomp profile: fgReport.new//nginx-seccomp.c
-Killing and deleting fine-grained hardened container
-************************************************************************************
-Finished more restricted validation. Container for image: nginx was hardened SUCCESSFULLY!
-************************************************************************************</pre>
+[VALIDATION] Validating initialization-phase Seccomp profile: results//nginx.seccomp.json
+[VALIDATION] Finished validating initialization-phase profile. Container for image: nginx was hardened SUCCESSFULLY!
+[VALIDATION] Validating post-initialization Seccomp profile: results//nginx-seccomp.c
+[VALIDATION] Finished post-initialization profile validation. Container for image: nginx was hardened SUCCESSFULLY!</pre>
 
     <p>If you see the message <span style="font-style:italic;">Container for image: $$$ was hardened successfully!</span>, this means that the Seccomp profile passed our validation steps.<br/>
 
@@ -306,10 +254,7 @@ Finished more restricted validation. Container for image: nginx was hardened SUC
     <p><span style="font-weight:bold;">i)</span> Finally, the analysis of the Nginx Docker image has finished and Confine prints the following line:</p>
 
     <pre class="tryit_output">
-///////////////////////////////////////////////////////////////////////////////////////
------&gt;Finished extracting system calls for nginx, sleeping for 5 seconds&lt;-----
-///////////////////////////////////////////////////////////////////////////////////////
---------------------------------------------------------------------------------------</pre>
+[FINAL] Finished extracting system calls for nginx</pre>
 
     <p>5. Now that the analysis is complete, we can view the binaries and libraries that were identified as required for the proper execution of the container (stored in <tt>./output/nginx</tt>):</p>
 
@@ -319,14 +264,12 @@ Finished more restricted validation. Container for image: nginx was hardened SUC
 
     <p>Original:</p>
     <pre>cat ./results/nginx.seccomp.json</pre>
-    <p>With library debloating:</p>
-    <pre>cat ./results/nginx.finegrain.seccomp.json</pre>
     <p>With multi-phase filtering:</p>
     <pre>cat ./results/nginx.restrictive.seccomp.json</pre>
  
     <p>6. Multi-phase filtering works by modifying the Docker entrypoint and
     running a proxy program instead of the main application. The proxy program
-    is automatically generated by Confine to installed the post-initialization
+    is automatically generated by Confine to install the post-initialization
     system call filters and then launch the main program.
     The modified entrypoint script is in the output folder
     (<tt>./output/nginx/</tt>) and the generated C proxy program is in the
@@ -355,7 +298,7 @@ Finished more restricted validation. Container for image: nginx was hardened SUC
 container to see if any operations have become restricted.</p>
 
     <p>1. Launch the container using the generated Seccomp profile:</p>
-    <pre>sudo docker run --name container-hardened --security-opt seccomp=results/nginx.finegrain.seccomp.json -td nginx</pre>
+    <pre>sudo docker run --name container-hardened --security-opt seccomp=results/nginx.seccomp.json -td nginx</pre>
 
     <p>2. Extract the IP address of the running container:</p>
     <pre>sudo docker inspect --format='{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' container-hardened</pre>
@@ -418,23 +361,17 @@ apt-get update
     <p>1. Which system calls can be filtered? How many are they?</p>
     <p>Original:</p>
     <pre>
-    cat results/nginx.seccomp.json | grep name | wc -l
-    </pre>
-    <p>Fine-grained:</p>
-    <pre>
-    cat results/nginx.finegrain.seccomp.json | grep name | wc -l
-    </pre>
+cat results/nginx.seccomp.json | grep name | wc -l</pre>
     <p>Multi-phase:</p>
     <pre>
-    cat results/nginx.restrictive.seccomp.json | grep name | wc -l
-    </pre>
+cat results/nginx.restrictive.seccomp.json | grep name | wc -l</pre>
 
     <p>2. Determine which kernel CVEs have been mitigated by disabling the above system calls.
     You can use the <tt>filterToCveProfile.py</tt> script to map the generated Seccomp
     profile to the mitigated CVEs.
     </p>
 
-    <pre>python3.7 filterProfileToCve.py -c cve.files/cveToStartNodes.csv.validated -f results/profile.report.details.csv -o results -v cve.files/cveToFile.json.type.csv --manualcvefile cve.files/cve.to.syscall.manual --manualtypefile cve.files/cve.to.vulntype.manual</pre>
+    <pre>python3.8 filterProfileToCve.py -c cve.files/cveToStartNodes.csv.validated -f results/profile.report.details.csv -o results -v cve.files/cveToFile.json.type.csv --manualcvefile cve.files/cve.to.syscall.manual --manualtypefile cve.files/cve.to.vulntype.manual</pre>
 
     <p>
     <tt>-c</tt>: Path to the file containing a map between each CVE and all the starting
