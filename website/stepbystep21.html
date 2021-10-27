@@ -46,7 +46,7 @@ following commands.
           <pre class="tryit_output">5.4.0-1045-aws</pre>
         <p>It is critical that you see the correct Linux kernel version.
         <br/>
-        <span style="font-weight:bold;">Please use the raise hand feature of Webex to notify one of
+        <span style="font-weight:bold;">Please use Slido to notify one of
         the panelists if the version does not match.</span>
         </p>
 
@@ -119,7 +119,8 @@ CONTAINER ID    IMAGE     COMMAND                  CREATED            STATUS    
 choose another name you need to change the rest of the commands accordingly.
 You can use your favorite text editor (vim, nano, emacs).</p>
     <pre>vim myimages.json</pre>
-    <p>3. Copy the following in the file you just opened and then save and close it.</p>
+    <p>3. Copy the following in the file you just opened and then save and close
+it (to close vim press the Esc key and type <tt>:wq</tt>).</p>
     <pre>
 {
     "nginx": {
@@ -181,7 +182,7 @@ You can use your favorite text editor (vim, nano, emacs).</p>
 
     <pre class="tryit_output">
 [MONITOR] Ran container, sleeping for 20 seconds to generate logs and extract execve system calls
-[MONITOR] len(psList) from sysdig: 27</pre>
+[MONITOR] len(psList) from sysdig: 25</pre>
 
     <p>In case we have previously ran the dynamic analysis phase and extracted all the binaries and
     libraries, it will only run once. We need this to generate the logs created for
@@ -228,8 +229,8 @@ You can use your favorite text editor (vim, nano, emacs).</p>
     </p>
 
     <pre class="tryit_output">
-[INTEGRATE] Container Name: nginx Num of filtered syscalls (initialization-phase): 161 
-[INTEGRATE] Container name: nginx Num of filtered syscalls (post-initialization): 207 </pre>
+[INTEGRATE] Container Name: nginx Num of filtered syscalls (initialization-phase): 156 
+[INTEGRATE] Container name: nginx Num of filtered syscalls (post-initialization): 205 </pre>
 
     <p><span style="font-weight:bold;">h)</span> Now that the unnecessary system calls have 
     been extracted and we have generated the original, and post-initialization
@@ -262,9 +263,9 @@ You can use your favorite text editor (vim, nano, emacs).</p>
 
     <p>And the generated Seccomp profiles (stored in <tt>./results/</tt>):</p>
 
-    <p>Original:</p>
+    <p>Container-wide:</p>
     <pre>cat ./results/nginx.seccomp.json</pre>
-    <p>With multi-phase filtering:</p>
+    <p>Application-specific:</p>
     <pre>cat ./results/nginx.restrictive.seccomp.json</pre>
  
     <p>6. Multi-phase filtering works by modifying the Docker entrypoint and
@@ -300,22 +301,33 @@ container to see if any operations have become restricted.</p>
     <p>1. Launch the container using the generated Seccomp profile:</p>
     <pre>sudo docker run --name container-hardened --security-opt seccomp=results/nginx.seccomp.json -td nginx</pre>
 
-    <p>2. Extract the IP address of the running container:</p>
+    <p>2. Make sure the container was launched successfully:</p>
+    <pre>sudo docker container ls -a</pre>
+
+        <p>The output will show a list of containers both running and killed. The format is as follows:</p>
+        <pre class="tryit_output">
+CONTAINER ID    IMAGE    COMMAND                  CREATED        STATUS           PORTS               NAMES
+[long hash]     nginx    "/docker-entrypoint.…"   2 seconds ago  Up 1 second      80/tcp    container-hardened
+        </pre>
+
+    <p>3. Extract the IP address of the running container:</p>
     <pre>sudo docker inspect --format='{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' container-hardened</pre>
 
-    <p>3. Fetch the default index page of Nginx from the host. Does it work?
-    <span style="font-weight:bold;">Remember to replace [IP-Address] with the IP you retained using the previous command</span></p>
+    <p>4. Fetch the default index page of Nginx from the host. Does it work?
+    <br/>
+    <span style="font-weight:bold;">(Remember to replace [IP-Address] with the
+IP you retained using the previous command.)</span></p>
     <pre>wget http://[IP-Address]
 cat index.html</pre>
 
-    <p>4. Try connecting to the hardened container and run some commands.</p>
+    <p>5. Try connecting to the hardened container and run some commands.</p>
     <pre>sudo docker exec -it container-hardened /bin/bash</pre>
 
     <p>As you can see, the above command does not work. That's because <tt>/bin/bash</tt> was not
     identified as necessary for running the container. Now let's try again with <tt>/bin/sh</tt>.</p>
     <pre>sudo docker exec -it container-hardened /bin/sh</pre>
 
-    <p>5. Now that we are inside the container let's see which commands work and which don't.
+    <p>6. Now that we are inside the container let's see which commands work and which don't.
     <br/>Should work:</p>
 
     <pre>
@@ -329,15 +341,15 @@ cp</pre>
 apt-get update
 </pre>
     
-    <p>6. To conclude this exercise please exit the container and return to the host system bash shell using the following command:</p>
+    <p>7. To conclude this exercise please exit the container and return to the host system bash shell using the following command:</p>
 
     <pre>exit</pre>
 
-    <p>7. To make sure you are out of the container please run the following command.</p>
+    <p>8. To make sure you are out of the container please run the following command.</p>
     <pre>ls -lh /home/ubuntu/confine</pre>
 
     <p>If you get an error saying the folder does not exist, it means you are still in the container. 
-    Go back to step 6.</p>
+    Go back to step 7.</p>
     <pre class="tryit_output">ls: cannot access '/home/ubuntu/confine': No such file or directory</pre>
 
 </div>
@@ -355,14 +367,14 @@ apt-get update
     <pre>cd /home/ubuntu/confine</pre>
 
     <p>If you get an error saying the folder does not exist, it means you are still in the container. 
-    Go back to step 6 of the previous exercise.</p>
+    Go back to step 7 of the previous exercise.</p>
     <pre class="tryit_output">bash: cd: /home/ubuntu/confine: No such file or directory</pre>
 
     <p>1. Which system calls can be filtered? How many are they?</p>
-    <p>Original:</p>
+    <p>Container-wide:</p>
     <pre>
 cat results/nginx.seccomp.json | grep name | wc -l</pre>
-    <p>Multi-phase:</p>
+    <p>Application-specific:</p>
     <pre>
 cat results/nginx.restrictive.seccomp.json | grep name | wc -l</pre>
 
