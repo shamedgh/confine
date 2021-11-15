@@ -262,7 +262,7 @@ if __name__ == '__main__':
                 retryCount = 0
                 while ( retryCount < 2 ):
                     start = time.time()
-                    newProfile = containerProfiler.ContainerProfiler(imageName, imageNameFullPath, imageOptions, options.libccfginput, options.muslcfginput, glibcFuncList, muslFuncList, options.strictmode, options.gofolderpath, options.cfgfolderpath, options.finegrain, options.allbinaries, rootLogger)
+                    newProfile = containerProfiler.ContainerProfiler(imageName, imageNameFullPath, imageOptions, options.libccfginput, options.muslcfginput, glibcFuncList, muslFuncList, options.strictmode, options.gofolderpath, options.cfgfolderpath, options.finegrain, options.allbinaries, rootLogger, imageArgs)
                     returncode = newProfile.createSeccompProfile(options.outputfolder + "/" + imageName + "/", options.reportfolder)
                     end = time.time()
                     #if ( returncode != C.SYSDIGERR ):

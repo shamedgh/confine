@@ -21,9 +21,10 @@ class ContainerProfiler():
     """
     This class can be used to create a seccomp profile for a container through static anlyasis of the useful binaries
     """
-    def __init__(self, name, imagePath, options, glibccfgpath, muslcfgpath, glibcfunclist, muslfunclist, strictmode, gofolderpath, cfgfolderpath, fineGrain, extractAllBinaries, logger, isDependent=False):
+    def __init__(self, name, imagePath, options, glibccfgpath, muslcfgpath, glibcfunclist, muslfunclist, strictmode, gofolderpath, cfgfolderpath, fineGrain, extractAllBinaries, logger, args, isDependent=False):
         self.logger = logger
         self.name = name
+        self.args = args
         self.imagePath = imagePath
         #self.name = name
         #if ( "/" in self.name ):
@@ -295,7 +296,7 @@ class ContainerProfiler():
         self.logger.debug("binaryReady: %s libFileReady: %s", str(binaryReady), str(libFileReady))
 
 
-        myContainer = container.Container(self.imagePath, self.options, self.logger)
+        myContainer = container.Container(self.imagePath, self.options, self.logger, self.args)
         self.containerName = myContainer.getContainerName()
 
         if ( not myContainer.pruneVolumes() ):

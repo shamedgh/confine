@@ -28,7 +28,7 @@ class Container():
     """
     This class can be used to extract information regarding a container created from a docker image
     """
-    def __init__(self, name, options, logger, remote=None, args=None):
+    def __init__(self, name, options, logger, args, remote=None):
         self.logger = logger
         self.imageName = name
         self.containerName = name
