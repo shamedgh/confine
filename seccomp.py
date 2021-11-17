@@ -39,9 +39,6 @@ class Seccomp():
             self.logger.warning("Trying to load old profile from: %s, but doesn't exist: %s", profilePath, str(e))
             result = ""
         return result
-   
-    def syscallTemplate(self):
-        return json.loads('{"name": "","action": "SCMP_ACT_ERRNO","args": []}')
  
     def syscallTemplateWl(self):
         return json.loads('{"name": "","action": "SCMP_ACT_ALLOW","args": []}')
@@ -49,10 +46,9 @@ class Seccomp():
     def createProfile(self, syscalls):
         template = self.loadDefaultTemplate()  # load json as dict
         
-        for call in syscalls:
-            newsyscall = self.syscallTemplate()
-            newsyscall["name"] = call
-            template["syscalls"].append(newsyscall)
+        nameList = json.loads('{ "names": [], "action": "SCMP_ACT_ERRNO"}')
+        nameList["names"] = syscalls
+        template["syscalls"].append(nameList)
     
         return json.dumps(template, indent=4)
     
