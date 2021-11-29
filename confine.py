@@ -5,6 +5,7 @@ import containerProfiler
 import container
 import time
 import json
+import re
 
 sys.path.insert(0, './python-utils/')
 
@@ -212,6 +213,8 @@ if __name__ == '__main__':
             retryCount = 0
             depLinkSet = set()
             imageName = imageVals.get("image-name", imageKey)
+            tmpimageName = imageVals.get("image-name", imageKey)
+            imageName = re.sub('\W+','-', tmpimageName)
             if ( imageVals.get("enable", "false") == "true" and imageName not in skipList ):
                 rootLogger.info("------------------------------------------------------------------------")
                 rootLogger.info("////////////////////////////////////////////////////////////////////////")
@@ -224,7 +227,8 @@ if __name__ == '__main__':
 
                 imageDependencies = imageVals.get("dependencies", dict())
                 for depKey, depVals in imageDependencies.items():
-                    depImageName = depVals.get("image-name", depKey)
+                    tmpdepImageName = depVals.get("image-name", depKey)
+                    depImageName = re.sub('\W+','-', tmpdepImageName)
                     depImageNameFullPath = depVals.get("image-url", depImageName)
                     depOptions = depVals.get("options", "")
                     depLink = True if depVals.get("link", False) else False
