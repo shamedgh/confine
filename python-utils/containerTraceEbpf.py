@@ -310,9 +310,9 @@ b = BPF(text=bpf_text)
 execve_fnname = b.get_syscall_fnname("execve")
 b.attach_kprobe(event=execve_fnname, fn_name="syscall__execve")
 b.attach_kretprobe(event=execve_fnname, fn_name="do_ret_sys_execve")
-b.attach_kprobe(event="do_sys_open", fn_name="trace_syscall__open")
+#b.attach_kprobe(event="do_sys_open", fn_name="trace_syscall__open")
 #b.attach_kprobe(event="do_sys_open", fn_name="trace_entry")
-b.attach_kretprobe(event="do_sys_open", fn_name="do_ret_sys_open")
+#b.attach_kretprobe(event="do_sys_open", fn_name="do_ret_sys_open")
 # TODO openat? openat2?
 # Check out https://www.kernel.org/doc/html/latest/filesystems/path-lookup.html
 # When we do openat, we need to be careful about relative paths which may not start from pwd, but from a supplied FD!?!?
@@ -353,6 +353,9 @@ def get_ppid(pid):
 # process event
 def process_event(cpu, data, size):
     event = b["events"].event(data)
+    print("inprocessevent")
+    print("eventtype:"+str(event.type))
+    print("eventsize:"+str(size))
 
     # Add argument to argv array for use later
     if event.type == EventType.EVENT_EXEC_ARG:

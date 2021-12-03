@@ -28,16 +28,16 @@ class BpfKprobe(MonitoringTool):
         return
 
     def runWithDuration(self, duration):
-        cmd = ["sudo", "python", "python-utils/containerTraceEbpf.py"]
+        cmd = "exec sudo python python-utils/containerTraceEbpf.py"
         self.logger.debug("Running command:" + str(cmd))
         outputFile = open(self.tmpFile, 'w')
-        self.proc = subprocess.Popen(cmd, stdout=outputFile, shell=False)
+        self.proc = subprocess.Popen(cmd, bufsize=1, stdout=outputFile, shell=True, universal_newlines=True)
         if ( not self.proc ):
             self.logger.error("%s failed", cmd)
             return False
         self.waitForBpfKprobeToStart()
         return True
-
+    
     '''
     clear_console    816681 816672   0 /usr/bin/clear_console -q
     '''
