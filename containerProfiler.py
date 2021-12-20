@@ -21,7 +21,7 @@ class ContainerProfiler():
     """
     This class can be used to create a seccomp profile for a container through static anlyasis of the useful binaries
     """
-    def __init__(self, name, imagePath, options, glibccfgpath, muslcfgpath, glibcfunclist, muslfunclist, strictmode, gofolderpath, cfgfolderpath, fineGrain, extractAllBinaries, logger, args, isDependent=False):
+    def __init__(self, name, imagePath, options, glibccfgpath, muslcfgpath, glibcfunclist, muslfunclist, strictmode, gofolderpath, cfgfolderpath, fineGrain, extractAllBinaries, logger, maptype, args, isDependent=False):
         self.logger = logger
         self.name = name
         self.args = args
@@ -39,6 +39,7 @@ class ContainerProfiler():
         self.strictMode = strictmode
         self.goFolderPath = gofolderpath
         self.cfgFolderPath = cfgfolderpath
+        self.maptype = maptype
         self.status = False
         self.runnable = False
         self.installStatus = False
@@ -567,7 +568,7 @@ class ContainerProfiler():
                 self.logger.debug("After reading file: %s len(staticSyscallList): %d", os.path.join(self.goFolderPath, self.name + ".syscalls"), len(staticSyscallList))
 
                 syscallMapper = syscall.Syscall(self.logger)
-                syscallMap = syscallMapper.createMap()
+                syscallMap = syscallMapper.createMap(self.maptype)
 
                 self.logger.info("Generating final system call filter list")
                 blackListOriginal = []
@@ -762,7 +763,8 @@ class ContainerProfiler():
             allSyscalls.add(syscallNum)
 
         syscallMapper = syscall.Syscall(self.logger)
-        syscallMap = syscallMapper.createMap()
+        syscallMap = syscallMapper.createMap(self.maptype)
+
         blackList = set()
         i = 0
         while i < 400:

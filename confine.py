@@ -111,6 +111,9 @@ if __name__ == '__main__':
     parser.add_option("-d", "--debug", dest="debug", action="store_true", default=False,
                       help="Debug enabled/disabled")
 
+    parser.add_option("-t", "--maptype", dest="maptype", default="awk",
+                      help="Syscall number mapping method: awk, auditd, libseccomp")
+
     (options, args) = parser.parse_args()
     if isValidOpts(options):
         rootLogger = setLogPath("containerprofiler.log")
@@ -236,7 +239,7 @@ if __name__ == '__main__':
 
                     retryCount = 0
                     while ( retryCount < 2 ):
-                        newProfile = containerProfiler.ContainerProfiler(depImageName, depImageNameFullPath, depOptions, options.libccfginput, options.muslcfginput, glibcFuncList, muslFuncList, options.strictmode, options.gofolderpath, options.cfgfolderpath, options.finegrain, options.allbinaries, rootLogger, True)
+                        newProfile = containerProfiler.ContainerProfiler(depImageName, depImageNameFullPath, depOptions, options.libccfginput, options.muslcfginput, glibcFuncList, muslFuncList, options.strictmode, options.gofolderpath, options.cfgfolderpath, options.finegrain, options.allbinaries, rootLogger, options.maptype, True)
                         returncode = newProfile.createSeccompProfile(options.outputfolder + "/" + depImageName + "/", options.reportfolder)
                         #if ( returncode != C.SYSDIGERR ):
                         if ( returncode == 0 ):
@@ -266,7 +269,7 @@ if __name__ == '__main__':
                 retryCount = 0
                 while ( retryCount < 2 ):
                     start = time.time()
-                    newProfile = containerProfiler.ContainerProfiler(imageName, imageNameFullPath, imageOptions, options.libccfginput, options.muslcfginput, glibcFuncList, muslFuncList, options.strictmode, options.gofolderpath, options.cfgfolderpath, options.finegrain, options.allbinaries, rootLogger, imageArgs)
+                    newProfile = containerProfiler.ContainerProfiler(imageName, imageNameFullPath, imageOptions, options.libccfginput, options.muslcfginput, glibcFuncList, muslFuncList, options.strictmode, options.gofolderpath, options.cfgfolderpath, options.finegrain, options.allbinaries, rootLogger, options.maptype, imageArgs)
                     returncode = newProfile.createSeccompProfile(options.outputfolder + "/" + imageName + "/", options.reportfolder)
                     end = time.time()
                     #if ( returncode != C.SYSDIGERR ):

@@ -68,6 +68,9 @@ if __name__ == '__main__':
     parser.add_option("-d", "--debug", dest="debug", action="store_true", default=False,
                       help="Debug enabled/disabled")
 
+    parser.add_option("-t", "--maptype", dest="maptype", default="awk",
+                      help="Syscall number mapping method: awk, auditd, libseccomp")
+
     (options, args) = parser.parse_args()
     if isValidOpts(options):
         rootLogger = setLogPath("syscallextractor.log")
@@ -131,7 +134,7 @@ if __name__ == '__main__':
         print (str(len(syscallList)))
         print (syscallList)
         syscallMapper = syscall.Syscall(rootLogger)
-        syscallMap = syscallMapper.createMap()
+        syscallMap = syscallObj.createMap(options.maptype)
 
         blackList = []
         i = 1
