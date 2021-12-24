@@ -365,7 +365,8 @@ def process_event(cpu, data, size):
     elif event.type == EventType.EVENT_EXEC_RETURN:
         # Check if this is a container start up process
         if event.ppid in containerPids:
-            print ("Container process: " + str(event.comm))
+            argv_text = b' '.join(argv[event.pid]).replace(b'\n', b'\\n')
+            print ("Container process: " + str(argv_text))
             containerPids.append(event.pid)
             #print ("New PID list: " + str(containerPids))
 

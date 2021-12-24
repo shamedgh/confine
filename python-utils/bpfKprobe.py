@@ -51,9 +51,10 @@ class BpfKprobe(MonitoringTool):
         outputLine = outputFile.readline()
         while ( outputLine ):
             tokens = outputLine.strip().split()
-            if ( len(tokens) == 3 ): # exec call
+            if ( len(tokens) >= 3 and tokens[0] == "Container"): # exec call
                 psName = tokens[2].strip() 
-                psNames.add(psName)
+                if ( not psName.strip().startswith("/proc/")):
+                    psNames.add(psName)
             elif ( len(tokens) > 3 and tokens[0] == "Open," ):
                 psName = tokens[3].strip()[:-1]
                 if ( not psName.strip().startswith("/proc/") ):
