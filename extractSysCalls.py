@@ -134,7 +134,7 @@ if __name__ == '__main__':
         print (str(len(syscallList)))
         print (syscallList)
         syscallMapper = syscall.Syscall(rootLogger)
-        syscallMap = syscallObj.createMap(options.maptype)
+        syscallMap = syscallMapper.createMap(options.maptype)
 
         blackList = []
         i = 1
