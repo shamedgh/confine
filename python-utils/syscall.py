@@ -52,10 +52,9 @@ class Syscall():
         if ( returncode != 0 ):
             self.logger.error("Error creating syscall map using ausyscall: %s", err)
             return None
-        splittedOut = out.splitlines()
-        self.logger.debug("Auditd Syscall map count found: %d", len(splittedOut))
-        for outLineObj in splittedOut[1:]:
-            outLine = str(outLineObj.decode("utf-8"))
+        splittedOutStr = out.splitlines()
+        self.logger.debug("Auditd Syscall map count found: %d", len(splittedOutStr))
+        for outLine in splittedOutStr[1:]:
             syscallNum = outLine.split()[0]
             syscallName = outLine.split()[1]
             try:
