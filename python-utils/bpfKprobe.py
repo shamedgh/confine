@@ -28,10 +28,10 @@ class BpfKprobe(MonitoringTool):
         return
 
     def runWithDuration(self, duration):
-        cmd = "exec sudo python python-utils/containerTraceEbpf.py"
+        cmd = ["sudo", "python", "-u", "python-utils/containerTraceEbpf.py"]
         self.logger.debug("Running command:" + str(cmd))
         outputFile = open(self.tmpFile, 'w')
-        self.proc = subprocess.Popen(cmd, bufsize=1, stdout=outputFile, shell=True, universal_newlines=True)
+        self.proc = subprocess.Popen(cmd, bufsize=64, stdout=outputFile, shell=False, universal_newlines=True, preexec_fn=os.setpgrp)
         if ( not self.proc ):
             self.logger.error("%s failed", cmd)
             return False
@@ -45,6 +45,8 @@ class BpfKprobe(MonitoringTool):
         self.logger.debug("bpf extractPsNames called!")
         if self.proc != None:
             self.stopMonitoringTool()
+            pgid = os.getpgid(self.proc.pid)
+            subprocess.check_output("sudo kill {}".format(pgid))
 
         psNames = set()
         outputFile = open(self.tmpFile, 'r')
@@ -59,7 +61,10 @@ class BpfKprobe(MonitoringTool):
                 psName = tokens[3].strip()[:-1]
                 if ( not psName.strip().startswith("/proc/") ):
                     psNames.add(psName)
-            outputLine = outputFile.readline()
+            try:
+                outputLine = outputFile.readline()
+            except Exception as e:
+                print(str(e))
         return psNames
 
 

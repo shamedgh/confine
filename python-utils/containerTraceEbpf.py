@@ -310,6 +310,10 @@ b = BPF(text=bpf_text)
 execve_fnname = b.get_syscall_fnname("execve")
 b.attach_kprobe(event=execve_fnname, fn_name="syscall__execve")
 b.attach_kretprobe(event=execve_fnname, fn_name="do_ret_sys_execve")
+
+clone_fnname = b.get_syscall_fnname("clone")
+b.attach_kretprobe(event=clone_fnname, fn_name="do_ret_sys_execve")
+
 #b.attach_kprobe(event="do_sys_open", fn_name="trace_syscall__open")
 #b.attach_kprobe(event="do_sys_open", fn_name="trace_entry")
 #b.attach_kretprobe(event="do_sys_open", fn_name="do_ret_sys_open")
@@ -353,9 +357,6 @@ def get_ppid(pid):
 # process event
 def process_event(cpu, data, size):
     event = b["events"].event(data)
-    print("inprocessevent")
-    print("eventtype:"+str(event.type))
-    print("eventsize:"+str(size))
 
     # Add argument to argv array for use later
     if event.type == EventType.EVENT_EXEC_ARG:
@@ -363,6 +364,7 @@ def process_event(cpu, data, size):
        
     # This is the main event that reads the argv stored earlier
     elif event.type == EventType.EVENT_EXEC_RETURN:
+
         # Check if this is a container start up process
         if event.ppid in containerPids:
             argv_text = b' '.join(argv[event.pid]).replace(b'\n', b'\\n')
@@ -397,6 +399,7 @@ def process_event(cpu, data, size):
         except Exception:
             pass
 
+
     elif event.type == EventType.EVENT_OPEN:
         if (event.pid in containerPids):
             print ("Open, " + event.comm.decode("utf-8") + ", " + str(event.pid) + ", " + event.strdata.decode("utf-8") + ", " + str(event.retval))
@@ -404,6 +407,7 @@ def process_event(cpu, data, size):
 
     else:
         print("Unknown event type: %d" % event.type, file=stderr)
+    sys.stdout.flush()
 
 def printEvent(event):
     printb(b"%-9s" % strftime("%H:%M:%S").encode('ascii'), nl="")
@@ -428,7 +432,7 @@ def getState(args):
 
 def signal_term_handler(signal, frame):
     print('got SIGTERM')
-    exit()
+    sys.exit(0)
 
 signal.signal(signal.SIGTERM, signal_term_handler)
 
