@@ -90,6 +90,7 @@ class DynamicAnalysisTester():
                 self.logger.error("Running sysdig with execve failed, not continuing for container: %s", self.name)
                 self.logger.error("Please make sure sysdig is installed and you are running the script with root privileges. If problem consists please contact our support team.")
                 self.errorMessage = "Running sysdig with execve failed"
+            time.sleep(5)
             
             if ( monitorResult and myContainer.runWithoutSeccomp() ):#myContainer.run() ):
                 self.status = True

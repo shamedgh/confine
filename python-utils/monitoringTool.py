@@ -33,8 +33,9 @@ class MonitoringTool():
                     self.proc.wait(timeout=10)
                     self.proc = None
                     return True
-                except subprocess.SubprocessError:
-                    self.logger.warning("exception while terminating monitoring subprocess!")
+                except subprocess.SubprocessError as err:
+                    self.logger.warning("exception while terminating monitoring subprocess! : " + str(err))
+                    self.proc.kill()
                     self.proc = None
                     return False
             else:
