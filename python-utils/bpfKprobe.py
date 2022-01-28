@@ -7,7 +7,7 @@ class BpfKprobe(MonitoringTool):
     """
     This class can be used to start an ebpf kprobe process and extract information from the output when required
     """
-    def __init__(self, logger):
+    def __init__(self, logger, psListPath=None):
         MonitoringTool.__init__(self, logger)
         fd, self.tmpFile = tempfile.mkstemp(prefix="confine-bpfkprobe_")
         os.close(fd)
@@ -28,7 +28,7 @@ class BpfKprobe(MonitoringTool):
         return
 
     def runWithDuration(self, duration):
-        cmd = ["sudo", "python", "-u", "python-utils/containerTraceEbpf.py"]
+        cmd = ["sudo", "python3.7", "-u", "python-utils/containerTraceEbpf.py"]
         self.logger.debug("Running command:" + str(cmd))
         outputFile = open(self.tmpFile, 'w')
         self.proc = subprocess.Popen(cmd, bufsize=64, stdout=outputFile, shell=False, universal_newlines=True, preexec_fn=os.setpgrp)
