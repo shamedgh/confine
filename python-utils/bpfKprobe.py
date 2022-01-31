@@ -1,7 +1,9 @@
 import os, sys, time, subprocess
 import tempfile
 import logging
+import threading
 from monitoringTool import MonitoringTool
+from containerTraceEbpf import ContainerTraceEbpf
 
 class BpfKprobe(MonitoringTool):
     """
@@ -28,14 +30,21 @@ class BpfKprobe(MonitoringTool):
         return
 
     def runWithDuration(self, duration):
-        cmd = ["sudo", "python3.7", "-u", "python-utils/containerTraceEbpf.py"]
-        self.logger.debug("Running command:" + str(cmd))
-        outputFile = open(self.tmpFile, 'w')
-        self.proc = subprocess.Popen(cmd, bufsize=64, stdout=outputFile, shell=False, universal_newlines=True, preexec_fn=os.setpgrp)
-        if ( not self.proc ):
-            self.logger.error("%s failed", cmd)
-            return False
-        self.waitForBpfKprobeToStart()
+        tracer = ContainerTraceEbpf(self.tmpFile)
+        self.stop_thread = False
+        self.tracerThread = threading.Thread(target= tracer.run, args=(lambda: self.stop_thread,))
+        self.tracerThread.start()
+
+
+
+        #cmd = ["sudo", "python3.7", "-u", "python-utils/containerTraceEbpf.py"]
+        #self.logger.debug("Running command:" + str(cmd))
+        #outputFile = open(self.tmpFile, 'w')
+        #self.proc = subprocess.Popen(cmd, bufsize=64, stdout=outputFile, shell=False, universal_newlines=True, preexec_fn=os.setpgrp)
+        #if ( not self.proc ):
+        #    self.logger.error("%s failed", cmd)
+        #    return False
+        #self.waitForBpfKprobeToStart()
         return True
     
     '''
@@ -43,10 +52,13 @@ class BpfKprobe(MonitoringTool):
     '''
     def extractPsNames(self, eventType="", containerName="", cgroupId=""):
         self.logger.debug("bpf extractPsNames called!")
-        if self.proc != None:
-            self.stopMonitoringTool()
-            pgid = os.getpgid(self.proc.pid)
-            subprocess.check_output("sudo kill {}".format(pgid))
+        self.stop_thread = True
+        self.tracerThread.join()
+        #if self.proc != None:
+            #self.stopMonitoringTool()
+            #pgid = os.getpgid(self.proc.pid)
+            #subprocess.check_output("sudo kill {}".format(pgid))
+
 
         psNames = set()
         outputFile = open(self.tmpFile, 'r')

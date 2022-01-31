@@ -303,16 +303,6 @@ int do_ret_sys_open(struct pt_regs *ctx)
 
 """
 
-bpf_text = bpf_text.replace("MAXARG", max_args)
-
-# initialize BPF
-b = BPF(text=bpf_text)
-execve_fnname = b.get_syscall_fnname("execve")
-b.attach_kprobe(event=execve_fnname, fn_name="syscall__execve")
-b.attach_kretprobe(event=execve_fnname, fn_name="do_ret_sys_execve")
-
-clone_fnname = b.get_syscall_fnname("clone")
-b.attach_kretprobe(event=clone_fnname, fn_name="do_ret_sys_execve")
 
 #b.attach_kprobe(event="do_sys_open", fn_name="trace_syscall__open")
 #b.attach_kprobe(event="do_sys_open", fn_name="trace_entry")
@@ -336,9 +326,6 @@ class State(object):
     RUNNING = 2
     STOPPED = 3
 
-argv = defaultdict(list)
-state = { "1" : State.RUNNING }
-containerPids = []
 
 # This is best-effort PPID matching. Short-lived processes may exit
 # before we get a chance to read the PPID.
@@ -355,59 +342,6 @@ def get_ppid(pid):
     return 0
 
 # process event
-def process_event(cpu, data, size):
-    event = b["events"].event(data)
-
-    # Add argument to argv array for use later
-    if event.type == EventType.EVENT_EXEC_ARG:
-        argv[event.pid].append(event.strdata)
-       
-    # This is the main event that reads the argv stored earlier
-    elif event.type == EventType.EVENT_EXEC_RETURN:
-
-        # Check if this is a container start up process
-        if event.ppid in containerPids:
-            argv_text = b' '.join(argv[event.pid]).replace(b'\n', b'\\n')
-            print ("Container process: " + str(argv_text))
-            containerPids.append(event.pid)
-            #print ("New PID list: " + str(containerPids))
-
-        if process_re.match(event.comm):
-            # printEvent(event)
-            args = argv[event.pid]
-            # Get the container ID
-            id = str(getContainerId(args))
-            new_state = getState(args)
-            print("[%s] id=%s" % (new_state, id))
-            if id not in list(state):
-                state[id] = new_state
-            if state[id] == State.STARTED:
-                if new_state == State.RUNNING:
-                    state[id] = new_state
-                    # Start strace
-                    #cmd = ['/usr/bin/strace', '-p', str(event.pid), '-f', '-o', "%s.log" % id, '--trace=open,openat']
-                    #p = subprocess.Popen(cmd)
-                    #print("Attached strace to Container %s (PID: %s)" % (id, event.pid))
-                    containerPids.append(event.pid)
-            elif state[id] == State.RUNNING:
-                if new_state == State.STOPPED:
-                    state[id] = new_state
-                    print("Container %s stopped" % id)
-
-        try:
-            del(argv[event.pid])
-        except Exception:
-            pass
-
-
-    elif event.type == EventType.EVENT_OPEN:
-        if (event.pid in containerPids):
-            print ("Open, " + event.comm.decode("utf-8") + ", " + str(event.pid) + ", " + event.strdata.decode("utf-8") + ", " + str(event.retval))
-            # TODO track the PID & filenames in a map
-
-    else:
-        print("Unknown event type: %d" % event.type, file=stderr)
-    sys.stdout.flush()
 
 def printEvent(event):
     printb(b"%-9s" % strftime("%H:%M:%S").encode('ascii'), nl="")
@@ -437,10 +371,101 @@ def signal_term_handler(signal, frame):
 signal.signal(signal.SIGTERM, signal_term_handler)
 
 # loop with callback to process_event
-b["events"].open_perf_buffer(process_event)
-while 1:
-    try:
-        b.perf_buffer_poll()
-    except KeyboardInterrupt:
-        exit()
+
+class ContainerTraceEbpf():
+    def __init__(self, filename):
+        bpf_text_str = bpf_text.replace("MAXARG", max_args)
+
+        # initialize BPF
+        self.b = BPF(text=bpf_text_str)
+        execve_fnname = self.b.get_syscall_fnname("execve")
+        self.b.attach_kprobe(event=execve_fnname, fn_name="syscall__execve")
+        self.b.attach_kretprobe(event=execve_fnname, fn_name="do_ret_sys_execve")
+
+        clone_fnname = self.b.get_syscall_fnname("clone")
+        self.b.attach_kretprobe(event=clone_fnname, fn_name="do_ret_sys_execve")
+        
+
+        self.argv = defaultdict(list)
+        self.state = { "1" : State.RUNNING }
+        self.containerPids = []
+        self.filename = filename
+        #self.f = None
+        
+
+    def run(self, stop_run):
+
+        self.f = open(self.filename, 'w')
+
+        self.b["events"].open_perf_buffer(self.process_event)
+        while 1:
+            try:
+                print("polling event, {}".format(stop_run), file=self.f)
+                self.b.perf_buffer_poll()
+                if stop_run():
+                    print("stopping", file=self.f)
+                    self.f.flush()
+                    self.f.close()
+                    break
+            except KeyboardInterrupt:
+                print("interrupt", self.f)
+                self.f.flush()
+                self.f.close()
+                exit()
+
+    def process_event(self, cpu, data, size):
+        event = self.b["events"].event(data)
+
+        # Add argument to argv array for use later
+        if event.type == EventType.EVENT_EXEC_ARG:
+            self.argv[event.pid].append(event.strdata)
+       
+        # This is the main event that reads the argv stored earlier
+        elif event.type == EventType.EVENT_EXEC_RETURN:
+
+        # Check if this is a container start up process
+            if event.ppid in self.containerPids:
+                argv_text = b' '.join(self.argv[event.pid]).replace(b'\n', b'\\n')
+                print ("Container process: " + str(argv_text), file=self.f)
+                self.containerPids.append(event.pid)
+            #print ("New PID list: " + str(containerPids))
+
+            if process_re.match(event.comm):
+            # printEvent(event)
+                args = self.argv[event.pid]
+            # Get the container ID
+                id = str(getContainerId(args))
+                new_state = getState(args)
+                print("[%s] id=%s" % (new_state, id), file=self.f)
+                if id not in list(self.state):
+                    self.state[id] = new_state
+                if self.state[id] == State.STARTED:
+                    if new_state == State.RUNNING:
+                        self.state[id] = new_state
+                    # Start strace
+                    #cmd = ['/usr/bin/strace', '-p', str(event.pid), '-f', '-o', "%s.log" % id, '--trace=open,openat']
+                    #p = subprocess.Popen(cmd)
+                    #print("Attached strace to Container %s (PID: %s)" % (id, event.pid))
+                        self.containerPids.append(event.pid)
+                elif self.state[id] == State.RUNNING:
+                    if new_state == State.STOPPED:
+                        self.state[id] = new_state
+                        print("Container %s stopped" % id, file=self.f)
+
+            try:
+                del(self.argv[event.pid])
+            except Exception:
+                pass
+
+
+        elif event.type == EventType.EVENT_OPEN:
+            if (event.pid in self.containerPids):
+                print ("Open, " + event.comm.decode("utf-8") + ", " + str(event.pid) + ", " + event.strdata.decode("utf-8") + ", " + str(event.retval), file=self.f)
+            # TODO track the PID & filenames in a map
+
+        else:
+            print("Unknown event type: %d" % event.type, file=stderr)
+        sys.stdout.flush()
+        self.f.flush()
+
 
