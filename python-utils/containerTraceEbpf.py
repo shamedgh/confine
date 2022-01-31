@@ -357,7 +357,7 @@ def getContainerId(args):
             return str(args[i+1])[2:-1]
 
 def getState(args):
-    print ("Checking container state: " + str(args))
+    #print ("Checking container state: " + str(args))
     if b'start' in args:
         return State.STARTED
     elif b'delete' in args:
@@ -365,7 +365,7 @@ def getState(args):
     return State.RUNNING
 
 def signal_term_handler(signal, frame):
-    print('got SIGTERM')
+    #print('got SIGTERM')
     sys.exit(0)
 
 signal.signal(signal.SIGTERM, signal_term_handler)
@@ -400,7 +400,6 @@ class ContainerTraceEbpf():
         self.b["events"].open_perf_buffer(self.process_event)
         while 1:
             try:
-                print("polling event, {}".format(stop_run), file=self.f)
                 self.b.perf_buffer_poll()
                 if stop_run():
                     print("stopping", file=self.f)
@@ -426,7 +425,7 @@ class ContainerTraceEbpf():
         # Check if this is a container start up process
             if event.ppid in self.containerPids:
                 argv_text = b' '.join(self.argv[event.pid]).replace(b'\n', b'\\n')
-                print ("Container process: " + str(argv_text), file=self.f)
+                print ("Container process: " + str(argv_text,'utf-8'), file=self.f)
                 self.containerPids.append(event.pid)
             #print ("New PID list: " + str(containerPids))
 
