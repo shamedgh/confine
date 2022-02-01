@@ -402,6 +402,7 @@ class ContainerTraceEbpf():
             try:
                 self.b.perf_buffer_poll()
                 if stop_run():
+                    self.b.cleanup()
                     print("stopping", file=self.f)
                     self.f.flush()
                     self.f.close()

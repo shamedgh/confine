@@ -26,7 +26,9 @@ class BpfKprobe(MonitoringTool):
         self.logger.debug("Waited: " + str((time.monotonic_ns() - start) / 1000000) + "ms for bpfkprobe to start.")
 
     def waitUntilComplete(self):
-        self.stopMonitoringTool()
+        #self.stopMonitoringTool()
+        self.stop_thread = True
+        self.tracerThread.join()
         return
 
     def runWithDuration(self, duration):
