@@ -1,7 +1,6 @@
 import sysdig
 import execsnoop
 import dummyMonitor
-import bpfKprobe
 
 '''
 To use bpfkprobe you need to install the prerequisites as described in:
@@ -9,10 +8,13 @@ To use bpfkprobe you need to install the prerequisites as described in:
 '''
 
 def Factory(logger, monitorTool = "sysdig", psListFilePath = None):
+    if ( monitorTool == "bpfkprobe" ):
+        # pre-requisites of using bpfkprobe are too much, we shouldn't make Confine dependent on them
+        import bpfKprobe
+        return bpfKprobe.BpfKprobe(logger, psListFilePath)
     tools = {
             "sysdig": sysdig.Sysdig,
             "execsnoop": execsnoop.Execsnoop,
             "FILE": dummyMonitor.DummyMonitor,
-            "bpfkprobe": bpfKprobe.BpfKprobe,   
             }
     return tools[monitorTool](logger, psListFilePath)
