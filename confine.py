@@ -251,7 +251,7 @@ if __name__ == '__main__':
                                 options.muslcfginput, glibcFuncList, muslFuncList, 
                                 options.strictmode, options.gofolderpath, options.cfgfolderpath, 
                                 options.finegrain, options.allbinaries, options.binliblist, 
-                                options.monitoringtool, rootLogger, options.mapType, "", True)
+                                options.monitoringtool, rootLogger, options.maptype, "", True)
                         returncode = newProfile.createSeccompProfile(options.outputfolder + "/" + depImageName + "/", options.reportfolder)
                         #if ( returncode != C.SYSDIGERR ):
                         if ( returncode == 0 ):
