@@ -93,6 +93,9 @@ if __name__ == '__main__':
     parser.add_option("-d", "--debug", dest="debug", action="store_true", default=False,
                       help="Debug enabled/disabled")
 
+    parser.add_option("-t", "--maptype", dest="maptype", default="awk",
+                      help="Syscall number mapping method: awk, auditd, libseccomp")
+
     (options, args) = parser.parse_args()
     if isValidOpts(options):
         rootLogger = setLogPath("finegrainedcontainerprofiler.log")
@@ -142,7 +145,7 @@ if __name__ == '__main__':
 
             if ( not imageRank.startswith("#") and imageName not in skipList ):
                 start = time.time()
-                newProfile = containerProfiler.ContainerProfiler(imageName, imageNameFullPath, imageOptions, options.libccfginput, options.muslcfginput, glibcFuncList, muslFuncList, options.strictmode, options.gofolderpath, options.cfgfolderpath, rootLogger)
+                newProfile = containerProfiler.ContainerProfiler(imageName, imageNameFullPath, imageOptions, options.libccfginput, options.muslcfginput, glibcFuncList, muslFuncList, options.strictmode, options.gofolderpath, options.cfgfolderpath, options.maptype, rootLogger)
 #                returncode = newProfile.createSeccompProfile(options.outputfolder + "/" + imageName + "/", options.reportfolder)
                 returncode = newProfile.createFineGrainedSeccompProfile(options.outputfolder + "/" + imageName + "/", options.reportfolder)
                 end = time.time()

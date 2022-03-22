@@ -5,6 +5,7 @@ import containerProfiler
 import container
 import time
 import json
+import re
 
 sys.path.insert(0, './python-utils/')
 
@@ -116,6 +117,9 @@ if __name__ == '__main__':
     parser.add_option("-d", "--debug", dest="debug", action="store_true", default=False,
                       help="Debug enabled/disabled")
 
+    parser.add_option("-t", "--maptype", dest="maptype", default="awk",
+                      help="Syscall number mapping method: awk, auditd, libseccomp")
+
     (options, args) = parser.parse_args()
     if isValidOpts(options):
         rootLogger = setLogPath("containerprofiler.log")
@@ -218,6 +222,8 @@ if __name__ == '__main__':
             retryCount = 0
             depLinkSet = set()
             imageName = imageVals.get("image-name", imageKey)
+            tmpimageName = imageVals.get("image-name", imageKey)
+            imageName = re.sub('\W+','-', tmpimageName)
             if ( imageVals.get("enable", "false") == "true" and imageName not in skipList ):
                 rootLogger.info("------------------------------------------------------------------------")
                 rootLogger.info("////////////////////////////////////////////////////////////////////////")
@@ -230,7 +236,8 @@ if __name__ == '__main__':
 
                 imageDependencies = imageVals.get("dependencies", dict())
                 for depKey, depVals in imageDependencies.items():
-                    depImageName = depVals.get("image-name", depKey)
+                    tmpdepImageName = depVals.get("image-name", depKey)
+                    depImageName = re.sub('\W+','-', tmpdepImageName)
                     depImageNameFullPath = depVals.get("image-url", depImageName)
                     depOptions = depVals.get("options", "")
                     depLink = True if depVals.get("link", False) else False
@@ -238,12 +245,13 @@ if __name__ == '__main__':
 
                     retryCount = 0
                     while ( retryCount < 2 ):
+
                         newProfile = containerProfiler.ContainerProfiler(depImageName, 
                                 depImageNameFullPath, depOptions, options.libccfginput, 
                                 options.muslcfginput, glibcFuncList, muslFuncList, 
                                 options.strictmode, options.gofolderpath, options.cfgfolderpath, 
                                 options.finegrain, options.allbinaries, options.binliblist, 
-                                options.monitoringtool, rootLogger, True)
+                                options.monitoringtool, rootLogger, options.mapType, "", True)
                         returncode = newProfile.createSeccompProfile(options.outputfolder + "/" + depImageName + "/", options.reportfolder)
                         #if ( returncode != C.SYSDIGERR ):
                         if ( returncode == 0 ):
@@ -273,13 +281,14 @@ if __name__ == '__main__':
                 retryCount = 0
                 while ( retryCount < 2 ):
                     start = time.time()
+
                     newProfile = containerProfiler.ContainerProfiler(imageName,
                             imageNameFullPath, imageOptions, options.libccfginput, 
                             options.muslcfginput, glibcFuncList, muslFuncList, 
                             options.strictmode, options.gofolderpath, 
                             options.cfgfolderpath, options.finegrain, 
                             options.allbinaries, options.binliblist, 
-                            options.monitoringtool, rootLogger)
+                            options.monitoringtool, rootLogger, options.maptype, imageArgs)
                     returncode = newProfile.createSeccompProfile(options.outputfolder + "/" + imageName + "/", options.reportfolder)
                     end = time.time()
                     #if ( returncode != C.SYSDIGERR ):

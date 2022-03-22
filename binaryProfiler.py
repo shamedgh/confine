@@ -65,6 +65,9 @@ if __name__ == '__main__':
     parser.add_option("-d", "--debug", dest="debug", action="store_true", default=False,
                       help="Debug enabled/disabled")
 
+    parser.add_option("-t", "--maptype", dest="maptype", default="awk",
+                      help="Syscall number mapping method: awk, auditd, libseccomp")
+
     (options, args) = parser.parse_args()
     if isValidOpts(options):
         rootLogger = setLogPath("binaryprofiler.log")
@@ -75,7 +78,7 @@ if __name__ == '__main__':
         dockerSyscalls = ["access","arch_prctl","brk","close","execve","exit_group","fcntl","fstat","geteuid","lseek","mmap","mprotect","munmap","openat","prlimit64","read","rt_sigaction","rt_sigprocmask","set_robust_list","set_tid_address","stat","statfs","write","setns","capget","capset","chdir","fchown","futex","getdents64","getpid","getppid","lstat","openat","prctl","setgid","setgroups","setuid","stat","io_setup","getdents","clone","readlinkat","newfstatat","getrandom","sigaltstack","getresgid","getresuid","setresgid","setresuid","alarm","getsid","getpgrp", "epoll_pwait", "vfork"]
 
         syscallObj = syscall.Syscall(rootLogger)
-        syscallMap = syscallObj.createMap()
+        syscallMap = syscallObj.createMap(options.maptype)
         syscallInverseMap = syscallObj.getInverseMap()
         dockerSyscallNums = set()
         for syscallStr in dockerSyscalls:

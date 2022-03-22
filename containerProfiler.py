@@ -25,9 +25,10 @@ class ContainerProfiler():
                  glibccfgpath, muslcfgpath, glibcfunclist, 
                  muslfunclist, strictmode, gofolderpath, 
                  cfgfolderpath, fineGrain, extractAllBinaries, 
-                 binLibList, monitoringTool, logger, isDependent=False):
+                 binLibList, monitoringTool, logger, maptype, args, isDependent=False):
         self.logger = logger
         self.name = name
+        self.args = args
         self.imagePath = imagePath
         #self.name = name
         #if ( "/" in self.name ):
@@ -42,6 +43,7 @@ class ContainerProfiler():
         self.strictMode = strictmode
         self.goFolderPath = gofolderpath
         self.cfgFolderPath = cfgfolderpath
+        self.maptype = maptype
         self.status = False
         self.runnable = False
         self.installStatus = False
@@ -301,7 +303,7 @@ class ContainerProfiler():
         self.logger.debug("binaryReady: %s libFileReady: %s", str(binaryReady), str(libFileReady))
 
 
-        myContainer = container.Container(self.imagePath, self.options, self.logger)
+        myContainer = container.Container(self.imagePath, self.options, self.logger, self.args)
         self.containerName = myContainer.getContainerName()
 
         if ( not myContainer.pruneVolumes() ):
@@ -572,7 +574,7 @@ class ContainerProfiler():
                 self.logger.debug("After reading file: %s len(staticSyscallList): %d", os.path.join(self.goFolderPath, self.name + ".syscalls"), len(staticSyscallList))
 
                 syscallMapper = syscall.Syscall(self.logger)
-                syscallMap = syscallMapper.createMap()
+                syscallMap = syscallMapper.createMap(self.maptype)
 
                 self.logger.info("Generating final system call filter list")
                 blackListOriginal = []
@@ -767,7 +769,8 @@ class ContainerProfiler():
             allSyscalls.add(syscallNum)
 
         syscallMapper = syscall.Syscall(self.logger)
-        syscallMap = syscallMapper.createMap()
+        syscallMap = syscallMapper.createMap(self.maptype)
+
         blackList = set()
         i = 0
         while i < 400:
