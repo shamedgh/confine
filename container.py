@@ -548,16 +548,26 @@ class Container():
             self.logger.error("Trying to extract binaries from non-running container! self.containerId: %s", self.containerId)
             return False
         processList = []
-        cmd = "sudo docker {} exec -it {} "
-        cmd = cmd.format(self.remote, self.containerId)
-        cmd = cmd + util.getCmdRetrieveAllBinaries("/")
+        setupDir = "rm -rf tarball; mkdir tarball"
+        returncode = util.runCommand(setupDir)
+        cmd = "docker export {} -o tarball/test.tar"
+        cmd = cmd.format(self.containerId)
         self.logger.debug("Running command: %s", cmd)
-        returncode, out, err = util.runCommand(cmd)
+        returncode = util.runCommand(cmd)
+        untar = "tar -xf tarball/test.tar -C tarball/"
+        returncode = util.runCommand(untar)
+        fileCmd = "find tarball/ -type f -executable -exec file -i '{}' \; | grep 'application'"
+        returncode, out, err = util.runCommand(fileCmd)
         splittedOut = out.splitlines()
         for binaryFilePath in splittedOut:
             binaryFilePath = binaryFilePath[:binaryFilePath.index(":")]
+            binaryFilePath = binaryFilePath.replace("tarball", "")
+            self.logger.debug("Binary path of found exec: " + str(binaryFilePath))
             processList.append(binaryFilePath)
+        cleanDir = "rm -rf tarball"
+        returncode = util.runCommand(cleanDir)
         return processList
+
 
     def extractBinariesFromAuditLog(self, auditLogOutput):
         if ( not self.containerId ):
