@@ -587,11 +587,6 @@ def extractDirectSyscalls(fileName, logger):
 def getCmdRetrieveAllShellScripts(folder):
     return "/bin/bash -c \"find " + folder + " | xargs file | grep shell\""
 
-def getCmdRetrieveAllBinaries(folder):
-    #The one with grep x-executable left out some of the binaries which had x-shared even though they were binaries
-    #return "/bin/bash -c \"find " + folder + " -type f -executable -exec file -i '{}' \; | grep 'x-executable; charset=binary'\""
-    return "/bin/bash -c \"find " + folder + " -type f -executable -exec file -i '{}' \; | grep 'application'\""
-
 def getStrTime(nowTime):
     timeStr = str(nowTime.month) + "/" + str(nowTime.day) + "/" + str(nowTime.year) + " " + str(nowTime.hour) + ":" + str(nowTime.minute) + ":" + str(nowTime.second)
     return timeStr
